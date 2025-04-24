@@ -1,0 +1,146 @@
+/* General Chat Container */
+.chat-box {
+    max-width: 800px;
+    margin: 2rem auto;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #fff;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Messages area */
+  .message-list {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  
+  /* Message bubbles */
+  .message {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    max-width: 80%;
+    word-break: break-word;
+    border-radius: 10px;
+    line-height: 1.6;
+  }
+  
+  .message.user {
+    background-color: #4e54c8;
+    color: #fff;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+  }
+  
+  .message.bot {
+    background-color: #373737;
+    color: #dcdcdc;
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+  
+  /* Input area */
+  .input-area {
+    display: flex;
+    border-top: 1px solid #444;
+    background-color: #2a2a3b;
+  }
+  
+  .input-area input {
+    flex-grow: 1;
+    padding: 1rem;
+    border: none;
+    outline: none;
+    background: #67676d;
+    color: #fff;
+    font-size: 1rem;
+    border-top-left-radius: 10px;
+  }
+  
+  .input-area button {
+    padding: 1rem 1.5rem;
+    border: none;
+    background-color: #4e54c8;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-top-right-radius: 10px;
+  }
+  
+  .input-area button:hover {
+    background-color: #5d64e2;
+  }
+  
+  /* Code block styling */
+  .code-container {
+    position: relative;
+    background-color: #282c34;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    overflow: auto;
+  }
+  
+  .code-container pre {
+    margin: 0;
+    padding: 1rem;
+    font-size: 0.9rem;
+    font-family: 'Fira Code', monospace;
+    color: #f8f8f2;
+  }
+  
+  /* Copy Button */
+  .copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #44475a;
+    color: #f8f8f2;
+    border: none;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1;
+    transition: background-color 0.3s ease;
+  }
+  
+  .copy-button:hover {
+    background-color: #6272a4;
+  }
+  
+  /* Text styling inside message */
+  .message-text {
+    margin: 0.4rem 0;
+  }
+  
+  /* Lists inside messages */
+  .message-list ul {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+  }
+  
+  .message-list li {
+    margin-bottom: 0.4rem;
+  }
+  
+  /* Headings & bold */
+  strong {
+    font-weight: bold;
+  }
+  
+  code {
+    background-color: #333;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.95em;
+  }
+  
