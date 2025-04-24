@@ -11,7 +11,7 @@ const Chat = () => {
     const newMessages = [...messages, { role: "user", content: input }];
     setMessages(newMessages);
 
-    const res = await fetch("http://localhost:8080/api/chat", {
+    const res = await fetch("https://gpt-1s2d.onrender.com/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: input }),
