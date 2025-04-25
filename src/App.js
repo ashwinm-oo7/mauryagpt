@@ -1,12 +1,13 @@
 import React from "react";
 import "./App.css"; // Import the CSS file
-import Chat from "./components/Chat";
+import Chats from "./components/Chats";
+import Login from "./auth/Login";
 
 function App() {
   return (
     <div className="App">
-      <h1>Chat with Gemini AI</h1>
-      <Chat />
+      <h1 style={{ textAlign: "center" }}>Chat with Maurya AI</h1>
+      <Chats />
     </div>
   );
 }

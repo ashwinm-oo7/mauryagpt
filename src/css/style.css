@@ -1,14 +1,15 @@
 /* General Chat Container */
 .chat-box {
     max-width: 800px;
-    margin: 2rem auto;
-    height: 90vh;
+    margin:  auto;
+    height: 75vh;
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc;
     border-radius: 12px;
     overflow: hidden;
     background-color: #fff;
+    padding: 10px;
     color: #fff;
     font-family: 'Segoe UI', sans-serif;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
@@ -16,15 +17,14 @@
   
   /* Messages area */
   .message-list {
-    flex-grow: 1;
-    padding: 1rem;
+    flex: 1;
     overflow-y: auto;
     scroll-behavior: smooth;
   }
   
   /* Message bubbles */
-  .message {
-    padding: 0.75rem 1rem;
+  /* .message {
+    padding: 0.2rem 1rem;
     margin-bottom: 1rem;
     max-width: 80%;
     word-break: break-word;
@@ -35,27 +35,76 @@
   .message.user {
     background-color: #4e54c8;
     color: #fff;
-    align-self: flex-end;
-    border-top-right-radius: 0;
+    justify-content: flex-start;
+    align-self: flex-start;
+      border-top-right-radius: 0;
+      padding: 10px;
+      border-radius: 12px 12px 12px 0;
+
+
   }
   
   .message.bot {
     background-color: #373737;
     color: #dcdcdc;
-    align-self: flex-start;
     border-top-left-radius: 0;
-  }
+    padding: 10px;
+
+    justify-content: flex-end;
+    align-self: flex-end;
   
+  } */
+
+  .message {
+  display: flex;
+  flex-direction: column;
+  padding: 0.2rem 1rem;
+  margin-bottom: 1rem;
+  /* max-width: 80%; */
+  word-break: break-word;
+  border-radius: 10px;
+  line-height: 1.6;
+}
+
+.message.user {
+  background-color: #4e54c8;
+  color: #fff;
+  /* text-align: right; */
+  border-top-right-radius: 0;
+  border-radius: 12px 12px 12px 0;
+  width: fit-content;
+  align-self: flex-end;
+  text-align: right;
+  margin-left: auto;         /* Ensures it's aligned fully to right */
+  max-width: 80%;
+  padding: 10px;
+
+}
+
+.message.bot {
+  background-color: #373737;
+  color: #dcdcdc;
+  align-self: flex-start;
+  border-top-left-radius: 0;
+  border-radius: 12px 12px 0 12px;
+  max-width: 80%;
+  text-align: left;
+  width: fit-content;
+  padding: 10px;
+}
+
   /* Input area */
   .input-area {
     display: flex;
     border-top: 1px solid #444;
     background-color: #2a2a3b;
+    gap: 8px;
+
   }
   
   .input-area input {
     flex-grow: 1;
-    padding: 1rem;
+    padding: 10px;
     border: none;
     outline: none;
     background: #67676d;
@@ -91,10 +140,23 @@
   
   .code-container pre {
     margin: 0;
-    padding: 1rem;
+    padding: 2rem;
     font-size: 0.9rem;
     font-family: 'Fira Code', monospace;
     color: #f8f8f2;
+  }
+  .stop-button {
+    padding: 1rem 1.2rem;
+    background-color: #ff3e3e;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-top-right-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .stop-button:hover {
+    background-color: #ff5f5f;
   }
   
   /* Copy Button */
@@ -120,6 +182,9 @@
   /* Text styling inside message */
   .message-text {
     margin: 0.4rem 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  
   }
   
   /* Lists inside messages */
@@ -142,5 +207,45 @@
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.95em;
+  }
+  
+  @media (max-width: 600px) {
+    .chat-box {
+      height: 90vh;
+      max-width: 100%;
+      border-radius: 0;
+      padding: 0;
+    }
+  
+    .message.user,
+    .message.bot {
+      width: auto;
+      max-width: 90%;
+      width: fit-content;
+
+    }
+    .input-area {
+        flex-direction: row;
+        padding: 0.5rem;
+      }
+    
+    .input-area input {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+    .input-area input {
+        font-size: 1rem;
+      }
+    
+    .input-area button {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+    }
+    .input-area button,
+    .stop-button {
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+    }
+  
   }
   
