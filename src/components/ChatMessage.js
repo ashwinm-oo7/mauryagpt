@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import Prism from "prismjs";
 import "prismjs/components/prism-java";
 import "prismjs/themes/prism-tomorrow.css";
+
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-json";
+import "prismjs/components/prism-bash";
+import "prismjs/components/prism-sql";
+
 import "../css/style.css";
 
 const ChatMessage = ({ role, content }) => {
@@ -14,6 +21,17 @@ const ChatMessage = ({ role, content }) => {
     return text
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>") // bold
       .replace(/`(.+?)`/g, "<code>$1</code>"); // inline code
+  };
+  const mapLang = (lang) => {
+    if (!lang) return "javascript";
+    const aliases = {
+      js: "javascript",
+      py: "python",
+      sh: "bash",
+      json: "json",
+      sql: "sql", // <-- important!
+    };
+    return aliases[lang] || lang;
   };
 
   const renderContent = () => {
@@ -30,7 +48,8 @@ const ChatMessage = ({ role, content }) => {
 
       parts.push({
         type: "code",
-        lang: match[1] || "javascript",
+        // lang: match[1] || "javascript",
+        lang: mapLang(match[1]),
         code: match[2],
       });
 
