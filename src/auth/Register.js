@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../css/Register.css"; // Ensure this file exists and has proper styles
+import { Navigate } from "react-router-dom";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); // To confirm password
   const [msg, setMsg] = useState("");
@@ -28,12 +29,15 @@ const Register = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        username,
-        password,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_URL}/api/auth/register`,
+        {
+          email,
+          password,
+        }
+      );
       setMsg(res.data.msg);
-      setUsername("");
+      setemail("");
       setPassword("");
       setConfirmPassword("");
     } catch (err) {
@@ -49,10 +53,10 @@ const Register = () => {
         <h2>Register</h2>
         <input
           type="text"
-          placeholder="Username"
-          value={username}
+          placeholder="email"
+          value={email}
           required
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setemail(e.target.value)}
         />
         <input
           type="password"

@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 import "../css/style.css";
+import { Link } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
-const Chats = ({ token }) => {
+const Chats = () => {
+  const { token } = useAuth(); // Access the token from context
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -84,31 +88,40 @@ const Chats = ({ token }) => {
   };
 
   return (
-    <div className="chat-box">
-      <div className="message-list">
-        {messages.map((msg, i) => (
-          <ChatMessage key={i} role={msg.role} content={msg.content} />
-        ))}
-        <div ref={messageEndRef} />
-      </div>
+    <>
+      {!token && (
+        <div>
+          <p>
+            Don't have an account? <Link to="/register">Register here</Link>
+          </p>
+        </div>
+      )}
+      <div className="chat-box">
+        <div className="message-list">
+          {messages.map((msg, i) => (
+            <ChatMessage key={i} role={msg.role} content={msg.content} />
+          ))}
+          <div ref={messageEndRef} />
+        </div>
 
-      <form onSubmit={sendMessage} className="input-area">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask anything..."
-          disabled={isTyping}
-        />
-        <button type="submit" disabled={isTyping}>
-          {isTyping ? "Typing..." : "Send"}
-        </button>
-        {isTyping && (
-          <button type="button" onClick={stopTyping} className="stop-button">
-            Stop
+        <form onSubmit={sendMessage} className="input-area">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask anything..."
+            disabled={isTyping}
+          />
+          <button type="submit" disabled={isTyping}>
+            {isTyping ? "Typing..." : "Send"}
           </button>
-        )}
-      </form>
-    </div>
+          {isTyping && (
+            <button type="button" onClick={stopTyping} className="stop-button">
+              Stop
+            </button>
+          )}
+        </form>
+      </div>
+    </>
   );
 };
 

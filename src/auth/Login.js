@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import "../css/Login.css"; // Make sure the path is correct
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext"; // Import the useAuth hook
 
-const Login = ({ setToken }) => {
+const Login = () => {
+  const { setToken } = useAuth(); // Access the setToken from context
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,10 +37,13 @@ const Login = ({ setToken }) => {
     }
 
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_URL}/api/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
 
       // Handle response and set token
       if (res.status === 200) {
