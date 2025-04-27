@@ -3,7 +3,7 @@ import ChatMessage from "./ChatMessage";
 import "../css/chats.css";
 import { FaBars, FaTimes } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { jsPDF } from "jspdf";
 // import html2canvas from "html2canvas";
@@ -11,12 +11,12 @@ import { jsPDF } from "jspdf";
 import ChatListTopic from "../reusable/ChatListTopic";
 import MessageInput from "../reusable/MessageInput";
 const Chats = () => {
-  const { token, user } = useAuth(); // Access the token from context
   const [chatId, setChatId] = useState(() => {
     return localStorage.getItem("chatId") || "";
   });
   const [messages, setMessages] = useState([]);
   const [chatList, setChatList] = useState([]);
+  const { token, logout, user } = useAuth();
 
   // const [messages, setMessages] = useState(() => {
   //   const savedMessages = localStorage.getItem("chatMessages");
@@ -31,6 +31,12 @@ const Chats = () => {
   const typingTimeoutRef = useRef(null);
   const isLoggedIn = !!token;
   const chatRef = useRef();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   // Load chat on page load
   useEffect(() => {
@@ -384,57 +390,61 @@ const Chats = () => {
   };
 
   return (
-    <div className="chat-container">
-      <button onClick={toggleSidebar} className="toggle-sidebar-button">
-        {isSidebarOpen ? <FaTimes /> : <FaBars />}
-      </button>
-      {!token && (
+    <>
+      <div className="chat-container">
+        <button onClick={toggleSidebar} className="toggle-sidebar-button">
+          {isSidebarOpen ? <FaTimes /> : <FaBars />}
+        </button>
+        {/* {!token && (
         <div>
           <p>
             Don't have an account? <Link to="/register">Register here</Link>
           </p>
         </div>
-      )}
-      {isSidebarOpen && (
-        <div className="chat-list-container">
-          <ChatListTopic
-            chatList={chatList}
-            handleChatSwitch={handleChatSwitch}
-            startNewChat={startNewChat}
-            toggleSidebar={toggleSidebar}
-            isSidebarOpen={isSidebarOpen}
+      )} */}
+        {isSidebarOpen && (
+          <div className="chat-list-container">
+            <ChatListTopic
+              chatList={chatList}
+              handleChatSwitch={handleChatSwitch}
+              startNewChat={startNewChat}
+              toggleSidebar={toggleSidebar}
+              isSidebarOpen={isSidebarOpen}
+              clearConversation={clearConversation}
+              downloadChatAsPDF={downloadChatAsPDF}
+            />
+          </div>
+        )}
+
+        <div
+          className={`chat-box ${
+            isSidebarOpen ? "with-sidebar" : "no-sidebar"
+          }`}
+        >
+          <div
+            className="message-list chat-content"
+            id="chat-content"
+            ref={chatRef}
+          >
+            {messages &&
+              messages?.map((msg, i) => (
+                <ChatMessage key={i} role={msg.role} content={msg.content} />
+              ))}
+            <div ref={messageEndRef} />
+          </div>
+
+          <MessageInput
+            input={input}
+            setInput={setInput}
+            sendMessage={sendMessage}
+            isTyping={isTyping}
+            stopTyping={stopTyping}
             clearConversation={clearConversation}
             downloadChatAsPDF={downloadChatAsPDF}
           />
         </div>
-      )}
-
-      <div
-        className={`chat-box ${isSidebarOpen ? "with-sidebar" : "no-sidebar"}`}
-      >
-        <div
-          className="message-list chat-content"
-          id="chat-content"
-          ref={chatRef}
-        >
-          {messages &&
-            messages?.map((msg, i) => (
-              <ChatMessage key={i} role={msg.role} content={msg.content} />
-            ))}
-          <div ref={messageEndRef} />
-        </div>
-
-        <MessageInput
-          input={input}
-          setInput={setInput}
-          sendMessage={sendMessage}
-          isTyping={isTyping}
-          stopTyping={stopTyping}
-          clearConversation={clearConversation}
-          downloadChatAsPDF={downloadChatAsPDF}
-        />
       </div>
-    </div>
+    </>
   );
 };
 
