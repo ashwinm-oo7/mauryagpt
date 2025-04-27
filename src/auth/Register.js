@@ -79,6 +79,11 @@ const Register = () => {
           {loading ? "Registering..." : "Register"}
         </button>
         {msg && <p className="message">{msg}</p>}
+        <div>
+          <p>
+            Already account? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </form>
     </div>
   );

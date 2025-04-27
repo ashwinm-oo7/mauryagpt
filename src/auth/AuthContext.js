@@ -57,9 +57,15 @@ export const AuthProvider = ({ children }) => {
       console.error("Failed to fetch user details", error);
     }
   };
+  const logout = () => {
+    setToken("");
+    setUser({ userId: "", userEmail: "" });
+    localStorage.removeItem("token");
+    localStorage.clear(); // <-- FULL clear
+  };
 
   return (
-    <AuthContext.Provider value={{ token, user, saveToken, setToken }}>
+    <AuthContext.Provider value={{ token, user, saveToken, setToken, logout }}>
       {children}
     </AuthContext.Provider>
   );

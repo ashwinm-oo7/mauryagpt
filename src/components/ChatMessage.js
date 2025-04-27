@@ -61,71 +61,81 @@ const ChatMessage = ({ role, content }) => {
       parts.push({ type: "text", content: afterLastCode });
     }
 
-    return parts.map((part, index) => {
-      if (part.type === "code") {
-        // const handleCopy = () => {
-        //   navigator.clipboard.writeText(part.code);
-        //   setCopied(true);
-        //   setTimeout(() => setCopied(false), 2000);
-        // };
-        // return (
-        //   <div key={index} className="code-container">
-        //     <button className="copy-button" onClick={handleCopy}>
-        //       {copied ? "Copied!" : "Copy"}
-        //     </button>
-        //     <pre className={`language-${part.lang}`}>
-        //       <code
-        //         dangerouslySetInnerHTML={{
-        //           __html: Prism.highlight(
-        //             part.code,
-        //             Prism.languages[part.lang] || Prism.languages.javascript,
-        //             part.lang
-        //           ),
-        //         }}
-        //       />
-        //     </pre>
-        //   </div>
-        // );
+    return (
+      parts &&
+      parts?.map((part, index) => {
+        if (part.type === "code") {
+          // const handleCopy = () => {
+          //   navigator.clipboard.writeText(part.code);
+          //   setCopied(true);
+          //   setTimeout(() => setCopied(false), 2000);
+          // };
+          // return (
+          //   <div key={index} className="code-container">
+          //     <button className="copy-button" onClick={handleCopy}>
+          //       {copied ? "Copied!" : "Copy"}
+          //     </button>
+          //     <pre className={`language-${part.lang}`}>
+          //       <code
+          //         dangerouslySetInnerHTML={{
+          //           __html: Prism.highlight(
+          //             part.code,
+          //             Prism.languages[part.lang] || Prism.languages.javascript,
+          //             part.lang
+          //           ),
+          //         }}
+          //       />
+          //     </pre>
+          //   </div>
+          // );
 
-        return <CodeBlock key={index} code={part.code} lang={part.lang} />;
-      } else {
-        // Enhanced paragraph rendering
-        const paragraphs = part.content.split(/\n{2,}/).map((para, i) => {
-          // Bullet point detection and rendering
-          if (para.trim().startsWith("* ")) {
-            const bullets = para
-              .split("\n")
-              .filter((line) => line.trim().startsWith("* "))
-              .map((line, j) => (
-                <li
-                  key={j}
-                  dangerouslySetInnerHTML={{
-                    __html: formatInline(line.replace(/^\* /, "")),
-                  }}
-                />
-              ));
-            return (
-              <ul key={i} className="message-list">
-                {bullets}
-              </ul>
-            );
-          }
+          return <CodeBlock key={index} code={part.code} lang={part.lang} />;
+        } else {
+          // Enhanced paragraph rendering
+          const paragraphs =
+            part &&
+            part?.content?.split(/\n{2,}/).map((para, i) => {
+              // Bullet point detection and rendering
+              if (para?.trim().startsWith("*")) {
+                const bullets =
+                  para &&
+                  para
+                    ?.split("\n")
+                    .filter((line) => line.trim().startsWith("*"))
+                    .map((line, j) => (
+                      <li
+                        key={j}
+                        dangerouslySetInnerHTML={{
+                          __html: formatInline(line.replace(/^\* /, "")),
+                        }}
+                      />
+                    ));
+                return (
+                  <ul key={i} className="message-list">
+                    {bullets}
+                  </ul>
+                );
+              }
 
-          return (
-            <p key={i} className="message-text">
-              {para.split("\n").map((line, j) => (
-                <span
-                  key={j}
-                  dangerouslySetInnerHTML={{ __html: formatInline(line) }}
-                />
-              ))}
-            </p>
-          );
-        });
+              return (
+                <p key={i} className="message-text">
+                  {para &&
+                    para?.split("\n").map((line, j) => (
+                      <span
+                        key={j}
+                        dangerouslySetInnerHTML={{
+                          __html: formatInline(line),
+                        }}
+                      />
+                    ))}
+                </p>
+              );
+            });
 
-        return <div key={index}>{paragraphs}</div>;
-      }
-    });
+          return <div key={index}>{paragraphs}</div>;
+        }
+      })
+    );
   };
 
   return (
