@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../css/Register.css"; // Ensure this file exists and has proper styles
-import { Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setemail] = useState("");
@@ -9,6 +9,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState(""); // To confirm password
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,10 +37,12 @@ const Register = () => {
           password,
         }
       );
+
       setMsg(res.data.msg);
       setemail("");
       setPassword("");
       setConfirmPassword("");
+      navigate("/login");
     } catch (err) {
       setMsg(err.response?.data?.msg || "Something went wrong.");
     } finally {

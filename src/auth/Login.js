@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext"; // Import the useAuth hook
 
 const Login = () => {
+  const { saveToken } = useAuth(); // use saveToken now instead of setToken
   const { setToken } = useAuth(); // Access the setToken from context
 
   const [email, setEmail] = useState("");
@@ -44,10 +45,11 @@ const Login = () => {
           password,
         }
       );
-
+      console.log(res);
       // Handle response and set token
-      if (res.status === 200) {
-        setToken(res.data.token);
+      if (res.status === 200 || res.statusText.toLowerCase() === "ok") {
+        await saveToken(res.data.token);
+
         localStorage.setItem("token", res.data.token);
         navigate("/");
       } else {

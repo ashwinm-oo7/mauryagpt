@@ -12,7 +12,7 @@ import "prismjs/components/prism-sql";
 import "../css/style.css";
 
 const ChatMessage = ({ role, content }) => {
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     Prism.highlightAll(); // ensure highlighting happens after render
