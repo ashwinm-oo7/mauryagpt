@@ -388,13 +388,13 @@ const Chats = () => {
       <button onClick={toggleSidebar} className="toggle-sidebar-button">
         {isSidebarOpen ? <FaTimes /> : <FaBars />}
       </button>
-      {/* {!token && (
+      {!token && (
         <div>
           <p>
             Don't have an account? <Link to="/register">Register here</Link>
           </p>
         </div>
-      )} */}
+      )}
       {isSidebarOpen && (
         <div className="chat-list-container">
           <ChatListTopic
