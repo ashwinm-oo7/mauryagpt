@@ -268,8 +268,15 @@ const Chats = () => {
         }
       );
       const data = await res.json();
-      console.log("chatBYID", data);
-      setChatList(data.conversations); // Assuming `data.conversations` contains a list of all the chats
+      console.log("chats/chat/getChatID", data);
+
+      const conversations = data.conversations || [];
+      setChatList(conversations);
+
+      if (conversations.length > 0) {
+        const lastChat = conversations[conversations.length - 1];
+        setChatId(lastChat._id);
+      }
     } catch (err) {
       console.error("Failed to fetch chat list:", err);
     }
