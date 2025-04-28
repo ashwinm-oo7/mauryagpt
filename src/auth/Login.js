@@ -3,10 +3,12 @@ import "../css/Login.css"; // Make sure the path is correct
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext"; // Import the useAuth hook
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const { saveToken } = useAuth(); // use saveToken now instead of setToken
   const { setToken } = useAuth(); // Access the setToken from context
+  const [showPassword, setShowPassword] = useState(false); // 👈 visibility toggle
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +19,11 @@ const Login = () => {
   const validateEmail = (email) => {
     const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     return re.test(email);
+  };
+  const validatePassword = (password) => {
+    const re =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^])[A-Za-z\d@$!%*?&#^]{8,}$/;
+    return re.test(password);
   };
 
   const handleLogin = async (e) => {
@@ -33,6 +40,13 @@ const Login = () => {
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email.");
+      setLoading(false);
+      return;
+    }
+    if (!validatePassword(password)) {
+      setError(
+        "Password must be at least 8 characters, include uppercase, lowercase, a digit, and a special character."
+      );
       setLoading(false);
       return;
     }
@@ -82,13 +96,33 @@ const Login = () => {
 
         <div className="form-group">
           <label>Password:</label>
-          <input
-            type="password"
-            placeholder="********"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className={
+                showPassword
+                  ? "toggle-password toggle-password-visible"
+                  : "toggle-password"
+              }
+              role="button"
+              tabIndex={0}
+              aria-label="Toggle password visibility"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  setShowPassword(!showPassword);
+                }
+              }}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
         </div>
 
         <button type="submit" disabled={loading}>

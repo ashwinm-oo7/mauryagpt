@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
           setToken(""); // Optional: Clear invalid token
           setUser({ userId: "", userEmail: "" });
           localStorage.removeItem("token");
+          localStorage.clear(); // Clear everything if token is invalid
         }
       }
     };

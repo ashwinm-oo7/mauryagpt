@@ -1,0 +1,272 @@
+.input-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left:1px
+  }
+  
+
+  /* .input-area textarea {
+    flex-grow: 1;
+    padding: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    background: #eaeaec;
+    color: #000000;
+    font-size: 1rem;
+    border-radius: 10px 10px 10px 10px; 
+    resize: none;
+    width: 80%;
+    min-height: 80px;
+  } */
+
+  /* .input-area button {
+    padding: 15px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 2px;
+    transition: background-color 0.3s ease;
+    border-top-right-radius: 10px;
+    font-weight: bold;
+
+  }
+  
+  .input-area button:hover {
+    background-color: #0056b3;
+  } */
+  
+  .input-area .clear-button {
+    background-color: #dc3545;
+  }
+  
+  .input-area .clear-button:hover {
+    background-color: #c82333;
+  }
+  
+  .input-area .download-button {
+    background-color: #28a745;
+  }
+  
+  .input-area .download-button:hover {
+    background-color: #218838;
+  }
+  
+  .input-area .stop-button {
+    background-color: #ffc107;
+  }
+  
+  .input-area .stop-button:hover {
+    background-color: #e0a800;
+  }
+
+  @media (max-width: 600px) {
+    .input-area {
+        flex-direction: row;
+        padding: 0.5rem;
+      }
+    
+    .input-area input {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+    .input-area input {
+        font-size: 1rem;
+      }
+    
+    .input-area button {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+    }
+    .input-area button,
+    .stop-button {
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+    }
+  
+  }
+
+  .input-wrapper {
+    width: 100%;
+    padding: 1rem;
+    background: #f5f5f7;
+    border-top: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+    
+  .input-area {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+  }
+  
+  .input-area textarea {
+    flex-grow: 1;
+    padding: 15px 120px 15px 15px; /* more right padding for two buttons */
+    background: #eaeaec;
+    color: #000;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    resize: none;
+    width: 100%;
+    min-height: 60px;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+    
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .input-area button {
+    padding: 10px 15px;
+    background-color: #d7dbdf;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .input-area button:hover {
+    background-color: #a5a8ab;
+  }
+  
+  .stop-button {
+    background-color: #ffc107;
+  }
+  
+  .stop-button:hover {
+    background-color: #e0a800;
+  }
+  
+  /* Bottom part */
+/* wrapper for mic + send buttons */
+.buttons-right {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* mic button */
+  .mic-button {
+    background: #ff5722;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .mic-button:hover {
+    background: #e64a19;
+  }
+  /* blinking mic when listening */
+.mic-button.listening {
+    animation: blink 1s infinite;
+    background: #e91e63;
+  }
+  
+  @keyframes blink {
+    0% { background-color: #e91e63; }
+    50% { background-color: #ff4081; }
+    100% { background-color: #e91e63; }
+  }
+  
+  
+  /* send button */
+  .send-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 50%;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1.2rem;
+  }
+  
+  .send-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .bottom-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .regenerate-button {
+    background-color: #6f42c1;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .regenerate-button:hover {
+    background-color: #5936a7;
+  }
+  
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .suggestion-button {
+    background-color: #17a2b8;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+  
+  .suggestion-button:hover {
+    background-color: #117a8b;
+  }
+    /* Responsive */
+  @media (max-width: 600px) {
+    .input-area {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .button-group {
+      flex-direction: row;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+  
+    .bottom-buttons {
+      gap: 8px;
+    }
+    .buttons-right {
+        right: 10px;
+        bottom: 10px;
+      }
+    
+  }
+  

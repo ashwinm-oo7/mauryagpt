@@ -1,21 +1,22 @@
 /* Login Container */
 .login-container {
-    max-width: 400px;
+    max-width: 350px;
     margin: auto;
     margin-top: 10vh;
     padding: 2rem;
-    background-color: #1e1e2f;
+    background-color: #f0f0f4;
     border-radius: 12px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    color: #fff;
+    color: #0b0101;
     font-family: 'Segoe UI', sans-serif;
+    margin-bottom: 20px;
   }
   
   /* Heading */
   .login-container h2 {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #ffffff;
+    color: #000000;
   }
   
   /* Form group */
@@ -36,15 +37,15 @@
     padding: 10px;
     border-radius: 8px;
     border: none;
-    background-color: #333544;
-    color: #fff;
+    background-color: #dadadc;
+    color: #000000;
     font-size: 1rem;
     outline: none;
   }
   
   /* Button */
   .login-container button {
-    width: 100%;
+    width: 105%;
     padding: 12px;
     margin-top: 1rem;
     background-color: #4e54c8;
@@ -67,5 +68,44 @@
     margin-top: 0.5rem;
     font-size: 0.9rem;
     text-align: center;
+  }
+  
+  .password-wrapper {
+    position: relative;
+  }
+  
+  .password-wrapper input {
+    width: 100%;
+    /* padding: 10px 40px 10px 10px;  */
+    border-radius: 8px;
+    border: none;
+    background-color: #dadadc;
+    color: #000000;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 1px;
+    transform: translateY(-50%);
+    color: #84848e;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .toggle-password-visible{
+    color: #3c3c3e;
+  }
+
+  .login-container input:focus {
+    border: 2px solid #fefefe;
+    background-color: #e7e4e4;
+    box-shadow: 0 0 0px rgba(78, 84, 200, 0.2);
+    transition: border 0.1s ease, box-shadow 0.1s ease;
   }
   

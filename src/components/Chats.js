@@ -3,7 +3,6 @@ import ChatMessage from "./ChatMessage";
 import "../css/chats.css";
 import { FaBars, FaTimes } from "react-icons/fa";
 
-import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { jsPDF } from "jspdf";
 // import html2canvas from "html2canvas";
@@ -17,6 +16,7 @@ const Chats = () => {
   const [messages, setMessages] = useState([]);
   const [chatList, setChatList] = useState([]);
   const { token, logout, user } = useAuth();
+  const [isAutoScroll, setIsAutoScroll] = useState(true);
 
   // const [messages, setMessages] = useState(() => {
   //   const savedMessages = localStorage.getItem("chatMessages");
@@ -31,12 +31,6 @@ const Chats = () => {
   const typingTimeoutRef = useRef(null);
   const isLoggedIn = !!token;
   const chatRef = useRef();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
 
   // Load chat on page load
   useEffect(() => {
@@ -119,11 +113,37 @@ const Chats = () => {
     if (isAtBottom) {
       messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
+    if (isAutoScroll) {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+  useEffect(() => {
+    const chatContent = chatRef.current;
+
+    const handleScroll = () => {
+      if (!chatContent) return;
+
+      const isAtBottom =
+        chatContent.scrollHeight - chatContent.scrollTop <=
+        chatContent.clientHeight + 100; // Allow some margin
+
+      setIsAutoScroll(isAtBottom);
+    };
+
+    if (chatContent) {
+      chatContent.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (chatContent) {
+        chatContent.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
 
   const stopTyping = () => {
     clearTimeout(typingTimeoutRef.current);
@@ -141,6 +161,10 @@ const Chats = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsTyping(true);
+
+    setTimeout(() => {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
 
     try {
       const headers = {
@@ -372,16 +396,38 @@ const Chats = () => {
   };
 
   // Helper function to split message content into multiple lines if it's too long
+  // const formatMessage = (message) => {
+  //   const maxLength = 180;
+  //   let lines = [];
+  //   while (message.length > maxLength) {
+  //     let spaceIndex = message.lastIndexOf(" ", maxLength);
+  //     if (spaceIndex === -1) spaceIndex = maxLength;
+  //     lines.push(message.substring(0, spaceIndex));
+  //     message = message.substring(spaceIndex).trim();
+  //   }
+  //   if (message) lines.push(message);
+  //   return lines;
+  // };
+
   const formatMessage = (message) => {
-    const maxLength = 180; // Max characters per line
-    let lines = [];
-    while (message.length > maxLength) {
-      let spaceIndex = message.lastIndexOf(" ", maxLength);
-      if (spaceIndex === -1) spaceIndex = maxLength;
-      lines.push(message.substring(0, spaceIndex));
-      message = message.substring(spaceIndex).trim();
+    const maxLineLength = 100; // Adjust based on how wide you want lines to be
+    const words = message.split(" ");
+    const lines = [];
+    let currentLine = "";
+
+    words.forEach((word) => {
+      if ((currentLine + word).length > maxLineLength) {
+        lines.push(currentLine.trim());
+        currentLine = word + " ";
+      } else {
+        currentLine += word + " ";
+      }
+    });
+
+    if (currentLine.length > 0) {
+      lines.push(currentLine.trim());
     }
-    if (message) lines.push(message); // Add the remaining part of the message
+
     return lines;
   };
 
@@ -439,8 +485,13 @@ const Chats = () => {
             sendMessage={sendMessage}
             isTyping={isTyping}
             stopTyping={stopTyping}
-            clearConversation={clearConversation}
-            downloadChatAsPDF={downloadChatAsPDF}
+            // regenerateResponse={handleRegenerateResponse}
+            suggestions={[
+              "Tell me a joke",
+              "Explain React hooks",
+              "Give a coding tip",
+            ]}
+            handleSuggestionClick={(text) => setInput(text)}
           />
         </div>
       </div>
