@@ -4,18 +4,21 @@ import "../css/chats.css";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 import { useAuth } from "../auth/AuthContext";
-import { jsPDF } from "jspdf";
-// import html2canvas from "html2canvas";
 
 import ChatListTopic from "../reusable/ChatListTopic";
 import MessageInput from "../reusable/MessageInput";
+import { useChat } from "../context/ChatContext";
 const Chats = () => {
+  const { setChatList, fetchChatList, chatIds } = useChat();
+
   const [chatId, setChatId] = useState(() => {
-    return localStorage.getItem("chatId") || "";
+    return localStorage.getItem("chatId") || chatIds || "";
   });
   const [messages, setMessages] = useState([]);
-  const [chatList, setChatList] = useState([]);
-  const { token, logout, user } = useAuth();
+  const [replyingTo, setReplyingTo] = useState("");
+
+  // const [chatList, setChatList] = useState([]);
+  const { token, user } = useAuth();
   const [isAutoScroll, setIsAutoScroll] = useState(true);
 
   // const [messages, setMessages] = useState(() => {
@@ -86,6 +89,7 @@ const Chats = () => {
         alert(data.message);
         setMessages([]); // Clear current chat messages
         setChatId(data.chatId); // Set the new chat ID
+        fetchChatList();
       } else {
         alert(data.message);
       }
@@ -93,6 +97,21 @@ const Chats = () => {
       console.error("Error starting new chat:", err);
       alert("Failed to start a new chat.");
     }
+  };
+  function handleSelectReply(message) {
+    if (message && message._id) {
+      setReplyingTo(message); // Only set if message exists and has an _id
+    } else {
+      console.error("Message is undefined or missing _id", message);
+    }
+  }
+
+  function handleCancelReply() {
+    setReplyingTo(null);
+  }
+  const getReplyContentById = (id) => {
+    const msg = messages.find((m) => m._id === id);
+    return msg ? msg?.content?.slice(0, 100) : "(message not found)";
   };
 
   // Save to localStorage only for guest user
@@ -120,6 +139,7 @@ const Chats = () => {
 
   useEffect(() => {
     scrollToBottom();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
   useEffect(() => {
     const chatContent = chatRef.current;
@@ -149,15 +169,18 @@ const Chats = () => {
     clearTimeout(typingTimeoutRef.current);
     setIsTyping(false);
   };
-  useEffect(() => {
-    localStorage.setItem("chatMessages", JSON.stringify(messages));
-  }, [messages]);
-
   const sendMessage = async (e) => {
-    e.preventDefault();
+    if (e?.preventDefault) e?.preventDefault?.();
     if (!input.trim() || isTyping) return;
 
-    const userMessage = { role: "user", content: input };
+    // const userMessage = { role: "user", content: input };
+    const userMessage = {
+      role: "user",
+      content: input,
+      replyTo: replyingTo?.messageId || null,
+      replySnippet: replyingTo?.text || null,
+    };
+
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsTyping(true);
@@ -173,21 +196,27 @@ const Chats = () => {
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
       }
+      const endpoint = chatId
+        ? `${process.env.REACT_APP_URL}/chats/savedchat/${chatId}`
+        : `${process.env.REACT_APP_URL}/chats/savedchat`; // <-- use this fallback
 
-      const res = await fetch(
-        `${process.env.REACT_APP_URL}/chats/savedchat/${chatId}`,
-        {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify({
-            conversation: [...messages, userMessage],
-            topic: topic || "General",
-            userID: user.userId,
-          }),
-        }
-      );
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          conversation: [...messages, userMessage],
+          topic: topic || "General",
+          userID: user?.userId,
+        }),
+      });
 
       const data = await res.json();
+      console.log("chats/savedchat", data);
+      if (!chatId && data.chatId && user?.userID && data.chatId !== chatId) {
+        setChatId(data.chatId);
+        // ✅ Fetch updated chat list
+        await fetchChatList();
+      }
 
       const fullText = data.content;
       let currentText = "";
@@ -215,7 +244,7 @@ const Chats = () => {
 
       typeCharByChar();
     } catch (err) {
-      console.error("Error:", err);
+      console.error("chats/savedchat:", err);
       setIsTyping(false);
     }
   };
@@ -249,6 +278,7 @@ const Chats = () => {
         setMessages([]); // Clear local messages as well
         localStorage.removeItem("chatId"); // Remove chatId from localStorage
         setChatId(""); // Also clear state
+        await fetchChatList();
       } else {
         alert(data.message);
       }
@@ -257,185 +287,17 @@ const Chats = () => {
       alert("Failed to reset chat.");
     }
   };
-  const fetchChatList = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.REACT_APP_URL}/chats/chat/getChatID`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await res.json();
-      console.log("chats/chat/getChatID", data);
 
-      const conversations = data.conversations || [];
-      setChatList(conversations);
-
-      if (conversations.length > 0) {
-        const lastChat = conversations[conversations.length - 1];
-        setChatId(lastChat._id);
-      }
-    } catch (err) {
-      console.error("Failed to fetch chat list:", err);
-    }
-  };
   useEffect(() => {
     if (isLoggedIn) {
       fetchChatList();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
   const handleChatSwitch = (chatId) => {
     setChatId(chatId);
     fetchChatFromBackend();
-  };
-  // const downloadChatAsPDF = () => {
-  //   const doc = new jsPDF();
-  //   let y = 20;
-
-  //   // Add a Title
-  //   doc.setFontSize(18);
-  //   doc.text("Chat Conversation", 105, 10, { align: "center" });
-
-  //   // Add Date-Time
-  //   const currentDate = new Date().toLocaleString();
-  //   doc.setFontSize(10);
-  //   doc.text(`Date: ${currentDate}`, 200, 10, { align: "right" });
-
-  //   messages.forEach((msg) => {
-  //     if (msg.role === "user") {
-  //       doc.setTextColor(0, 0, 255); // Blue for User
-  //       doc.setFont("helvetica", "bold");
-  //       doc.text(`You: ${msg.content}`, 10, y);
-  //     } else {
-  //       doc.setTextColor(0, 128, 0); // Green for Assistant
-  //       doc.setFont("times", "normal");
-  //       doc.text(`Assistant: ${msg.content}`, 10, y);
-  //     }
-
-  //     y += 10;
-
-  //     if (y > 280) {
-  //       doc.addPage();
-  //       y = 20;
-  //     }
-  //   });
-
-  //   doc.save("chat_conversation.pdf");
-  // };
-
-  // This function will download the chat conversation as a PDF
-  const downloadChatAsPDF = () => {
-    const doc = new jsPDF();
-    let y = 20; // Starting Y position for the content
-    const pageHeight = doc.internal.pageSize.height; // Get the height of the page (A4 size)
-
-    // Add Title
-    doc.setFontSize(18);
-    doc.text("Chat Conversation", 105, y, { align: "center" });
-    y += 20;
-
-    // Add Date-Time
-    const currentDate = new Date().toLocaleString();
-    doc.setFontSize(10);
-    doc.text(`Date: ${currentDate}`, 200, y, { align: "right" });
-    y += 10;
-
-    // Loop through messages and format them
-    messages.forEach((msg, index) => {
-      if (msg.role === "user") {
-        // Formatting user messages
-        doc.setTextColor(0, 0, 255); // Blue for User
-        doc.setFont("helvetica", "bold");
-        doc.text("You:", 10, y); // Display "You:"
-        y += 5; // Spacing
-
-        // Displaying the message content
-        doc.setFont("helvetica", "normal");
-        const userMessageLines = formatMessage(msg.content);
-        userMessageLines.forEach((line) => {
-          doc.text(line, 10, y);
-          y += 5;
-        });
-      } else {
-        // Formatting assistant messages
-        doc.setTextColor(0, 128, 0); // Green for Assistant
-        doc.setFont("times", "normal");
-        doc.text("Assistant:", 10, y); // Display "Assistant:"
-        y += 5; // Spacing
-
-        // Displaying the message content
-        doc.setFont("times", "normal");
-        const assistantMessageLines = formatMessage(msg.content);
-        assistantMessageLines.forEach((line) => {
-          doc.text(line, 10, y);
-          y += 5;
-        });
-      }
-
-      // Handle code formatting (check if content includes code)
-      if (msg.content.includes("```")) {
-        // Extract and format code block content
-        const codeBlock = msg.content.match(/```([\s\S]+?)```/)[1];
-        doc.setFont("courier", "normal");
-        doc.setTextColor(0, 0, 0); // Default color for code
-        doc.setFillColor(240, 240, 240); // Light gray background for code block
-        doc.rect(10, y - 2, 190, 30, "F"); // Draw a filled rectangle for code block background
-        doc.text(codeBlock, 10, y + 5);
-        y += 40; // Adjust after code block to avoid overlap
-      }
-
-      // Add spacing between messages
-      y += 10;
-
-      // Handle page overflow: Add new page if content exceeds the bottom
-      if (y > pageHeight - 30) {
-        // Keep some margin from the bottom
-        doc.addPage();
-        y = 20; // Reset position for new page
-      }
-    });
-
-    // Save the PDF
-    doc.save("chat_conversation.pdf");
-  };
-
-  // Helper function to split message content into multiple lines if it's too long
-  // const formatMessage = (message) => {
-  //   const maxLength = 180;
-  //   let lines = [];
-  //   while (message.length > maxLength) {
-  //     let spaceIndex = message.lastIndexOf(" ", maxLength);
-  //     if (spaceIndex === -1) spaceIndex = maxLength;
-  //     lines.push(message.substring(0, spaceIndex));
-  //     message = message.substring(spaceIndex).trim();
-  //   }
-  //   if (message) lines.push(message);
-  //   return lines;
-  // };
-
-  const formatMessage = (message) => {
-    const maxLineLength = 100; // Adjust based on how wide you want lines to be
-    const words = message.split(" ");
-    const lines = [];
-    let currentLine = "";
-
-    words.forEach((word) => {
-      if ((currentLine + word).length > maxLineLength) {
-        lines.push(currentLine.trim());
-        currentLine = word + " ";
-      } else {
-        currentLine += word + " ";
-      }
-    });
-
-    if (currentLine.length > 0) {
-      lines.push(currentLine.trim());
-    }
-
-    return lines;
   };
 
   const toggleSidebar = () => {
@@ -448,23 +310,16 @@ const Chats = () => {
         <button onClick={toggleSidebar} className="toggle-sidebar-button">
           {isSidebarOpen ? <FaTimes /> : <FaBars />}
         </button>
-        {/* {!token && (
-        <div>
-          <p>
-            Don't have an account? <Link to="/register">Register here</Link>
-          </p>
-        </div>
-      )} */}
         {isSidebarOpen && (
           <div className="chat-list-container">
             <ChatListTopic
-              chatList={chatList}
+              // chatList={chatList && chatList}
               handleChatSwitch={handleChatSwitch}
               startNewChat={startNewChat}
               toggleSidebar={toggleSidebar}
               isSidebarOpen={isSidebarOpen}
               clearConversation={clearConversation}
-              downloadChatAsPDF={downloadChatAsPDF}
+              messages={messages}
             />
           </div>
         )}
@@ -481,15 +336,32 @@ const Chats = () => {
           >
             {messages &&
               messages?.map((msg, i) => (
-                <ChatMessage key={i} role={msg.role} content={msg.content} />
+                <ChatMessage
+                  // key={i}
+                  key={msg._id} // Use unique message _id for key
+                  role={msg.role}
+                  content={msg.content}
+                  message={msg}
+                  onReply={() => handleSelectReply(msg.content)} // Enable reply on click
+                  getReplyContentById={getReplyContentById}
+                  setReplyingTo={setReplyingTo}
+                />
               ))}
             <div ref={messageEndRef} />
           </div>
+          {/* {replyingTo && (
+            <div className="reply-box">
+              <span className="reply-label">Replying toaa:</span>
+              <span className="reply-text">{replyingTo}</span>
+              <button onClick={handleCancelReply}>Cancel</button>
+            </div>
+          )} */}
 
           <MessageInput
             input={input}
             setInput={setInput}
             sendMessage={sendMessage}
+            setMessages={setMessages}
             isTyping={isTyping}
             stopTyping={stopTyping}
             // regenerateResponse={handleRegenerateResponse}
@@ -499,6 +371,8 @@ const Chats = () => {
               "Give a coding tip",
             ]}
             handleSuggestionClick={(text) => setInput(text)}
+            replyingTo={replyingTo}
+            handleCancelReply={handleCancelReply}
           />
         </div>
       </div>

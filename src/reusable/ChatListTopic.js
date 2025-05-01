@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../css/chats.css";
 import { FaEdit, FaEllipsisV } from "react-icons/fa";
+import { useChat } from "../context/ChatContext";
+import DownloadChatPDF from "../components/DownloadChatPDF";
 
 const ChatListTopic = ({
-  chatList,
+  // chatList,
   handleChatSwitch,
   startNewChat,
   clearConversation,
   renameChat,
   shareChat,
-  downloadChatAsPDF,
+  messages,
 }) => {
+  const { chatList } = useChat();
   const [openMenu, setOpenMenu] = useState(null);
   const menuRef = useRef(null);
 
@@ -48,14 +51,6 @@ const ChatListTopic = ({
       </strong>
 
       <ul>
-        {/* <button
-          type="button"
-          onClick={startNewChat}
-          className="new-chat-button"
-        >
-          Start New Chat
-        </button> */}
-
         {chatList &&
           chatList?.map((chat) => (
             <li key={chat._id}>
@@ -73,13 +68,7 @@ const ChatListTopic = ({
                 <div className="chat-options" ref={menuRef}>
                   <button onClick={() => renameChat(chat._id)}>Rename</button>
                   <button onClick={() => shareChat(chat._id)}>Share</button>
-                  <button
-                    type="button"
-                    onClick={downloadChatAsPDF}
-                    className="download-button"
-                  >
-                    Download Chat
-                  </button>
+                  <DownloadChatPDF messages={messages} />
                   <button
                     type="button"
                     onClick={() => clearConversation(chat._id)}

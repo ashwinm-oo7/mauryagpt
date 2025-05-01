@@ -4,10 +4,11 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext"; // Import the useAuth hook
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import logo from "../css/background-remover-result.png";
 
 const Login = () => {
   const { saveToken } = useAuth(); // use saveToken now instead of setToken
-  const { setToken } = useAuth(); // Access the setToken from context
+  // const { setToken } = useAuth();
   const [showPassword, setShowPassword] = useState(false); // 👈 visibility toggle
 
   const [email, setEmail] = useState("");
@@ -81,6 +82,24 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <h2>
+        <a
+          href={process.env.DeployLink || "/"}
+          style={{ display: "" }}
+          title={process.env.REACT_APP_DeployLink}
+        >
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              width: "70px",
+              height: "70px",
+              objectFit: "contain",
+              cursor: "pointer",
+            }}
+          />
+        </a>
+      </h2>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div className="form-group">

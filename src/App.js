@@ -10,18 +10,17 @@ import {
   Link,
   Navigate,
   useNavigate,
-  useLocation,
 } from "react-router-dom";
 
 import "./App.css";
 import Chats from "./components/Chats";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import { ChatProvider } from "./context/ChatContext";
 
 function AppContent() {
   const { token, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -34,9 +33,9 @@ function AppContent() {
       <div
         style={{
           position: "relative",
-          padding: "20px 0",
+          padding: "10px 0",
           borderBottom: "1px solid #ccc",
-          marginBottom: "20px",
+          marginBottom: "12px",
         }}
       >
         {/* Centered H2 */}
@@ -55,7 +54,7 @@ function AppContent() {
         <div
           style={{
             position: "absolute",
-            top: "20px",
+            top: "12px",
             right: "20px",
           }}
           className="handle-logout-container"
@@ -64,7 +63,7 @@ function AppContent() {
             <button
               onClick={handleLogout}
               style={{
-                padding: "8px 16px",
+                padding: "6px 15px",
                 fontSize: "16px",
                 cursor: "pointer",
               }}
@@ -124,9 +123,11 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <ChatProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </ChatProvider>
     </AuthProvider>
   );
 }

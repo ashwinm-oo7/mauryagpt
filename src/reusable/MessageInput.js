@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../css/input.css";
 
 const MessageInput = ({
   input,
   setInput,
   sendMessage,
+  setMessages,
   isTyping,
   stopTyping,
   regenerateResponse,
   suggestions = [],
   handleSuggestionClick,
+  replyingTo,
+  handleCancelReply,
 }) => {
   const [listening, setListening] = useState(false);
   const [dots, setDots] = useState("");
+  const formRef = useRef(null);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+      e?.preventDefault();
       sendMessage(e);
     }
   };
@@ -40,24 +44,34 @@ const MessageInput = ({
       alert("Voice recognition not supported in this browser");
       return;
     }
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition;
 
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.lang = "en-US";
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = "en-US";
+    }
 
     recognition.start();
     setListening(true);
 
     recognition.onresult = (event) => {
       const speechResult = event.results[0][0].transcript;
-      setInput((prevInput) =>
-        prevInput ? prevInput + " " + speechResult : speechResult
-      );
-      // Auto-send after speaking
+      const updatedInput = input ? input + " " + speechResult : speechResult;
+      setInput(updatedInput);
+      setMessages((prev) => [...prev, { sender: "user", text: updatedInput }]); // Show in UI
       setTimeout(() => {
-        sendMessage();
-      }, 300);
+        formRef.current?.requestSubmit(); // Proper submit
+      }, 100);
+      // Auto-send after speaking
+
+      setTimeout(() => {
+        const fakeEvent = { preventDefault: () => {} };
+        sendMessage(fakeEvent); // This will use current input value
+      }, 100);
       setListening(false);
     };
 
@@ -73,7 +87,7 @@ const MessageInput = ({
 
   return (
     <div className="input-wrapper">
-      <form onSubmit={sendMessage} className="input-area">
+      <form onSubmit={sendMessage} ref={formRef} className="input-area">
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}

@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.9.0",
     "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.3",
     "jspdf": "^3.0.1",
     "markdown-to-jsx": "^7.7.6",
     "prismjs": "^1.30.0",

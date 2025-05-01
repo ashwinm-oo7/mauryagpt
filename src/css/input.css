@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left:1px
+    padding-left:1px;
+    padding-right: 18px;
   }
   
 
@@ -65,7 +66,7 @@
   @media (max-width: 600px) {
     .input-area {
         flex-direction: row;
-        padding: 0.5rem;
+        padding: 0.1rem;
       }
     
     .input-area input {
@@ -267,6 +268,21 @@
         right: 10px;
         bottom: 10px;
       }
+      .input-wrapper {
+        padding: 0.4rem;
+      }
+      .input-area textarea {
+        padding: 0px 3px 10px 5px;
+      }    
+      .regenerate-button {
+        padding: 6px 1px;
+        font-size: 6px;
+        width: 50%;
+        display: none;
+    }
+    .suggestion-button {
+    display: none;
+    }
     
   }
   
