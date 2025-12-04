@@ -1,0 +1,116 @@
+.erp-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.erp-title {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.erp-search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.erp-input {
+  flex: 1;
+  padding: 12px;
+  font-size: 18px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+
+.erp-btn {
+  padding: 12px 18px;
+  font-size: 18px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.erp-btn:hover {
+  background-color: #005fcc;
+}
+
+.erp-results {
+  margin-top: 10px;
+}
+
+.erp-result-card {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: all 0.2s;
+}
+
+.erp-result-card:hover {
+  background: #eef5ff;
+}
+
+.erp-result-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.erp-result-type {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 5px;
+}
+
+.erp-result-snippet {
+  color: #333;
+}
+
+.erp-doc-box {
+  padding: 15px;
+}
+
+.erp-back-btn {
+  margin-bottom: 15px;
+  background: #444;
+  color: white;
+  padding: 6px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.erp-doc-title {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.erp-doc-content {
+  background: #111;
+  color: #0f0;
+  padding: 15px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.erp-explain-box {
+  margin-top: 20px;
+  background: #f8faff;
+  border-left: 5px solid #4a90e2;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.erp-no-results {
+  margin-top: 20px;
+  padding: 15px;
+  background: #ffe6e6;
+  border-left: 5px solid #ff4d4d;
+  color: #cc0000;
+  font-size: 18px;
+  border-radius: 6px;
+}

@@ -17,6 +17,12 @@ import Chats from "./components/Chats";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import { ChatProvider } from "./context/ChatContext";
+import ERPKnowledgeSearch from "./components/ERPKnowledgeSearch/ERPKnowledgeSearch";
+// App.js (where your routes are defined)
+/* import ... */
+import AIChat from "./components/AIChat/AIChat";
+
+/* inside <Routes> */
 
 function AppContent() {
   const { token, logout } = useAuth();
@@ -66,6 +72,13 @@ function AppContent() {
                 padding: "6px 15px",
                 fontSize: "16px",
                 cursor: "pointer",
+                background:
+                  "linear-gradient(45deg,rgb(242, 235, 235),rgb(217, 216, 213),rgb(194, 199, 200),rgb(183, 189, 189))",
+                color: "black",
+                border: "none",
+                borderRadius: "5px",
+                boxShadow: "rgba(0, 0, 0, 1.2) 2px 3px 7px",
+                transition: "background 0.3s ease-in-out",
               }}
             >
               Logout
@@ -78,13 +91,14 @@ function AppContent() {
                   marginRight: "10px",
                   fontSize: "20px",
                   textDecoration: "none",
-                  padding: "10px 20px",
+                  padding: "5px 10px",
                   backgroundColor: "#007bff",
                   color: "white",
                   border: "none",
                   borderRadius: "5px",
                   display: "inline-block",
                   textAlign: "center",
+                  boxShadow: " rgba(0, 0, 0, 1.2) 2px 3px 7px",
                 }}
               >
                 Login
@@ -98,6 +112,34 @@ function AppContent() {
               </Link> */}
             </>
           )}
+          <Link
+            to="/knowledge"
+            style={{
+              marginRight: "10px",
+              fontSize: "16px",
+              padding: "6px 10px",
+              backgroundColor: "#28a745",
+              color: "white",
+              borderRadius: "5px",
+              textDecoration: "none",
+              boxShadow: "rgba(0,0,0,0.2) 2px 2px 4px",
+            }}
+          >
+            Knowledge
+          </Link>
+          <Link
+            to="/ai"
+            style={{
+              marginRight: "10px",
+              padding: "6px 10px",
+              background: "#111827",
+              color: "#fff",
+              borderRadius: 6,
+              textDecoration: "none",
+            }}
+          >
+            AI
+          </Link>
         </div>
       </div>
 
@@ -115,6 +157,8 @@ function AppContent() {
 
         {/* Catch-all for invalid paths */}
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/knowledge" element={<ERPKnowledgeSearch />} />
+        <Route path="/ai" element={<AIChat />} />
       </Routes>
     </div>
   );

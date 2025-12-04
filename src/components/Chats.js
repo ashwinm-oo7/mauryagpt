@@ -12,7 +12,7 @@ const Chats = () => {
   const { setChatList, fetchChatList, chatIds } = useChat();
 
   const [chatId, setChatId] = useState(() => {
-    return localStorage.getItem("chatId") || chatIds || "";
+    return chatIds || localStorage.getItem("chatId") || "";
   });
   const [messages, setMessages] = useState([]);
   const [replyingTo, setReplyingTo] = useState("");
@@ -37,10 +37,13 @@ const Chats = () => {
 
   // Load chat on page load
   useEffect(() => {
-    if (chatId) {
-      localStorage.setItem("chatId", chatId);
-    }
-  }, [chatId]);
+    if (!token) return; // must be logged in
+    if (!chatId) return; // must have chatId
+    if (messages.length > 0) return; // prevent duplicate fetch
+
+    localStorage.setItem("chatId", chatId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatId, token]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -49,6 +52,8 @@ const Chats = () => {
         setMessages(JSON.parse(savedMessages));
       }
     }
+    if (!chatId || messages.length > 0) return;
+
     if (chatId) {
       fetchChatFromBackend();
     }
@@ -56,46 +61,59 @@ const Chats = () => {
   }, [isLoggedIn, chatId]);
 
   const fetchChatFromBackend = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.REACT_APP_URL}/chats/chat/history/${chatId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await res.json();
-      setMessages(data.conversation?.messages || []); // Adjusted to match backend response
-    } catch (err) {
-      console.error("Failed to fetch history:", err);
+    if (!chatId) return; // prevent empty call
+
+    if (chatId) {
+      try {
+        const res = await fetch(
+          `${process.env.REACT_APP_URL}/chats/chat/history/${chatId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!res.ok) throw new Error("Chat not found or invalid request");
+
+        const data = await res.json();
+
+        setMessages(data.conversation?.messages || []); // Adjusted to match backend response
+        console.log("setMessages", messages);
+      } catch (err) {
+        console.error("Failed to fetch history:", err);
+      }
     }
   };
   const startNewChat = async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_URL}/chats/new-chat`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          topic: "New Chat", // Optionally pass a topic here
-        }),
-      });
+    if (token) {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_URL}/chats/new-chat`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            topic: topic, // Optionally pass a topic here
+          }),
+        });
 
-      const data = await res.json();
-      if (res.ok) {
-        alert(data.message);
-        setMessages([]); // Clear current chat messages
-        setChatId(data.chatId); // Set the new chat ID
-        fetchChatList();
-      } else {
-        alert(data.message);
+        const data = await res.json();
+        if (res.ok) {
+          alert(data.message);
+          setMessages([]); // Clear current chat messages
+          setChatId(data.chatId); // Set the new chat ID
+          fetchChatList();
+        } else {
+          alert(data.message);
+        }
+      } catch (err) {
+        console.error("Error starting new chat:", err);
+        alert("Failed to start a new chat.");
       }
-    } catch (err) {
-      console.error("Error starting new chat:", err);
-      alert("Failed to start a new chat.");
+    } else {
+      localStorage.clear();
+      window.location.reload();
     }
   };
   function handleSelectReply(message) {
@@ -205,7 +223,7 @@ const Chats = () => {
         headers: headers,
         body: JSON.stringify({
           conversation: [...messages, userMessage],
-          topic: topic || "General",
+          topic: topic || null,
           userID: user?.userId,
         }),
       });
@@ -214,6 +232,10 @@ const Chats = () => {
       console.log("chats/savedchat", data);
       if (!chatId && data.chatId && user?.userID && data.chatId !== chatId) {
         setChatId(data.chatId);
+        if (data.topic) {
+          setTopic(data.topic); // ✅ Update topic state
+        }
+
         // ✅ Fetch updated chat list
         await fetchChatList();
       }
@@ -297,7 +319,9 @@ const Chats = () => {
 
   const handleChatSwitch = (chatId) => {
     setChatId(chatId);
-    fetchChatFromBackend();
+    if (chatId) {
+      fetchChatFromBackend();
+    }
   };
 
   const toggleSidebar = () => {

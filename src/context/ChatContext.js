@@ -44,7 +44,7 @@ export const ChatProvider = ({ children }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
-
+  console.log("chatIds", chatIds);
   return (
     <ChatContext.Provider
       value={{ chatList, setChatList, fetchChatList, chatIds }}
