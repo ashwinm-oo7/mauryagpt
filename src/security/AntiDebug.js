@@ -25,11 +25,11 @@ export default function AntiDebug() {
   // Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S
   document.onkeydown = (e) => {
     if (
-      e.key === "F12" ||
-      (e.ctrlKey && e.shiftKey && e.key === "I") ||
-      (e.ctrlKey && e.shiftKey && e.key === "J") ||
-      (e.ctrlKey && e.key === "U") ||
-      (e.ctrlKey && e.key === "S")
+      e.key === "F12"
+      //   (e.ctrlKey && e.shiftKey && e.key === "I") ||
+      //   (e.ctrlKey && e.shiftKey && e.key === "J") ||
+      //   (e.ctrlKey && e.key === "U") ||
+      //   (e.ctrlKey && e.key === "S")
     ) {
       e.preventDefault();
       return false;
