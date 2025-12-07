@@ -1,24 +1,24 @@
 // security/AntiDebug.js
 export default function AntiDebug() {
   // Disable right-click
-  if (process.env.NODE_ENV !== "production") return;
+  //   if (process.env.NODE_ENV !== "production") return;
 
-  const noop = () => {};
+  //   const noop = () => {};
 
-  // Disable ALL console methods in production
-  console.log = noop;
-  console.warn = noop;
-  console.error = noop;
-  console.info = noop;
-  console.debug = noop;
-  console.trace = noop;
-  console.table = noop;
-  console.group = noop;
-  console.groupCollapsed = noop;
-  console.groupEnd = noop;
+  //   // Disable ALL console methods in production
+  //   console.log = noop;
+  //   console.warn = noop;
+  //   console.error = noop;
+  //   console.info = noop;
+  //   console.debug = noop;
+  //   console.trace = noop;
+  //   console.table = noop;
+  //   console.group = noop;
+  //   console.groupCollapsed = noop;
+  //   console.groupEnd = noop;
 
   // Freeze console to prevent re-enable attempts
-  Object.freeze(console);
+  //   Object.freeze(console);
 
   document.addEventListener("contextmenu", (e) => e.preventDefault());
 
