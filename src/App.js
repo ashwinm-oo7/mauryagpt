@@ -128,7 +128,7 @@ function AppContent() {
             Knowledge
           </Link>
           <Link
-            to="/ai"
+            to="/SabReport"
             style={{
               marginRight: "10px",
               padding: "6px 10px",
@@ -138,7 +138,7 @@ function AppContent() {
               textDecoration: "none",
             }}
           >
-            AI
+            SabReport
           </Link>
         </div>
       </div>
@@ -158,7 +158,7 @@ function AppContent() {
         {/* Catch-all for invalid paths */}
         <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/knowledge" element={<ERPKnowledgeSearch />} />
-        <Route path="/ai" element={<AIChat />} />
+        <Route path="/SabReport" element={<AIChat />} />
       </Routes>
     </div>
   );

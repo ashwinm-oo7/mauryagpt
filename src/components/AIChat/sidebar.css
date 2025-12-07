@@ -1,0 +1,50 @@
+/* sidebar.css */
+.sidebar {
+  position: fixed;
+  left: -260px; /* slide in effect */
+  top: 0;
+  height: 100%;
+  background: #1f1f1f;
+  color: #fff;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  padding: 0.6rem 0;
+  cursor: pointer;
+}
+
+.sidebar ul li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Resizer */
+.resizer {
+  width: 6px;
+  cursor: ew-resize;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 0.2s;
+}
+
+.resizer:hover {
+  background: rgba(255, 255, 255, 0.5);
+}

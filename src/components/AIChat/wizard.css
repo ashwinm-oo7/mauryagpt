@@ -1,0 +1,22 @@
+.wizard-box {
+  width: 260px;
+  background: #fafafa;
+  padding: 20px;
+  border-left: 1px solid #ddd;
+}
+
+.wizard-box select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.wiz-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wizard-box button {
+  padding: 8px 12px;
+}
