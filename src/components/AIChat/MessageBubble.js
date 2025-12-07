@@ -88,14 +88,14 @@ function SQLBlock({ sql }) {
   };
 
   return (
-    <div style={{ position: "relative", marginTop: "14px" }}>
+    <div style={{ position: "relative", marginTop: "4px" }}>
       <button
         className="copy-btn"
         onClick={handleCopy}
         style={{
           position: "absolute",
           right: "10px",
-          top: "10px",
+          top: "8px",
           padding: "4px 10px",
           background: "#2563eb",
           color: "white",
