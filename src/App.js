@@ -34,7 +34,7 @@ function AppContent() {
     navigate("/login");
   };
   if (process.env.NODE_ENV === "production") {
-    AntiDebug();
+    // AntiDebug();
   }
 
   return (
