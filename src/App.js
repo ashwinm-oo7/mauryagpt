@@ -21,6 +21,7 @@ import ERPKnowledgeSearch from "./components/ERPKnowledgeSearch/ERPKnowledgeSear
 // App.js (where your routes are defined)
 /* import ... */
 import AIChat from "./components/AIChat/AIChat";
+import AntiDebug from "./security/AntiDebug";
 
 /* inside <Routes> */
 
@@ -32,6 +33,9 @@ function AppContent() {
     logout();
     navigate("/login");
   };
+  if (process.env.NODE_ENV === "production") {
+    AntiDebug();
+  }
 
   return (
     <div className="App">

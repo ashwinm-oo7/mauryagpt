@@ -113,8 +113,8 @@ function SQLBlock({ sql }) {
         style={atomOneLight}
         customStyle={{
           borderRadius: "10px",
-          padding: "18px",
-          fontSize: "15px",
+          padding: "5px",
+          fontSize: "14px",
           lineHeight: "1.5",
           background: "#f8fafc", // clean light background
           border: "1px solid #e5e7eb", // light border like ChatGPT

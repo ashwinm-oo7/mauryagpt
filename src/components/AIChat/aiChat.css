@@ -80,7 +80,7 @@
   max-width: 75%;
   padding: 16px 18px;
   border-radius: 14px;
-  font-size: 11.5px;
+  font-size: 12.5px;
   line-height: 1.55;
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -134,7 +134,7 @@
 
 /* TABLE */
 .bubble-text table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   margin: 10px 0;
   background: white;
@@ -174,7 +174,10 @@
   color: #1e293b;
   padding: 4px 5px;
   border-radius: 5px;
-  font-size: 100%;
+  font-size: 82%;
+}
+img {
+width: 850px;
 }
 
 /* INPUT AREA */
@@ -238,12 +241,12 @@
 }
 
 .dark-mode .ai-body {
-  background: #1e293b !important;
+  background: #4c4b4b !important;
 }
 
 .dark-mode .bubble {
-  background: #334155 !important;
-  border-color: #475569 !important;
+  background: #272727 !important;
+  border-color: #323233 !important;
   color: #e2e8f0 !important;
 }
 
@@ -345,6 +348,7 @@
 .dark-mode .ai-header,
 .dark-mode .ai-header .ai-title {
   color: #f8fafc !important;
+  background-color:#1e1c1c
 }
 
 .dark-mode .ai-actions button {
@@ -433,3 +437,7 @@
 .hamburger.open span:nth-child(1) { transform: rotate(45deg); top: 9px; }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: rotate(-45deg); top: 9px; }
+
+pre {
+margin: 6px;
+}
