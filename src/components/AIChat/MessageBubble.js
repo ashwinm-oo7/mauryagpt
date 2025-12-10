@@ -111,6 +111,7 @@ function SQLBlock({ sql }) {
       <SyntaxHighlighter
         language="sql"
         style={atomOneLight}
+        className="SyntaxHighlighter"
         customStyle={{
           borderRadius: "10px",
           padding: "5px",

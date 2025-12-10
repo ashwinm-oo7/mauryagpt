@@ -1,11 +1,11 @@
 .suggest-box {
-  padding: 12px 18px;
+  padding: 6px 5px;
   background: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
 }
 
 .suggest-title {
-  margin-bottom: 8px;
+  margin: 5px;
   font-size: 16px;
   font-weight: 600;
   color: #1f2937;
@@ -14,16 +14,16 @@
 .suggest-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .suggest-btn {
-  padding: 8px 14px;
+  padding: 5px 6px;
   background: #eef2ff;
   border: 1px solid #c7d2fe;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 11px;
   transition: 0.2s;
 }
 

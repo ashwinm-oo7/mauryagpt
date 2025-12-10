@@ -78,7 +78,7 @@
 /* BUBBLES */
 .bubble {
   max-width: 75%;
-  padding: 16px 18px;
+  padding: 8px 9px;
   border-radius: 14px;
   font-size: 12.5px;
   line-height: 1.55;
@@ -443,3 +443,13 @@ background: whitesmoke;
 pre {
 margin: 6px;
 }
+.dark-mode .SyntaxHighlighter {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+.dark-mode .bubble-text code {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+

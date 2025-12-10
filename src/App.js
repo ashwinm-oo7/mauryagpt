@@ -45,7 +45,7 @@ function AppContent() {
           position: "relative",
           padding: "10px 0",
           borderBottom: "1px solid #ccc",
-          marginBottom: "12px",
+          marginBottom: "5px",
         }}
       >
         {/* Centered H2 */}
