@@ -25,78 +25,78 @@ const TestPage = () => {
   const devToolCount = useRef(0);
   const [devToolsDetected, setDevToolsDetected] = useState(false);
 
-  //   useEffect(() => {
-  //     const fullscreenExitCount = { current: 0 }; // ref-like object
+  useEffect(() => {
+    const fullscreenExitCount = { current: 0 }; // ref-like object
 
-  //     // --- Request fullscreen on page load ---
-  //     const requestFullscreen = async () => {
-  //       try {
-  //         if (!document.fullscreenElement) {
-  //           await document.documentElement.requestFullscreen();
-  //         }
-  //       } catch (err) {
-  //         toast.error("Unable to enter fullscreen mode.");
-  //       }
-  //     };
-  //     requestFullscreen();
+    // --- Request fullscreen on page load ---
+    const requestFullscreen = async () => {
+      try {
+        if (!document.fullscreenElement) {
+          await document.documentElement.requestFullscreen();
+        }
+      } catch (err) {
+        toast.error("Unable to enter fullscreen mode.");
+      }
+    };
+    requestFullscreen();
 
-  //     // --- Fullscreen change detection ---
-  //     const handleFullscreenChange = () => {
-  //       if (!document.fullscreenElement) {
-  //         fullscreenExitCount.current += 1;
-  //         toast.error(
-  //           `You exited fullscreen! Warning (${fullscreenExitCount.current})`,
-  //         );
+    // --- Fullscreen change detection ---
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        fullscreenExitCount.current += 1;
+        toast.error(
+          `You exited fullscreen! Warning (${fullscreenExitCount.current})`,
+        );
 
-  //         if (fullscreenExitCount.current >= 30) {
-  //           toast.error("Fullscreen violation limit reached. Submitting exam.");
-  //           handleSubmit();
-  //         }
-  //       }
-  //     };
-  //     document.addEventListener("fullscreenchange", handleFullscreenChange);
+        if (fullscreenExitCount.current >= 30) {
+          toast.error("Fullscreen violation limit reached. Submitting exam.");
+          handleSubmit();
+        }
+      }
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
 
-  //     // --- Tab switch detection ---
-  //     const handleVisibilityChange = () => {
-  //       if (document.hidden) {
-  //         tabSwitchCount.current += 1;
-  //         toast.error(`Tab switch detected! (${tabSwitchCount.current})`);
+    // --- Tab switch detection ---
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        tabSwitchCount.current += 1;
+        toast.error(`Tab switch detected! (${tabSwitchCount.current})`);
 
-  //         if (tabSwitchCount.current >= 20) {
-  //           toast.error("Multiple tab switches detected. Submitting exam.");
-  //           handleSubmit();
-  //         }
-  //       } else {
-  //         toast("Returned to exam tab");
-  //       }
-  //     };
-  //     document.addEventListener("visibilitychange", handleVisibilityChange);
+        if (tabSwitchCount.current >= 20) {
+          toast.error("Multiple tab switches detected. Submitting exam.");
+          handleSubmit();
+        }
+      } else {
+        toast("Returned to exam tab");
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
-  //     // --- DevTools detection ---
-  //     const detectDevTools = () => {
-  //       const widthThreshold = window.outerWidth - window.innerWidth > 160;
-  //       const heightThreshold = window.outerHeight - window.innerHeight > 160;
+    // --- DevTools detection ---
+    const detectDevTools = () => {
+      const widthThreshold = window.outerWidth - window.innerWidth > 160;
+      const heightThreshold = window.outerHeight - window.innerHeight > 160;
 
-  //       if ((widthThreshold || heightThreshold) && !devToolsDetected) {
-  //         setDevToolsDetected(true);
-  //         devToolCount.current += 1;
-  //         toast.error(`DevTools detected (${devToolCount.current})`);
-  //         if (devToolCount.current >= 20) {
-  //           toast.error("Multiple violations. Submitting exam.");
-  //           handleSubmit();
-  //         }
-  //       }
-  //     };
-  //     const devToolsInterval = setInterval(detectDevTools, 1500);
+      if ((widthThreshold || heightThreshold) && !devToolsDetected) {
+        setDevToolsDetected(true);
+        devToolCount.current += 1;
+        toast.error(`DevTools detected (${devToolCount.current})`);
+        if (devToolCount.current >= 20) {
+          toast.error("Multiple violations. Submitting exam.");
+          handleSubmit();
+        }
+      }
+    };
+    const devToolsInterval = setInterval(detectDevTools, 1500);
 
-  //     // --- Cleanup ---
-  //     return () => {
-  //       document.removeEventListener("fullscreenchange", handleFullscreenChange);
-  //       document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //       clearInterval(devToolsInterval);
-  //     };
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []); // runs only once
+    // --- Cleanup ---
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      clearInterval(devToolsInterval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // runs only once
 
   useEffect(() => {
     if (!examId) {
@@ -232,6 +232,7 @@ const TestPage = () => {
     }, 5000);
 
     return () => clearInterval(autoSave);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [examId]);
   if (questions.length === 0) return <p>Loading questions...</p>;
 
