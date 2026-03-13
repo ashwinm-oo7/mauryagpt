@@ -22,7 +22,7 @@ import ERPKnowledgeSearch from "./components/ERPKnowledgeSearch/ERPKnowledgeSear
 // App.js (where your routes are defined)
 /* import ... */
 import AIChat from "./components/AIChat/AIChat";
-import AntiDebug from "./security/AntiDebug";
+// import AntiDebug from "./security/AntiDebug";
 import AdminMcq from "./components/mcq/AdminMcq";
 /* inside <Routes> */
 import TestPage from "./components/user/TestPage";
@@ -39,9 +39,9 @@ function AppContent() {
     logout();
     navigate("/login");
   };
-  if (process.env.NODE_ENV === "production") {
-    // AntiDebug();
-  }
+  // if (process.env.NODE_ENV === "production") {
+  //   // AntiDebug();
+  // }
 
   return (
     <div className="App">
