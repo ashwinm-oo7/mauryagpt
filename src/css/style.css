@@ -15,15 +15,15 @@
 
 .message {
   
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: 10px;
+  margin-bottom: 10px;
   border-radius: 0.75rem;
-  line-height: 1.6;
+  line-height: 1;
   white-space: pre-wrap;
   word-break: break-word;
   background-color: #1e1e2f;
   color: #f8f8f2;
-  max-width: 90%;
+  max-width: 100%;
   overflow-x: auto;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .message.bot {
-  background-color: #f1f1f1;
+  background-color: #c2bbbb;
   color: #000000;
   align-self: flex-start;
   border-top-left-radius: 0;
@@ -51,6 +51,9 @@
   text-align: left;
   width: fit-content;
   padding: 10px;
+}
+.error-message{
+  color: #ff3e3e;
 }
   /* Input area */
   

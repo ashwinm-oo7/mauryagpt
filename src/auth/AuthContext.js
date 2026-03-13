@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import api from "./axiosInstance";
 
 // Create a context
 const AuthContext = createContext();
@@ -12,30 +13,25 @@ export const AuthProvider = ({ children }) => {
     const fetchUserDetails = async () => {
       if (token) {
         try {
-          const res = await axios.get(
-            `${process.env.REACT_APP_URL}/api/auth/me`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const res = await api.get(`${process.env.REACT_APP_URL}/api/auth/me`);
           console.log("fetchUserDetails", res);
           setUser({
             userId: res.data.userId,
             userEmail: res.data.email,
           });
         } catch (error) {
-          console.error("Failed to fetch user details", error);
-          setToken(""); // Optional: Clear invalid token
-          setUser({ userId: "", userEmail: "" });
-          localStorage.removeItem("token");
-          localStorage.clear(); // Clear everything if token is invalid
+          if (error.response?.data?.code === "TOKEN_EXPIRED") {
+            logout();
+            window.location.href = "/login";
+          } else {
+            logout();
+          }
         }
       }
     };
 
     fetchUserDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // <-- only run once when page loads (empty array)
 
   const saveToken = async (newToken) => {
@@ -58,13 +54,31 @@ export const AuthProvider = ({ children }) => {
       console.error("Failed to fetch user details", error);
     }
   };
-  const logout = () => {
+  const logout = async () => {
+    try {
+      if (token) {
+        await axios.post(
+          `${process.env.REACT_APP_URL}/api/auth/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+      }
+    } catch (err) {
+      console.error("Logout API failed", err);
+    }
+
     setToken("");
     setUser({ userId: "", userEmail: "" });
-    localStorage.removeItem("token");
-    localStorage.clear(); // <-- FULL clear
-  };
 
+    localStorage.removeItem("token");
+    localStorage.clear();
+
+    window.location.href = "/login";
+  };
   return (
     <AuthContext.Provider value={{ token, user, saveToken, setToken, logout }}>
       {children}

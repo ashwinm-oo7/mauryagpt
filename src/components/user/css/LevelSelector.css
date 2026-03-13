@@ -1,0 +1,21 @@
+.level-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.level-list li button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #27ae60;
+  background: #fff;
+  color: #27ae60;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.level-list li button:hover {
+  background: #27ae60;
+  color: #fff;
+}

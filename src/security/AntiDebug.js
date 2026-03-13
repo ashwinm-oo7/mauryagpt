@@ -1,4 +1,4 @@
-export default function AntiDebug() {
+export const AntiDebug = () => {
   if (process.env.NODE_ENV !== "production") return;
 
   // Disable Right Click
@@ -53,4 +53,4 @@ export default function AntiDebug() {
   } catch (err) {
     // Do nothing (SAFE)
   }
-}
+};

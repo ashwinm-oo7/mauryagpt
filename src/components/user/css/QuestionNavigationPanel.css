@@ -1,0 +1,44 @@
+.question-nav-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+  justify-content: center;
+}
+
+.nav-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: #e5e7eb;
+  color: #334155;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  font-size: 12px;
+}
+
+/* Hover */
+.nav-btn:hover {
+  transform: scale(1.15);
+}
+
+/* Current Question */
+.nav-btn.active {
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+  color: white;
+  transform: scale(1.2);
+}
+
+/* Answered Question */
+.nav-btn.answered {
+  background: #22c55e;
+  color: white;
+}
+
+/* Visited but not answered */
+.nav-btn.visited {
+  background: #f59e0b;
+  color: white;
+}

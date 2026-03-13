@@ -28,14 +28,14 @@ const Register = () => {
     e.preventDefault();
     setMsg("");
     setOtp("");
-
+    setErrorMsg("");
     if (password !== confirmPassword) {
       return setMsg("Passwords do not match.");
     }
 
     if (!validatePassword(password)) {
       return setMsg(
-        "Password must be 8+ chars, include uppercase, lowercase, number, and special char."
+        "Password must be 8+ chars, include uppercase, lowercase, number, and special char.",
       );
     }
 
@@ -43,7 +43,7 @@ const Register = () => {
       setLoading(true);
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/api/auth/send-otp`,
-        { email }
+        { email },
       );
       console.log("send-otp", res);
       if (res.status === 200 || res.statusText === "ok") {
@@ -53,6 +53,7 @@ const Register = () => {
       }
     } catch (err) {
       setErrorMsg(err.response?.data?.msg || "Error sending OTP.");
+      console.log(err.response?.data?.msg || "Error Sending OTPs");
     } finally {
       setLoading(false);
     }
@@ -85,7 +86,7 @@ const Register = () => {
       setLoading(true);
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/api/auth/verify-otp`,
-        { email, password, otp }
+        { email, password, otp },
       );
       console.log("verigyOtp", res);
       if (res.status === 200 || res.statusText === "ok") {
@@ -210,7 +211,7 @@ const Register = () => {
           {msg}
         </p>
       )}
-      {errormsg && <p className="message">{errormsg}</p>}
+      {errormsg && <p className="message error-message">{errormsg}</p>}
       <p>
         Already have an account? <Link to="/login">Login</Link>
       </p>

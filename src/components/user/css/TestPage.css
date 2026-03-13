@@ -1,0 +1,43 @@
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+  font-family: "Poppins", sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 600;
+  color: #1e293b;
+}
+.exam-layout{
+display:flex;
+gap:30px;
+align-items:flex-start;
+}
+
+.exam-main{
+flex:1;
+}
+
+.exam-sidebar{
+position:sticky;
+top:20px;
+}
+@media(max-width:900px){
+
+.exam-layout{
+flex-direction:column;
+}
+
+.exam-sidebar{
+position:static;
+width:100%;
+}
+
+.palette{
+width:100%;
+}
+
+}

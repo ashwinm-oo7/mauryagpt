@@ -1,0 +1,34 @@
+.timer-container {
+  position: relative;
+  width: 110px;
+  margin: auto;
+}
+
+.timer-svg {
+  transform: rotate(-90deg);
+  width: 110px;
+  height: 110px;
+}
+
+.timer-bg {
+  fill: none;
+  stroke: #e5e7eb;
+  stroke-width: 8;
+}
+
+.timer-progress {
+  fill: none;
+  stroke: #6366f1;
+  stroke-width: 8;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-text {
+  position: absolute;
+  top: 38px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}

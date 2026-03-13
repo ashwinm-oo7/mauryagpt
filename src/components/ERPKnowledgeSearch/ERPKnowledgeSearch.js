@@ -4,7 +4,7 @@ import ERPDocumentView from "./ERPDocumentView";
 
 const API_BASE = `${process.env.REACT_APP_URL}/search-engine`;
 
-export default function ERPKnowledgeSearch() {
+const ERPKnowledgeSearch = () => {
   const [q, setQ] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
@@ -24,7 +24,7 @@ export default function ERPKnowledgeSearch() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: q }),
-      }
+      },
     );
 
     const data = await res.json();
@@ -141,4 +141,6 @@ export default function ERPKnowledgeSearch() {
       )}
     </div>
   );
-}
+};
+
+export default ERPKnowledgeSearch;

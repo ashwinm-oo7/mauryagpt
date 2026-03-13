@@ -71,14 +71,14 @@ const Chats = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         if (!res.ok) throw new Error("Chat not found or invalid request");
 
         const data = await res.json();
 
         setMessages(data.conversation?.messages || []); // Adjusted to match backend response
-        console.log("setMessages", messages);
+        console.log("setMessages", messages, setChatList);
       } catch (err) {
         console.error("Failed to fetch history:", err);
       }
@@ -291,7 +291,7 @@ const Chats = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       const data = await res.json();

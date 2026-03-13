@@ -32,7 +32,7 @@ function loadConversation() {
   }
 }
 
-export default function AIChat() {
+const AIChat = () => {
   const [input, setInput] = useState("");
   const [dark, setDark] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true); // NEW: sidebar toggle
@@ -118,7 +118,7 @@ export default function AIChat() {
       // }
 
       // if assistantText looks like SQL, keep it; you may want to format differently
-
+      console.log(saved);
       const assistantMsg = {
         id: `a-${Date.now()}`,
         role: "assistant",
@@ -294,4 +294,5 @@ export default function AIChat() {
       <FAB onSelect={(q) => send(null, q)} />
     </div>
   );
-}
+};
+export default AIChat;

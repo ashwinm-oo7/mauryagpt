@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./sidebar.css";
 
-export default function Sidebar({ className = "", onSelect }) {
+const Sidebar = ({ className = "", onSelect }) => {
   const [width, setWidth] = useState(250); // default width
   const resizerRef = useRef(null);
   const isResizing = useRef(false);
@@ -79,7 +79,7 @@ export default function Sidebar({ className = "", onSelect }) {
   const scenarios = [
     ...baseScenarios,
     ...views.flatMap((view) =>
-      view.sidebarQuestions.map((q) => ({ label: q, value: q }))
+      view.sidebarQuestions.map((q) => ({ label: q, value: q })),
     ),
   ];
 
@@ -125,4 +125,5 @@ export default function Sidebar({ className = "", onSelect }) {
       ></div>
     </div>
   );
-}
+};
+export default Sidebar;

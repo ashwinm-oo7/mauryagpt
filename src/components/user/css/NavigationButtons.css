@@ -1,0 +1,29 @@
+.navigation-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.navigation-btns button {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg,#4facfe,#00f2fe);
+  color: white;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.navigation-btns button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+.navigation-btns button:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+  box-shadow: none;
+}
