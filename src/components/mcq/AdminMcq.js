@@ -9,7 +9,7 @@ import LevelMCQs from "./LevelMCQs";
 import "./AdminMcq.css";
 
 const AdminMcq = () => {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [domains, setDomains] = useState([]);
@@ -19,7 +19,7 @@ const AdminMcq = () => {
   const [editingMCQ, setEditingMCQ] = useState(null);
   const [topic, setTopic] = useState("");
   const [count, setCount] = useState(5);
-
+  const [uploading, setUploading] = useState(false);
   const generateAI = async () => {
     try {
       const res = await api.post("/api/mcq/generate-ai", {
@@ -36,8 +36,8 @@ const AdminMcq = () => {
   };
   // Redirect if not logged in
   useEffect(() => {
-    if (!token) navigate("/login");
-  }, [token, navigate]);
+    if (!user) navigate("/login");
+  }, [user, navigate]);
 
   // Fetch all domains
   const fetchDomains = async () => {
@@ -63,12 +63,18 @@ const AdminMcq = () => {
           map.get(m.level).push(m);
           return map;
         }, new Map()),
-      ).map(([levelNumber, questions]) => ({
-        number: levelNumber,
-        questions,
-        count: questions.length,
-        timeLimit: questions[0]?.timeLimit || 10,
-      }));
+      ).map(([levelNumber, questions]) => {
+        const totalTimeLimit = questions.reduce(
+          (sum, question) => sum + question.timeLimit,
+          0,
+        );
+        return {
+          number: levelNumber,
+          questions,
+          count: questions.length,
+          timeLimit: totalTimeLimit || 10, // Summing time limits or fallback to 10
+        };
+      });
 
       setLevels(lvlMap);
     } catch {
@@ -123,47 +129,81 @@ const AdminMcq = () => {
   const handleBulkUpload = async (e) => {
     const file = e.target.files[0];
 
+    if (!file) {
+      toast.error("Please select an Excel file");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      await api.post("/api/mcq/bulk-upload", formData);
+      setUploading(true);
 
-      toast.success("Bulk upload successful");
+      const res = await api.post("/api/mcq/bulk-upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setUploading(false);
+
+      toast.success(res.data.message || "Bulk upload successful");
 
       fetchDomainData(selectedDomain);
-    } catch {
-      toast.error("Upload failed");
+    } catch (err) {
+      console.error("Upload error:", err);
+
+      const message =
+        err.response?.data?.message || // backend message
+        err.response?.data?.error ||
+        err.message || // network error
+        "Upload failed";
+
+      toast.error(message);
+    } finally {
+      e.target.value = null;
     }
   };
   return (
     <div className="admin-mcq-page">
       <Toaster position="top-right" />
-      <div className="container">
-        <div className="ai-generator">
-          <input
-            placeholder="Topic (e.g. JavaScript closures)"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-          />
-
-          <input
-            type="number"
-            value={count}
-            onChange={(e) => setCount(e.target.value)}
-          />
-
-          <button onClick={generateAI}>Generate MCQs</button>
+      <div className="adminmcq-container">
+        {/* Top Right Container with both AI Generator and File Upload */}
+        <div className="top-right-container">
+          <h1 className="page-title">Admin MCQ Dashboard</h1>
+          <div className="ai-generator">
+            <div className="input-container">
+              <input
+                placeholder="Topic (e.g. JavaScript closures)"
+                value={topic || ""}
+                onChange={(e) => setTopic(e.target.value || "")}
+              />
+              <input
+                type="number"
+                value={count || 5}
+                onChange={(e) => setCount(e.target.value ? +e.target.value : 5)}
+              />
+              <button onClick={generateAI}>Generate MCQs</button>
+              <div className="custom-file-input">
+                <button disabled={uploading} htmlFor="file-upload">
+                  <input
+                    type="file"
+                    id="file-upload"
+                    onChange={handleBulkUpload}
+                  />
+                  Choose a File
+                </button>
+                <div className="file-name" id="file-name"></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <h1 className="page-title">Admin MCQ Dashboard</h1>
-        <input type="file" onChange={handleBulkUpload} />
         {/* STEP 1: Domain Selector */}
         <DomainSelector
           domains={domains}
           selectedDomain={selectedDomain}
           setSelectedDomain={setSelectedDomain}
         />
-
         {/* STEP 2: Add/Edit MCQ Form (Top right) */}
         {selectedDomain && (
           <MCQForm
@@ -172,7 +212,6 @@ const AdminMcq = () => {
             initialData={editingMCQ}
           />
         )}
-
         {/* STEP 3: Levels & Questions */}
         {selectedDomain && (
           <div className="domain-list">

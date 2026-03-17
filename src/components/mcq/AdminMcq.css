@@ -2,20 +2,21 @@
 .admin-mcq-page {
   background-color: #f4f7fa;
   min-height: 100vh;
-  padding: 30px 20px;
+  padding: 5px 5px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
+.adminmcq-container {
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .page-title {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 20px;
   color: #333;
+  margin: 5px;
+  text-align: center;
 }
 
 /* ------------------- Domain Selector ------------------- */
@@ -244,4 +245,153 @@
 .level-progress-bar {
   height: 100%;
   background: linear-gradient(90deg, #1e90ff, #00c6ff);
+}
+
+
+
+/* ------------------- Container for AI Generator and File Upload ------------------- */
+.top-right-container {
+  position: static;
+  top: 20px;
+  right: 20px;
+  width: -webkit-fill-available;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 5px;
+}
+
+/* Header Styling */
+.top-right-container .header {
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* ------------------- AI Generator ------------------- */
+.ai-generator {
+  display: flex;
+  gap: 10px;  /* Gap between elements */
+  flex-wrap: wrap;  /* Allows wrapping when needed */
+  width: 100%;
+}
+
+/* ------------------- Input Container ------------------- */
+.input-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: nowrap; /* Prevent wrapping for this container */
+}
+
+.input-container input {
+  padding: 5px 5px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.input-container input:first-child {
+  flex: 5;  /* Topic input takes 50% */
+}
+
+.input-container input:nth-child(2) {
+  flex: 1;  /* Count input takes 10% */
+}
+
+.input-container button {
+  flex: 2;  /* Button takes 20% */
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background-color: #1e90ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.input-container button:hover {
+  background-color: #0c7cd5;
+  transform: translateY(-3px);
+}
+
+.input-container button:active {
+  transform: translateY(1px); /* Slight press effect */
+}
+
+/* ------------------- Custom File Input ------------------- */
+.custom-file-input {
+  position: relative;
+  display: inline-block;
+  width: 20%;  /* Takes 20% of the width */
+  height: 40px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.custom-file-input input[type="file"] {
+  font-size: 100px;
+  opacity: 0;  /* Hide default file input */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.custom-file-input label {
+  display: grid;
+  width: 100%;
+  padding: 8px 8px;
+  background-color: #1e90ff;
+  color: white;
+  border-radius: 6px;
+  border: 1px solid #1e90ff;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 10px;
+}
+
+.custom-file-input label:hover {
+  background-color: #0c7cd5;
+  transform: scale(1.05);
+}
+
+.custom-file-input input[type="file"]:focus + label {
+  outline: none;
+}
+
+.custom-file-input input[type="file"]:disabled + label {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* File Name Display */
+.custom-file-input .file-name {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #555;
+  text-align: center;
+  font-style: italic;
+  display: none; /* Initially hidden */
+}
+
+/* Show file name after file selection */
+.custom-file-input input[type="file"]:not(:empty) + label + .file-name {
+  display: block;
+  font-size: 13px;
+  color: #555;
+  padding-top: 5px;
+  font-style: normal;
+  text-align: center;
 }

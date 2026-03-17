@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 // import axios from "axios";
 import { useAuth } from "../../auth/AuthContext";
@@ -13,9 +13,11 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import api from "../../auth/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { token, user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   const [profile, setProfile] = useState({
     name: "",
@@ -27,7 +29,6 @@ const Profile = () => {
   });
 
   const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   // Password Modal
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -38,7 +39,6 @@ const Profile = () => {
     newPassword: "",
     otp: "",
   });
-
   // Education Modal
   const [showEduModal, setShowEduModal] = useState(false);
   const [editingEduIndex, setEditingEduIndex] = useState(null);
@@ -50,7 +50,10 @@ const Profile = () => {
     passingYear: "",
     score: "",
   });
-
+  const [saving, setSaving] = useState(false);
+  // OTP 6-box state
+  const [otpArray, setOtpArray] = useState(["", "", "", "", "", ""]);
+  const otpRefs = useRef([]);
   // Work Experience Modal
   const [showWorkModal, setShowWorkModal] = useState(false);
   const [editingWorkIndex, setEditingWorkIndex] = useState(null);
@@ -64,15 +67,75 @@ const Profile = () => {
     responsibilities: "",
     achievements: "",
   });
-
+  const [timeLeft, setTimeLeft] = useState(0);
+  const timerRef = useRef(null);
   // Hobby Input
   const [newHobby, setNewHobby] = useState("");
+  const fetchedRef = useRef(false);
 
+  const handleOtpChange = (e, index) => {
+    const value = e.target.value.replace(/\D/g, "");
+
+    if (!value) {
+      setOtpArray((prev) => {
+        const newArr = [...prev];
+        newArr[index] = "";
+        return newArr;
+      });
+      return;
+    }
+
+    const newOtp = [...otpArray];
+    newOtp[index] = value;
+    setOtpArray(newOtp);
+
+    // Move to next input
+    if (index < 5) {
+      otpRefs.current[index + 1].focus();
+    }
+
+    // Auto verify if filled
+    if (newOtp.every((digit) => digit !== "")) {
+      verifyOtp(newOtp.join(""));
+    }
+  };
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !otpArray[index] && index > 0) {
+      otpRefs.current[index - 1].focus();
+    }
+  };
+  const handlePasteOtp = (e) => {
+    e.preventDefault();
+    const paste = e.clipboardData.getData("text").trim();
+
+    if (!/^\d{6}$/.test(paste)) return;
+
+    const otpDigits = paste.split("");
+
+    setOtpArray(otpDigits);
+
+    // focus last box
+    otpRefs.current[5]?.focus();
+
+    // verify directly using pasted OTP
+    setTimeout(() => {
+      verifyOtp(otpDigits.join(""));
+    }, 100);
+  };
   // Fetch Profile
   useEffect(() => {
+    if (loading || fetchedRef.current) return;
+
+    if (!user) {
+      navigate("/");
+      return;
+    }
+    fetchedRef.current = true;
+
     const fetchProfile = async () => {
       try {
         const res = await api.get("/api/profile");
+        console.log("/api/profile", res);
         setProfile({
           name: res.data.name || "",
           phone: res.data.phone || "",
@@ -83,10 +146,35 @@ const Profile = () => {
         });
       } catch (err) {
         console.error("Profile fetch failed", err);
+        navigate("/");
       }
     };
-    if (token) fetchProfile();
-  }, [token]);
+    if (user) {
+      fetchProfile();
+    }
+  }, [user, loading, navigate]);
+
+  useEffect(() => {
+    if (step !== 2) return;
+
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timerRef.current);
+  }, [step]);
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
   const completionPercentage = () => {
     let score = 0;
     if (profile.name) score += 20;
@@ -233,25 +321,33 @@ const Profile = () => {
 
   // ==================== SAVE PROFILE ====================
   const handleSave = async () => {
-    setLoading(true);
+    setSaving(true);
     try {
+      console.log("Profile Data:", profile); // Log the profile data before sending the request
+
       await api.put(`/api/profile`, profile);
+      console.log("/api/profile/update", api);
       setEditMode(false);
       alert("Profile saved successfully! 🎉");
     } catch (err) {
       console.error("Profile update failed", err);
       alert("Failed to save. Please try again.");
     }
-    setLoading(false);
+    setSaving(false);
   };
 
   // ==================== PASSWORD HANDLERS ====================
   const sendOtp = async () => {
     setErrorMsg("");
     try {
-      await api.post(`/api/profile/change-password/send-otp`, {
+      const res = await api.post(`/api/profile/change-password/send-otp`, {
         oldPassword: passwordData.oldPassword,
       });
+      console.log("/api/profile/change-password", res);
+      const expiryTime = new Date(res.data.otpExpiry).getTime();
+      const secondsLeft = Math.floor((expiryTime - Date.now()) / 1000);
+      clearInterval(timerRef.current);
+      setTimeLeft(secondsLeft > 0 ? secondsLeft : 0);
       setStep(2);
     } catch (err) {
       console.error(err);
@@ -261,16 +357,27 @@ const Profile = () => {
     }
   };
 
-  const verifyOtp = async () => {
+  const verifyOtp = async (otpValue) => {
     setErrorMsg("");
+
+    const otp = otpValue || otpArray.join("");
+
+    if (!otp || otp.length !== 6) {
+      setErrorMsg("Enter complete 6-digit OTP.");
+      return;
+    }
+
     try {
       await api.post(`/api/profile/change-password/verify`, {
         newPassword: passwordData.newPassword,
-        otp: passwordData.otp,
+        otp: otp,
       });
+
       alert("Password changed successfully");
+
       setShowPasswordModal(false);
       setStep(1);
+      setOtpArray(["", "", "", "", "", ""]);
     } catch (err) {
       console.error(err);
       const msg =
@@ -296,7 +403,7 @@ const Profile = () => {
         </div>
         <div className="profile-field">
           <label>Email</label>
-          <input value={user.userEmail || ""} disabled />
+          <input value={user.email || ""} disabled />
         </div>
         <div className="profile-field">
           <label>Phone</label>
@@ -461,7 +568,7 @@ const Profile = () => {
             </button>
           ) : (
             <button className="save-btn" onClick={handleSave}>
-              {loading ? "Saving..." : "Save All Changes"}
+              {saving ? "Saving..." : "Save All Changes"}
             </button>
           )}
           {!editMode && (
@@ -622,8 +729,10 @@ const Profile = () => {
                 onClick={() => {
                   setShowPasswordModal(false);
                   setStep(1);
+                  setTimeLeft(0);
+                  clearInterval(timerRef.current);
                 }}
-              />
+              />{" "}
             </div>
             {step === 1 && (
               <>
@@ -645,14 +754,47 @@ const Profile = () => {
             )}
             {step === 2 && (
               <>
-                <input
-                  type="text"
-                  name="otp"
-                  placeholder="Enter OTP"
-                  onChange={handlePasswordChange}
-                />
-                <button onClick={verifyOtp}>Verify OTP</button>
+                <div className="otp-inputs" onPaste={(e) => handlePasteOtp(e)}>
+                  {otpArray.map((digit, i) => (
+                    <input
+                      key={i}
+                      type="text"
+                      maxLength="1"
+                      value={digit}
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      className="otp-input"
+                      onChange={(e) => handleOtpChange(e, i)}
+                      onKeyDown={(e) => handleKeyDown(e, i)}
+                      ref={(el) => (otpRefs.current[i] = el)}
+                    />
+                  ))}
+                </div>
+
+                <div className="otp-timer">
+                  OTP expires in: <span>{formatTime(timeLeft)}</span>
+                </div>
+
+                <button
+                  onClick={verifyOtp}
+                  disabled={timeLeft === 0 || otpArray.includes("")}
+                >
+                  Verify OTP
+                </button>
+
+                {timeLeft === 0 && (
+                  <p className="otp-expired">
+                    OTP expired. Please request a new one.
+                  </p>
+                )}
+
                 {errorMsg && <p className="error-text">{errorMsg}</p>}
+
+                {timeLeft === 0 && (
+                  <button className="resend-btn" onClick={sendOtp}>
+                    Resend OTP
+                  </button>
+                )}
               </>
             )}
           </div>

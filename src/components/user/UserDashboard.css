@@ -1,11 +1,12 @@
 .domain-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
+  margin: 5px;
 }
 
 .domain-list li button {
-  padding: 15px 25px;
+  padding: 10px 10px;
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid #1e90ff;

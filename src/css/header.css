@@ -1,0 +1,91 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+  background-color: #a8a6a6;
+  position: relative;
+}
+
+.app-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 5px;
+}
+
+.nav-right {
+  display: flex;
+  gap: 10px;
+}
+
+.menu-icon {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.blue {
+  background: #007bff;
+  color: white;
+}
+
+.btn.green {
+  background: #28a745;
+  color: white;
+}
+
+.btn.dark {
+  background: #111827;
+  color: white;
+}
+
+.btn.purple {
+  background: #6f42c1;
+  color: white;
+}
+
+.btn.light {
+  background: #e5e7eb;
+  color: black;
+}
+
+/* 📱 Mobile Responsive */
+@media (max-width: 768px) {
+
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-right {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    width: 200px;
+    padding: 15px;
+    gap: 12px;
+    display: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  .nav-right.active {
+    display: flex;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
