@@ -9,7 +9,7 @@ export const NotificationProvider = ({ children }) => {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    const socket = io("http://localhost:8080", {
+    const socket = io(process.env.REACT_APP_URL, {
       transports: ["websocket", "polling"], // ensures fallback works
       withCredentials: true,
     });

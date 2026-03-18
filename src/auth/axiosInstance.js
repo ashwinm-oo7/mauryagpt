@@ -23,7 +23,10 @@ FETCH CSRF TOKEN SAFELY
 */
 export const fetchCsrfToken = async () => {
   try {
-    const res = await api.get("/api/csrf-token");
+    const res = await api.get("/api/csrf-token", {
+      withCredentials: true, // 🔥 important
+    });
+
     csrfToken = res.data.csrfToken;
   } catch (err) {
     // never break UI
