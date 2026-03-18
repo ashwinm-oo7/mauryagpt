@@ -16,8 +16,11 @@ import ResultPage from "../components/user/ResultPage";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminRoute from "./AdminRoute";
 import AuthRoute from "./AuthRoute";
-import AdminDashboard from "./AdminDashboard";
+// import AdminDashboard from "./AdminDashboard";
 import AdminAttemptViewer from "../components/mcq/AdminAttemptViewer";
+import AdminDashboardChart from "../components/mcq/AdminDashboardChart";
+import AdminLayout from "../components/mcq/AdminLayout";
+import AdminExamAnalytics from "../components/mcq/AdminExamAnalytics";
 
 function AppRoutes() {
   return (
@@ -43,12 +46,29 @@ function AppRoutes() {
       </Route>
 
       {/* Admin routes */}
-      <Route element={<AdminRoute />}>
+      {/* <Route element={<AdminRoute />}>
         <Route path="/admin/mcq" element={<AdminMcq />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/exam/:examId" element={<AdminAttemptViewer />} />
-      </Route>
+        <Route
+          path="/admin/AdminDashboardChart"
+          element={<AdminDashboardChart />}
+        />
 
+        <Route path="/admin/analytics" element={<AdminExamAnalytics />} />
+        <Route path="/admin" element={<AdminLayout />} />
+      </Route> */}
+      <Route element={<AdminRoute />}>
+        <Route path="/admin/*" element={<AdminLayout />}>
+          {/* ✅ DEFAULT (this is your dashboard) */}
+          <Route index element={<AdminDashboardChart />} />
+
+          {/* OTHER ADMIN PAGES */}
+          <Route path="analytics" element={<AdminExamAnalytics />} />
+          <Route path="mcq" element={<AdminMcq />} />
+          <Route path="exam/:examId" element={<AdminAttemptViewer />} />
+        </Route>
+      </Route>
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

@@ -1,34 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import api from "../../auth/axiosInstance";
 import "./AdminAttemptViewer.css";
+import { useAdminAttempt } from "./useAdminAttempt";
 
 export default function AdminAttemptViewer() {
   const { examId } = useParams();
 
-  const [exam, setExam] = useState(null);
-  const [questions, setQuestions] = useState([]);
-
-  useEffect(() => {
-    loadAttempt();
-  }, []);
-
-  const loadAttempt = async () => {
-    try {
-      const res = await api.get(`/api/admin/exams/attempt/${examId}`);
-
-      setExam(res.data.exam);
-      setQuestions(res.data.questions);
-    } catch (err) {
-      console.error("Failed to load attempt", err);
-    }
-  };
-
-  if (!exam) return <div className="loading">Loading Attempt...</div>;
+  const { exam, questions, loading, error } = useAdminAttempt(examId);
+  if (loading) return <div className="loading">Loading Attempt...</div>;
+  if (error) return <div className="error">{error}</div>;
+  if (!exam) return null;
 
   const totalQuestions = questions.length;
-  const scorePercent = (exam.score / totalQuestions) * 100;
-
+  const scorePercent =
+    totalQuestions > 0 ? (exam.score / totalQuestions) * 100 : 0;
   return (
     <div className="attempt-container">
       <h2 className="attempt-title">Exam Attempt Review</h2>

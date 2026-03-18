@@ -1,12 +1,12 @@
 .attempt-container{
 max-width:900px;
 margin:auto;
-padding:30px;
+padding:10px;
 font-family:Arial, Helvetica, sans-serif;
 }
 
 .attempt-title{
-margin-bottom:20px;
+margin:10px;
 font-size:26px;
 font-weight:600;
 color:#333;
@@ -22,10 +22,10 @@ font-size:18px;
 
 .attempt-info{
 background:white;
-padding:20px;
+padding:10px;
 border-radius:12px;
 box-shadow:0 6px 20px rgba(0,0,0,0.06);
-margin-bottom:30px;
+margin:5px;
 }
 
 .info-grid{
@@ -91,7 +91,7 @@ border-left:6px solid #e74c3c;
 }
 
 .admin-question-title{
-margin-bottom:12px;
+margin:6px;
 font-size:16px;
 color:#333;
 }
@@ -109,15 +109,16 @@ margin:0;
     margin: 5px !important;
 }
 .admin-option{
-padding:8px 10px;
-margin-bottom:6px;
+padding:5px 5px;
+margin:6px;
 border-radius:6px;
-font-size:14px;
+font-size:13px;
 display:flex;
 gap:8px;
 align-items:center;
 background:#f7f7f7;
 color: #000000;
+font-weight: 300;
 }
 
 /* correct answer */

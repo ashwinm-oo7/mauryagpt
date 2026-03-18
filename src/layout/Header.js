@@ -42,9 +42,14 @@ function Header() {
             </Link>
 
             {user.role === "admin" && (
-              <Link className="btn dark" to="/admin/dashboard">
-                Admin
-              </Link>
+              <>
+                {/* <Link className="btn dark" to="/admin/dashboard">
+                  Admin
+                </Link> */}
+                <Link className="btn dark" to="/admin">
+                  AdminLayouts
+                </Link>
+              </>
             )}
           </>
         ) : (

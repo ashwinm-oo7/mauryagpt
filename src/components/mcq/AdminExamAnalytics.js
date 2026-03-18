@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import api from "../../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import "./AdminExamAnalytics.css";
 export default function AdminExamAnalytics() {
   const [domains, setDomains] = useState([]);
   const [levels, setLevels] = useState([]);
   const [attempts, setAttempts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [domain, setDomain] = useState("");
   const [level, setLevel] = useState("");
@@ -14,29 +16,50 @@ export default function AdminExamAnalytics() {
   }, []);
 
   const loadDomains = async () => {
-    const res = await api.get("/api/admin/exams/domains");
+    try {
+      setLoading(true);
 
-    setDomains(res.data);
+      const res = await api.get("/api/admin/exams/domains");
+
+      setDomains(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const loadLevels = async (d) => {
-    const res = await api.get(`/api/admin/exams/levels/${d}`);
+    try {
+      setLoading(true);
 
-    setLevels(res.data);
+      const res = await api.get(`/api/admin/exams/levels/${d}`);
+
+      setLevels(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const loadAttempts = async () => {
-    const res = await api.get(
-      `/api/admin/exams/attempts?domain=${domain}&level=${level}`,
-    );
-
-    setAttempts(res.data);
+    try {
+      setLoading(true);
+      const res = await api.get(
+        `/api/admin/exams/attempts?domain=${domain}&level=${level}`,
+      );
+      setAttempts(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
-
   return (
-    <div className="admin-card">
-      <h2 className="admin-title">Exam Attempts</h2>
-      <div className="admin-filter-bar">
+    <div className="AdminExamAnalytics-container">
+      <h2 className="AdminExamAnalytics-title">Exam Attempts</h2>
+      <div className="AdminExamAnalytics-filters">
         <select
           value={domain}
           onChange={(e) => {
@@ -61,50 +84,53 @@ export default function AdminExamAnalytics() {
             </option>
           ))}
         </select>
-        <button className="admin-primary-btn" onClick={loadAttempts}>
-          Load Attempts
-        </button>
+        <button
+          className="AdminExamAnalytics-btn"
+          onClick={loadAttempts}
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Load Attempts"}
+        </button>{" "}
       </div>
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Email</th>
-            <th>Score</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {attempts.map((a) => (
-            <tr key={a._id}>
-              <td>{a.user?.name}</td>
-
-              <td>{a.user?.email}</td>
-
-              <td>{a.score}</td>
-
-              <td>{new Date(a.createdAt).toLocaleString()}</td>
-
-              <td>
-                <button
-                  className="admin-action-btn"
-                  onClick={() => navigate(`/admin/exam/${a._id}`)}
-                >
-                  View
-                </button>{" "}
-              </td>
+      <div className="AdminExamAnalytics-tableWrapper">
+        <table className="AdminExamAnalytics-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Score</th>
+              <th>Date</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-        {attempts.length === 0 && (
-          <tr>
-            <td colSpan="5" style={{ textAlign: "center", padding: "25px" }}>
-              No exam attempts found
-            </td>
-          </tr>
+          </thead>
+          <tbody>
+            {attempts.map((a) => (
+              <tr key={a._id}>
+                <td>{a.user?.name}</td>
+
+                <td>{a.user?.email}</td>
+
+                <td>{a.score}</td>
+
+                <td>{new Date(a.createdAt).toLocaleString()}</td>
+
+                <td>
+                  <button
+                    className="admin-action-btn"
+                    onClick={() => navigate(`/admin/exam/${a._id}`)}
+                  >
+                    View
+                  </button>{" "}
+                </td>
+              </tr>
+            ))}
+          </tbody>{" "}
+        </table>
+
+        {attempts.length === 0 && !loading && (
+          <div className="AdminExamAnalytics-empty">No attempts found</div>
         )}
-      </table>
+      </div>
     </div>
   );
 }

@@ -8,6 +8,8 @@ import AppLayout from "./layout/AppLayout";
 import AppRoutes from "./routes/AppRoutes";
 
 import AntiDebug from "./security/AntiDebug";
+import { ThemeProvider } from "./context/ThemeContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 const AppWrapper = () => {
   const { loading } = useAuth();
@@ -39,9 +41,13 @@ function App() {
     <AuthProvider>
       <ChatProvider>
         <Router>
-          <AppLayout>
-            <AppWrapper />
-          </AppLayout>
+          <NotificationProvider>
+            <AppLayout>
+              <ThemeProvider>
+                <AppWrapper />
+              </ThemeProvider>
+            </AppLayout>
+          </NotificationProvider>
         </Router>
       </ChatProvider>
     </AuthProvider>
