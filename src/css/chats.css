@@ -69,7 +69,7 @@
   /* Toggle Button for Sidebar */
   .toggle-sidebar-button {
     position: absolute;
-    top: -65px;
+    top: 10px;
     left: 20px;
     background-color: #cacccd;
     color: white;
@@ -94,7 +94,7 @@
     width: 250px;
     background-color: #f4f4f4;
     position: fixed;
-    top: 0;
+    top: 50px;
     left: 0;
     height: 100%;
     padding: 20px;
@@ -176,6 +176,7 @@
     font-family: 'Segoe UI', sans-serif;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
     width: 700px;
+    margin-top: 15px;
 
   }
     /* Messages area */

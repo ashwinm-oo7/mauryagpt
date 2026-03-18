@@ -7,7 +7,7 @@ import { ChatProvider } from "./context/ChatContext";
 import AppLayout from "./layout/AppLayout";
 import AppRoutes from "./routes/AppRoutes";
 
-import AntiDebug from "./security/AntiDebug";
+// import AntiDebug from "./security/AntiDebug";
 import { ThemeProvider } from "./context/ThemeContext";
 import { NotificationProvider } from "./context/NotificationContext";
 
@@ -33,9 +33,9 @@ const AppWrapper = () => {
   return <AppRoutes />;
 };
 function App() {
-  if (process.env.NODE_ENV === "production") {
-    AntiDebug();
-  }
+  // if (process.env.NODE_ENV === "production") {
+  //   AntiDebug();
+  // }
 
   return (
     <AuthProvider>
