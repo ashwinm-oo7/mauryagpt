@@ -2,12 +2,12 @@
 .sidebar {
   position: fixed;
   left: -260px; /* slide in effect */
-  top: 0;
+  top: 15px;
   height: 100%;
   background: #1f1f1f;
   color: #fff;
   transition: left 0.3s ease;
-  z-index: 1000;
+  z-index: 990;
   overflow-y: auto;
   display: flex;
   flex-direction: row;

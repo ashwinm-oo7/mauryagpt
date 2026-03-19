@@ -22,19 +22,38 @@
   border: 1px solid #ddd;
 }
 
-.AdminExamAnalytics-btn {
-     padding: 10px 18px;
+/* Unified Base Styles */
+.AdminExamAnalytics-btn, 
+.admin-action-btn , /* Target the button specifically */
+.AdminExamAnalytics-filter-bar {
+    padding: 10px 18px;
     border: none;
     border-radius: 8px;
     background: #4a90e2;
     color: white;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.25s;
+    /* Combined transition for all modified properties */
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
-.AdminExamAnalytics-filter-bar button:hover{
-  background:#3c7ed1;
-  transform:translateY(-1px);
+
+/* Interaction States */
+.AdminExamAnalytics-btn:hover,
+.AdminExamAnalytics-btn:focus,
+.admin-action-btn:hover,
+.admin-action-btn:focus {
+    background: #164a8a;
+    transform: translateY(-2px);
+    outline: none;
+    /* Optional: Add a subtle shadow to enhance the "lift" effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Active/Pressed State */
+.AdminExamAnalytics-btn:active,
+.admin-action-btn button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .AdminExamAnalytics-filters select:hover{
   border-color:#4a90e2;

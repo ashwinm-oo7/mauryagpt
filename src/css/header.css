@@ -2,12 +2,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px;
-  border-bottom: 1px solid #ddd;
-  background-color: #a8a6a6;
-  position: relative;
+  /* padding: 10px 20px;  */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #a8a6a6; /* Your original color */
+  
+  /* --- STICKY MAGIC --- */
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Keeps header above all content */
+  
+  /* Optional: Smooth shadow for depth */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
 .app-title {
   font-size: 22px;
   font-weight: 600;
@@ -17,6 +25,7 @@
 .nav-right {
   display: flex;
   gap: 10px;
+  margin-right: 10px;
 }
 
 .menu-icon {

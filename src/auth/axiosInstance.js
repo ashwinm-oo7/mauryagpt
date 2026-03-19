@@ -1,13 +1,12 @@
 import axios from "axios";
+import { authStore } from "./authStore";
 
 const api = axios.create({
-  // baseURL: process.env.REACT_APP_URL,
-  baseURL: "",
-
+  baseURL: process.env.REACT_APP_URL,
   withCredentials: true,
 });
 
-let csrfToken = null;
+// let csrfToken = null;
 let isRefreshing = false;
 let refreshSubscribers = [];
 function subscribeTokenRefresh(callback) {
@@ -23,18 +22,15 @@ function onRefreshed() {
 FETCH CSRF TOKEN SAFELY
 ========================
 */
-export const fetchCsrfToken = async () => {
-  try {
-    const res = await api.get("/api/csrf-token", {
-      withCredentials: true, // 🔥 important
-    });
-
-    csrfToken = res.data.csrfToken;
-  } catch (err) {
-    // never break UI
-    console.warn("CSRF token fetch failed");
-  }
-};
+// export const fetchCsrfToken = async () => {
+//   try {
+//     const res = await api.get("/api/csrf-token");
+//     csrfToken = res.data.csrfToken;
+//   } catch (err) {
+//     // never break UI
+//     console.warn("CSRF token fetch failed");
+//   }
+// };
 
 /*
 ========================
@@ -44,9 +40,14 @@ Attach CSRF token
 */
 api.interceptors.request.use(
   (config) => {
-    if (csrfToken) {
-      config.headers["X-CSRF-Token"] = csrfToken;
+    // if (csrfToken) {
+    //   config.headers["X-CSRF-Token"] = csrfToken;
+    // }
+    const token = authStore.getAccessToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error),
@@ -86,7 +87,10 @@ api.interceptors.response.use(
         isRefreshing = true;
 
         try {
-          await api.post("/api/auth/refresh");
+          const res = await api.post("/api/auth/refresh", {
+            token: localStorage.getItem("refreshToken"),
+          });
+          authStore.setAccessToken(res.data.accessToken);
           isRefreshing = false;
           onRefreshed();
 

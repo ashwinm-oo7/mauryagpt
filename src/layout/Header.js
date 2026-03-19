@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import "../css/header.css";
+import api from "../auth/axiosInstance";
 
 function Header() {
   const { user, loading, logout } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const handleLogout = () => {
-    logout();
+  // const currentToken = localStorage.getItem("refreshToken");
+  const [sessions, setSessions] = useState([]);
+  // const isCurrent = (token) => token === currentToken;
+  const handleLogout = async (token) => {
+    await logout(token);
+    fetchSessions(); // refresh UI
     navigate("/login");
   };
+  const fetchSessions = async () => {
+    try {
+      const res = await api.get("/api/auth/sessions");
+      console.log("/api/auth/sessions", res);
+      setSessions(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
+  useEffect(() => {
+    if (user) fetchSessions();
+  }, [user]);
   if (loading) return null;
 
   return (
@@ -33,10 +49,17 @@ function Header() {
 
         {user ? (
           <>
-            <button className="btn light" onClick={handleLogout}>
-              Logout
-            </button>
-
+            {Array.isArray(sessions) &&
+              sessions.map((s, i) => (
+                <div key={i}>
+                  <button
+                    className="btn light"
+                    onClick={() => handleLogout(s.token)}
+                  >
+                    Logout
+                  </button>
+                </div>
+              ))}
             <Link className="btn dark" to="/UserDashboard">
               Dashboard
             </Link>

@@ -2,16 +2,11 @@
   display: flex;
   height: -webkit-fill-available;
   min-height:100vh;
+  overflow-x: hidden;
 }
 
 /* SIDEBAR */
-.AdminLayout-sidebar {
-  width: 220px;
-  background: #111827;
-  color: white;
-  padding: 20px;
-  transition: 0.3s;
-}
+
 
 .AdminLayout-container.collapsed .AdminLayout-sidebar {
   width: 70px;
@@ -22,6 +17,56 @@
     font-size: x-large;
     font-weight: 900;
     color: white;
+}
+/* SIDEBAR BASE */
+.AdminLayout-sidebar {
+  width: 220px;
+  background: #111827;
+  color: white;
+  padding: 20px 10px; /* Adjusted padding for scrollbar space */
+  transition: width 0.3s ease;
+  
+  /* Critical for independent scrolling */
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  
+  /* Hide scrollbar by default */
+  overflow-y: hidden; 
+}
+
+/* Show scrollbar only on hover */
+.AdminLayout-sidebar:hover {
+  overflow-y: auto;
+}
+
+/* Custom Scrollbar Styling (Webkit) */
+.AdminLayout-sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.AdminLayout-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.AdminLayout-sidebar::-webkit-scrollbar-thumb {
+  background: #4b5563; /* Subtle grey */
+  border-radius: 10px;
+}
+
+.AdminLayout-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #6366f1; /* Accent color on hover */
+}
+
+/* Ensure the Nav fills the space */
+.AdminLayout-sidebar nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .AdminLayout-sidebar a {
@@ -55,17 +100,23 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0; /* Prevents flex items from bursting container */
+  height: 100vh;
+  overflow-y: auto; /* The main content gets its own scrollbar */
 }
 
 /* TOPBAR */
 .AdminLayout-topbar {
-  height: 60px;
+  height: 30px;
   background: white;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 5px 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  justify-content: flex-end;
+  border-bottom: 1px solid #ccc;
+  margin: 5px;
+  margin-top: 0px;
 }
 
 .AdminLayout-toggle {
@@ -88,7 +139,7 @@
 /* CONTENT */
 .AdminLayout-content {
   flex: 1;
-  padding: 20px;
+  padding: 0px;
   background: #f3f4f6;
 }
 
@@ -131,12 +182,7 @@ body, .AdminLayout-container {
 .AdminLayout-sidebar a.active {
   background: var(--accent);
 }
-.AdminLayout-topbar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
+
 
 .AdminLayout-bell {
   position: relative;

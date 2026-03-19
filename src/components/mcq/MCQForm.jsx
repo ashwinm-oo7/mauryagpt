@@ -39,7 +39,7 @@ const MCQForm = ({ selectedDomain, onSubmit, initialData }) => {
 
   return (
     <div className="create-card">
-      <h2>
+      <h2 create-card-h2>
         {initialData ? "Edit MCQ" : `Add New Question to "${selectedDomain}"`}
       </h2>
       <form onSubmit={handleSubmit}>
