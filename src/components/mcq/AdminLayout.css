@@ -1,6 +1,7 @@
 .AdminLayout-container {
   display: flex;
-  height: 100vh;
+  height: -webkit-fill-available;
+  min-height:100vh;
 }
 
 /* SIDEBAR */
