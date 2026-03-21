@@ -21,7 +21,12 @@ import AdminAttemptViewer from "../components/mcq/AdminAttemptViewer";
 import AdminDashboardChart from "../components/mcq/AdminDashboardChart";
 import AdminLayout from "../components/mcq/AdminLayout";
 import AdminExamAnalytics from "../components/mcq/AdminExamAnalytics";
-
+import UserLayout from "../components/user/UserLayout";
+import UserCertificates from "../components/user/UserCertificates";
+import UserBadges from "../components/user/UserBadges";
+import UserLeaderboards from "../components/user/UserLeaderboard";
+import UserDashboards from "../components/user/UserDashboards";
+import PublicProfile from "../components/Profile/PublicProfile";
 function AppRoutes() {
   return (
     <Routes>
@@ -43,6 +48,7 @@ function AppRoutes() {
         <Route path="/user/levels/:domain" element={<LevelSelector />} />
         <Route path="/user/test/:domain/:level" element={<TestPage />} />
         <Route path="/result" element={<ResultPage />} />
+        <Route path="/:username" element={<PublicProfile />} />
       </Route>
 
       {/* Admin routes */}
@@ -68,6 +74,18 @@ function AppRoutes() {
           <Route path="mcq" element={<AdminMcq />} />
           <Route path="exam/:examId" element={<AdminAttemptViewer />} />
         </Route>
+      </Route>
+      <Route element={<ProtectedRoute />}>
+        <Route path="/user/*" element={<UserLayout />}>
+          <Route index element={<UserDashboards />} />
+          <Route path="certificates" element={<UserCertificates />} />
+          <Route path="badges" element={<UserBadges />} />
+          <Route path="leaderboard" element={<UserLeaderboards />} />
+        </Route>
+
+        <Route path="/user/levels/:domain" element={<LevelSelector />} />
+        <Route path="/user/test/:domain/:level" element={<TestPage />} />
+        <Route path="/result" element={<ResultPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>

@@ -1,13 +1,18 @@
 import React from "react";
 import "./css/QuestionCard.css";
+// import NavigationButtons from "./NavigationButtons";
 const QuestionCard = ({
   questionData,
   selectedAnswer,
   onAnswerSelect,
   toggleFlag,
   flagged,
-
   mode,
+  currentStep,
+  totalSteps,
+  onPrev,
+  onNext,
+  onSubmit,
 }) => {
   const { question, options, correctAnswer } = questionData;
 
@@ -61,6 +66,13 @@ const QuestionCard = ({
           🚩 {flagged[questionData._id] ? "Flagged" : "Mark for Review"}
         </button>
       )}
+      {/* <NavigationButtons
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        onPrev={onPrev}
+        onNext={onNext}
+        onSubmit={onSubmit}
+      /> */}
 
       {mode === "result" && (
         <p>

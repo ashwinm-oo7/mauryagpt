@@ -63,6 +63,9 @@ function Header() {
             <Link className="btn dark" to="/UserDashboard">
               Dashboard
             </Link>
+            <Link className="btn dark" to="/user">
+              User Dashboard
+            </Link>
 
             {user.role === "admin" && (
               <>

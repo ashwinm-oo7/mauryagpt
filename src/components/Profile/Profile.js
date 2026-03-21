@@ -134,7 +134,7 @@ const Profile = () => {
 
     const fetchProfile = async () => {
       try {
-        const res = await api.get("/api/profile");
+        const res = await api.get("/api/profile/me");
         console.log("/api/profile", res);
         setProfile({
           name: res.data.name || "",
@@ -390,7 +390,9 @@ const Profile = () => {
     <div className="profile-page">
       <div className="profile-card">
         <h2>My Profile</h2>
-
+        <button onClick={() => window.open(`/${profile.name}`, "_blank")}>
+          View Public Profile
+        </button>
         {/* PERSONAL INFO */}
         <div className="profile-field">
           <label>Name</label>

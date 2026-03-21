@@ -2,7 +2,7 @@
 .sidebar {
   position: fixed;
   left: -260px; /* slide in effect */
-  top: 15px;
+  top: 47px;
   height: 100%;
   background: #1f1f1f;
   color: #fff;
@@ -19,7 +19,7 @@
 
 .sidebar-content {
   flex: 1;
-  padding: 1rem;
+  padding: 10px;
 }
 
 .sidebar ul {

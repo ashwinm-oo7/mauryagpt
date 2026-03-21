@@ -261,6 +261,11 @@ const TestPage = () => {
             toggleFlag={toggleFlag}
             flagged={flagged}
             mode="test"
+            currentStep={currentStep}
+            totalSteps={questions.length}
+            onPrev={handlePrev}
+            onNext={handleNext}
+            onSubmit={handleSubmit}
           />
         </div>
 
