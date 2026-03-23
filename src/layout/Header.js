@@ -12,9 +12,13 @@ function Header() {
   const [sessions, setSessions] = useState([]);
   // const isCurrent = (token) => token === currentToken;
   const handleLogout = async () => {
-    if (sessions.length > 0) {
-      await logout(sessions[0].token);
+    const refreshToken = localStorage.getItem("refreshToken"); // ✅ current device
+
+    if (sessions || refreshToken) {
+      await logout(refreshToken);
     }
+
+    localStorage.removeItem("refreshToken"); // cleanup
     navigate("/login");
   };
   const fetchSessions = async () => {

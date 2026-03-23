@@ -24,7 +24,8 @@ const TestPage = () => {
   const tabSwitchCount = useRef(0);
   const devToolCount = useRef(0);
   const [devToolsDetected, setDevToolsDetected] = useState(false);
-
+  const answersRef = useRef({});
+  const timeRef = useRef(0);
   useEffect(() => {
     const fullscreenExitCount = { current: 0 }; // ref-like object
 
@@ -131,8 +132,11 @@ const TestPage = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const res = await api.get(`/api/mcq?domain=${domain}&level=${level}`);
-        const data = res.data.sort((a, b) => a.step - b.step);
+        // const res = await api.get(`/api/mcq?domain=${domain}&level=${level}`);
+        // const data = res.data.sort((a, b) => a.step - b.step);
+        const res = await api.get(`/api/exam/${examId}`);
+        const data = res.data.questions;
+
         setQuestions(data);
         const saved = localStorage.getItem("examState");
         const totalTime =
@@ -154,6 +158,7 @@ const TestPage = () => {
       }
     };
     fetchQuestions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [domain, level]);
 
   useEffect(() => {
@@ -171,12 +176,27 @@ const TestPage = () => {
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft, submitted, questions]);
-  const handleAnswerSelect = (qid, ans) =>
-    setAnswers({ ...answers, [qid]: ans });
-  const handleNext = () => setCurrentStep((s) => s + 1);
-  const handlePrev = () => setCurrentStep((s) => s - 1);
-  const handleJump = (step) => setCurrentStep(step);
+  const handleAnswerSelect = (qid, ans) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [qid]: ans,
+    }));
 
+    // 🔥 optional instant save
+    // saveProgress();
+  };
+  const handleNext = async () => {
+    await saveProgress(); // ✅ save before moving
+    setCurrentStep((s) => s + 1);
+  };
+  const handlePrev = async () => {
+    await saveProgress();
+    setCurrentStep((s) => s - 1);
+  };
+  const handleJump = async (step) => {
+    await saveProgress();
+    setCurrentStep(step);
+  };
   const handleSubmit = async () => {
     if (submitted) return;
     setSubmitted(true);
@@ -186,7 +206,7 @@ const TestPage = () => {
         (q) => answers[q._id] === q.correctAnswer,
       ).length;
       await api.post(`/api/exam/submit/${examId}`, { answers, score });
-      localStorage.removeItem("examState");
+      localStorage.removeItem("examId");
       localStorage.removeItem("examState");
 
       navigate("/result", { state: { questions, answers } });
@@ -218,20 +238,51 @@ const TestPage = () => {
     };
   }, []);
   useEffect(() => {
+    answersRef.current = answers;
+    timeRef.current = timeLeft;
+  }, [answers, timeLeft]);
+  const saveProgress = async () => {
+    try {
+      await api.post(`/api/exam/autosave/${examId}`, {
+        answers: answersRef.current,
+        timeLeft: timeRef.current,
+      });
+      console.log("Saved!");
+    } catch (err) {
+      console.log("Autosave failed");
+    }
+  };
+  useEffect(() => {
+    const handleUnload = () => {
+      navigator.sendBeacon(
+        `/api/exam/autosave/${examId}`,
+        JSON.stringify({
+          answers: answersRef.current,
+          timeLeft: timeRef.current,
+        }),
+      );
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+
+    return () => window.removeEventListener("beforeunload", handleUnload);
+  }, [examId]);
+  useEffect(() => {
     if (!examId) return;
 
     console.log("Starting autosave with examId:", examId);
     const autoSave = setInterval(async () => {
       try {
         const result = await api.post(`/api/exam/autosave/${examId}`, {
-          answers,
-          timeLeft,
+          answers: answersRef.current,
+          timeLeft: timeRef.current,
         });
-        console.log("auto", result);
+        console.log("Sending answers:", answersRef.current);
+        console.log("auto", result, answers);
       } catch (err) {
         console.log("Auto save failed");
       }
-    }, 5000);
+    }, 500000);
 
     return () => clearInterval(autoSave);
     // eslint-disable-next-line react-hooks/exhaustive-deps

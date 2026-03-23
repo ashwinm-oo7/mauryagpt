@@ -33,10 +33,10 @@ export default function UserCertificates() {
   useEffect(() => {
     loadCerts();
   }, []);
-  const downloadCertificate = async (domain, level) => {
+  const downloadCertificate = async (domain, level, certificateId) => {
     try {
       const res = await api.get(
-        `/api/exam/certificate/download/${domain}/${level}`,
+        `/api/exam/certificate/download/${domain}/${level}/${certificateId}`,
         { responseType: "blob" },
       );
 
@@ -53,10 +53,10 @@ export default function UserCertificates() {
       alert("Failed to download certificate");
     }
   };
-  const previewCertificate = async (domain, level) => {
+  const previewCertificate = async (domain, level, certificateId) => {
     try {
       const res = await api.get(
-        `/api/exam/certificate/download/${domain}/${level}?preview=true`,
+        `/api/exam/certificate/download/${domain}/${level}/${certificateId}?preview=true`,
         { responseType: "blob" },
       );
 
@@ -93,10 +93,18 @@ export default function UserCertificates() {
             <p>
               Issued: {new Date(c.certificateIssuedAt).toLocaleDateString()}
             </p>
-            <button onClick={() => downloadCertificate(c.domain, c.level)}>
+            <button
+              onClick={() =>
+                downloadCertificate(c.domain, c.level, c.certificateId)
+              }
+            >
               Download Certificate
             </button>{" "}
-            <button onClick={() => previewCertificate(c.domain, c.level)}>
+            <button
+              onClick={() =>
+                previewCertificate(c.domain, c.level, c.certificateId)
+              }
+            >
               Preview Certificate
             </button>
           </div>

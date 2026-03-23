@@ -44,7 +44,7 @@ function AppRoutes() {
       {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/profile" element={<Profile />} />
-        <Route path="/user/levels/:domain" element={<LevelSelector />} />
+        {/* <Route path="/user/levels/:domain" element={<LevelSelector />} /> */}
         <Route path="/user/test/:domain/:level" element={<TestPage />} />
         <Route path="/result" element={<ResultPage />} />
         <Route path="/:username" element={<PublicProfile />} />
@@ -78,12 +78,12 @@ function AppRoutes() {
         <Route path="/user/*" element={<UserLayout />}>
           <Route index element={<UserDashboards />} />
           <Route path="DomainList" element={<DomainList />} />
+          <Route path="levels/:domain" element={<LevelSelector />} />
           <Route path="certificates" element={<UserCertificates />} />
           <Route path="badges" element={<UserBadges />} />
           <Route path="leaderboard" element={<UserLeaderboards />} />
         </Route>
 
-        <Route path="/user/levels/:domain" element={<LevelSelector />} />
         <Route path="/user/test/:domain/:level" element={<TestPage />} />
         <Route path="/result" element={<ResultPage />} />
       </Route>

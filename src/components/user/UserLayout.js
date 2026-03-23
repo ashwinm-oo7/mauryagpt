@@ -25,21 +25,25 @@ export default function UserLayout() {
 
         <nav>
           <NavLink to="/user" end>
-            <FaHome /> <span>Dashboard</span>
+            <FaHome />{" "}
+            <span className="UserLayout-sidebar-span">Dashboard</span>
           </NavLink>
           <NavLink to="/user/DomainList" end>
-            <FaTelegramPlane /> <span>DomainList</span>
+            <FaTelegramPlane />{" "}
+            <span className="UserLayout-sidebar-span">DomainList</span>
           </NavLink>
           <NavLink to="/user/certificates">
-            <FaCertificate /> <span>Certificates</span>
+            <FaCertificate />{" "}
+            <span className="UserLayout-sidebar-span">Certificates</span>
           </NavLink>
 
           <NavLink to="/user/badges">
-            <FaAward /> <span>Badges</span>
+            <FaAward /> <span className="UserLayout-sidebar-span">Badges</span>
           </NavLink>
 
           <NavLink to="/user/leaderboard">
-            <FaChartBar /> <span>Leaderboard</span>
+            <span className="UserLayout-sidebar-span">Leaderboard</span>
+            <FaChartBar />
           </NavLink>
         </nav>
       </aside>

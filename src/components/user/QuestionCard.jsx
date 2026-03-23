@@ -15,6 +15,9 @@ const QuestionCard = ({
   onSubmit,
 }) => {
   const { question, options, correctAnswer } = questionData;
+  if (!questionData) {
+    return <p>Loading question...</p>;
+  }
 
   return (
     <div className="question-card" style={{ userSelect: "none" }}>
@@ -67,12 +70,12 @@ const QuestionCard = ({
         </button>
       )}
       {/* <NavigationButtons
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-        onPrev={onPrev}
-        onNext={onNext}
-        onSubmit={onSubmit}
-      /> */}
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          onPrev={onPrev}
+          onNext={onNext}
+          onSubmit={onSubmit}
+        /> */}
 
       {mode === "result" && (
         <p>

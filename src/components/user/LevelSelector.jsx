@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../auth/axiosInstance";
 import "./css/LevelSelector.css";
+import confetti from "canvas-confetti";
+
 const LevelSelector = () => {
   const { domain } = useParams();
   const [levels, setLevels] = useState([]);
@@ -37,6 +39,12 @@ const LevelSelector = () => {
 
   const startExam = async (level) => {
     try {
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+
       const res = await api.post("/api/exam/start", { domain, level });
       console.log("Exam start response:", res.data);
 
@@ -61,12 +69,13 @@ const LevelSelector = () => {
           <li key={lvl.level}>
             <button
               disabled={!lvl.unlocked}
-              className={
-                lvl.unlocked ? "level-list-active" : "level-list-locked"
-              }
+              className={`
+      ${lvl.unlocked ? "level-list-active" : "level-list-locked"}
+      ${lvl.completed ? "level-completed" : ""}
+    `}
               onClick={() => startExam(lvl.level)}
             >
-              Level {lvl.level} {!lvl.unlocked && "🔒"}
+              Level {lvl.level} <span>{lvl.unlocked ? "🔓" : "🔒"}</span>
             </button>
           </li>
         ))}

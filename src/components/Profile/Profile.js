@@ -11,9 +11,11 @@ import {
   FaHeart,
   FaPlus,
   FaTrash,
+  FaUser,
 } from "react-icons/fa";
 import api from "../../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import LogoutAll from "./LogoutAll";
 
 const Profile = () => {
   const { user, loading } = useAuth();
@@ -390,6 +392,10 @@ const Profile = () => {
     <div className="profile-page">
       <div className="profile-card">
         <h2>My Profile</h2>
+        <p className="">
+          <FaUser />
+          <LogoutAll />
+        </p>
         <button onClick={() => window.open(`/${profile.name}`, "_blank")}>
           View Public Profile
         </button>

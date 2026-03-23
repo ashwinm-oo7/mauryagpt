@@ -11,8 +11,10 @@
   width: 240px;
   background: #1e293b;
   color: white;
-  padding: 20px;
-  transition: width 0.3s;
+  padding: 20px 10px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+
 }
 
 .UserLayout-container.collapsed .UserLayout-sidebar {
@@ -22,7 +24,8 @@
 .UserLayout-logo {
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 30px;  text-align: center;
+
 }
 
 .UserLayout-sidebar nav a {
@@ -34,7 +37,8 @@
   text-decoration: none;
   color: #cbd5e1;
   border-radius: 6px;
-  transition: 0.2s;
+  transition: 0.2s;  white-space: nowrap;
+
 }
 
 .UserLayout-sidebar nav a:hover {
@@ -45,7 +49,10 @@
   background: #3b82f6;
   color: white;
 }
-
+/* Hide text when sidebar is collapsed */
+.UserLayout-container.collapsed .UserLayout-sidebar-span {
+  display: none;
+}
 /* MAIN */
 
 .UserLayout-main {
@@ -179,4 +186,7 @@
 .leaderboard-rank {
   font-weight: bold;
   color: #3b82f6;
+}
+.UserLayout-sidebar-span{
+ width: min-content;
 }
