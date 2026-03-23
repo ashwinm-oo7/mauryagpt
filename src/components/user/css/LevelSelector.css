@@ -20,3 +20,13 @@
   background: #27ae60;
   color: #fff;
 }
+.level-list-locked {
+  background: #ccc !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+.level-list-active {
+  /* background: #f5b30b !important; */
+  color: black !important;
+}

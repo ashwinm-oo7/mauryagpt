@@ -7,6 +7,7 @@ import {
   FaChartBar,
   FaSignOutAlt,
   FaBars,
+  FaTelegramPlane,
 } from "react-icons/fa";
 
 import "./css/UserLayout.css";
@@ -26,7 +27,9 @@ export default function UserLayout() {
           <NavLink to="/user" end>
             <FaHome /> <span>Dashboard</span>
           </NavLink>
-
+          <NavLink to="/user/DomainList" end>
+            <FaTelegramPlane /> <span>DomainList</span>
+          </NavLink>
           <NavLink to="/user/certificates">
             <FaCertificate /> <span>Certificates</span>
           </NavLink>

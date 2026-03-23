@@ -60,9 +60,9 @@ export default function PublicProfile() {
         <div className="public-profile-section">
           <h3>Completed Domains</h3>
 
-          <div className="domain-list">
+          <div className="PublicProfile-domain-list">
             {profile.domainsCompleted.map((d, i) => (
-              <span key={i} className="domain-chip">
+              <span key={i} className="PublicProfile-domain-chip">
                 {d}
               </span>
             ))}

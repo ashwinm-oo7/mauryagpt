@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../auth/axiosInstance";
-import "./UserDashboard.css";
-const UserDashboard = () => {
+import "./DomainList.css";
+const DomainList = () => {
   const [domains, setDomains] = useState([]);
   const navigate = useNavigate();
 
@@ -35,4 +35,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default DomainList;

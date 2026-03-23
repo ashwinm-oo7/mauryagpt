@@ -12,7 +12,7 @@ import QuestionPalette from "./QuestionPalette";
 const TestPage = () => {
   const { domain, level } = useParams();
   const location = useLocation();
-  const examId = location.state?.examId;
+  const examId = location.state?.examId || localStorage.getItem("examId");
   const [questions, setQuestions] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -187,6 +187,8 @@ const TestPage = () => {
       ).length;
       await api.post(`/api/exam/submit/${examId}`, { answers, score });
       localStorage.removeItem("examState");
+      localStorage.removeItem("examState");
+
       navigate("/result", { state: { questions, answers } });
     } catch {
       toast.error("Failed to submit exam");

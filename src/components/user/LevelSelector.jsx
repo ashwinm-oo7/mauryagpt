@@ -8,14 +8,26 @@ const LevelSelector = () => {
   const [levels, setLevels] = useState([]);
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const fetchLevels = async () => {
+  //     try {
+  //       const res = await api.get(`/api/mcq?domain=${domain}`);
+  //       const uniqueLevels = Array.from(
+  //         new Set(res.data.map((q) => q.level)),
+  //       ).sort((a, b) => a - b);
+  //       setLevels(uniqueLevels);
+  //     } catch {
+  //       toast.error("Failed to load levels");
+  //     }
+  //   };
+  //   fetchLevels();
+  // }, [domain]);
+
   useEffect(() => {
     const fetchLevels = async () => {
       try {
-        const res = await api.get(`/api/mcq?domain=${domain}`);
-        const uniqueLevels = Array.from(
-          new Set(res.data.map((q) => q.level)),
-        ).sort((a, b) => a - b);
-        setLevels(uniqueLevels);
+        const res = await api.get(`/api/mcq/levels/${domain}`);
+        setLevels(res.data);
       } catch {
         toast.error("Failed to load levels");
       }
@@ -32,7 +44,7 @@ const LevelSelector = () => {
         toast.error("Failed to get exam ID from server");
         return;
       }
-
+      localStorage.setItem("examId", res.data.examId);
       navigate(`/user/test/${domain}/${level}`, {
         state: { examId: res.data.examId },
       });
@@ -46,8 +58,16 @@ const LevelSelector = () => {
       <h2>{domain} - Select Level</h2>
       <ul className="level-list">
         {levels.map((lvl) => (
-          <li key={lvl}>
-            <button onClick={() => startExam(lvl)}>Level {lvl}</button>
+          <li key={lvl.level}>
+            <button
+              disabled={!lvl.unlocked}
+              className={
+                lvl.unlocked ? "level-list-active" : "level-list-locked"
+              }
+              onClick={() => startExam(lvl.level)}
+            >
+              Level {lvl.level} {!lvl.unlocked && "🔒"}
+            </button>
           </li>
         ))}
       </ul>

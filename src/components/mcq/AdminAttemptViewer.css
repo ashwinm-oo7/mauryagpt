@@ -49,9 +49,9 @@ margin-bottom:8px;
 }
 
 .progress-bar{
-height:12px;
-background:#eee;
-border-radius:10px;
+/* height:12px; */
+/* background:#eee; */
+/* border-radius:10px; */
 overflow:hidden;
 }
 

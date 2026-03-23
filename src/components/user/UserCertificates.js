@@ -78,7 +78,7 @@ export default function UserCertificates() {
     return <p style={{ color: "red" }}>{error}</p>;
   }
   return (
-    <div className="certificate-card">
+    <div className="certificate-card-container">
       {" "}
       <h2>My Certificates</h2>
       {certs.length === 0 ? (

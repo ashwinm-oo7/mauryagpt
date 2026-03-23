@@ -8,7 +8,7 @@ import Profile from "../components/Profile/Profile";
 import ERPKnowledgeSearch from "../components/ERPKnowledgeSearch/ERPKnowledgeSearch";
 import AIChat from "../components/AIChat/AIChat";
 import AdminMcq from "../components/mcq/AdminMcq";
-import UserDashboard from "../components/user/UserDashboard";
+import DomainList from "../components/user/DomainList";
 import LevelSelector from "../components/user/LevelSelector";
 import TestPage from "../components/user/TestPage";
 import ResultPage from "../components/user/ResultPage";
@@ -44,7 +44,6 @@ function AppRoutes() {
       {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/profile" element={<Profile />} />
-        <Route path="/UserDashboard" element={<UserDashboard />} />
         <Route path="/user/levels/:domain" element={<LevelSelector />} />
         <Route path="/user/test/:domain/:level" element={<TestPage />} />
         <Route path="/result" element={<ResultPage />} />
@@ -78,6 +77,7 @@ function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route path="/user/*" element={<UserLayout />}>
           <Route index element={<UserDashboards />} />
+          <Route path="DomainList" element={<DomainList />} />
           <Route path="certificates" element={<UserCertificates />} />
           <Route path="badges" element={<UserBadges />} />
           <Route path="leaderboard" element={<UserLeaderboards />} />

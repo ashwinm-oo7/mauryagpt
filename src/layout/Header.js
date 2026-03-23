@@ -11,9 +11,10 @@ function Header() {
   // const currentToken = localStorage.getItem("refreshToken");
   const [sessions, setSessions] = useState([]);
   // const isCurrent = (token) => token === currentToken;
-  const handleLogout = async (token) => {
-    await logout(token);
-    fetchSessions(); // refresh UI
+  const handleLogout = async () => {
+    if (sessions.length > 0) {
+      await logout(sessions[0].token);
+    }
     navigate("/login");
   };
   const fetchSessions = async () => {
@@ -49,17 +50,11 @@ function Header() {
 
         {user ? (
           <>
-            {Array.isArray(sessions) &&
-              sessions.map((s, i) => (
-                <div key={i}>
-                  <button
-                    className="btn light"
-                    onClick={() => handleLogout(s.token)}
-                  >
-                    Logout
-                  </button>
-                </div>
-              ))}
+            <div>
+              <button className="btn light" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
             <Link className="btn dark" to="/UserDashboard">
               Dashboard
             </Link>
