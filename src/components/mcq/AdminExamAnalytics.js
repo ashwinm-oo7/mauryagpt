@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../auth/axiosInstance";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./AdminExamAnalytics.css";
 export default function AdminExamAnalytics() {
   const [domains, setDomains] = useState([]);
@@ -19,6 +19,7 @@ export default function AdminExamAnalytics() {
     if (domain && level) {
       loadAttempts();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [domain, level]);
   const loadDomains = async () => {
     try {

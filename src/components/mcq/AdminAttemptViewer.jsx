@@ -2,24 +2,24 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import "./AdminAttemptViewer.css";
 import { useAdminAttempt } from "./useAdminAttempt";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function AdminAttemptViewer() {
   const { examId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const { exam, questions, loading, error } = useAdminAttempt(examId);
   if (loading) return <div className="loading">Loading Attempt...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!exam) return null;
-  const handleBack = () => {
-    if (location.state?.domain && location.state?.level) {
-      navigate("/admin/exam-analytics", {
-        state: location.state,
-      });
-    } else {
-      navigate(-1);
-    }
-  };
+  // const handleBack = () => {
+  //   if (location.state?.domain && location.state?.level) {
+  //     navigate("/admin/exam-analytics", {
+  //       state: location.state,
+  //     });
+  //   } else {
+  //     navigate(-1);
+  //   }
+  // };
   const totalQuestions = questions.length;
   const scorePercent =
     totalQuestions > 0 ? (exam.score / totalQuestions) * 100 : 0;
