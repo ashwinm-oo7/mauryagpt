@@ -1,0 +1,223 @@
+/* 🔥 BACKDROP */
+.excel-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 🔥 MODAL */
+.excel-modal-content {
+  background: #ffffff;
+  width: 85%;
+  max-width: 950px;
+  max-height: 90vh;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+  animation: fadeIn 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔥 HEADER */
+.excel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* 🔥 TITLE */
+.excel-modal-content h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* ❌ CLOSE BUTTON */
+.close-btn-excel {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.close-btn-excel:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+/* 🔥 FILE NAME */
+.file-name {
+     font-size: 7px;
+    color: #666;
+    margin: 5px;
+    width: 100px;
+    overflow-x: auto;
+}
+
+/* 🔥 UPLOAD BOX */
+.excel-upload-box {
+  border: 2px dashed #d4af37;
+  padding: 5px;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+      background: #fff;
+    border-radius: 16px;
+     width: 100px; 
+         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease;
+    height: 30px;
+    font-size: 10px;
+}
+
+.excel-upload-box:hover {
+  background: #fff8e1;
+}
+
+.excel-upload-box input {
+  display: none;
+}
+
+/* 🔥 TABLE WRAPPER */
+.table-wrapper {
+  flex: 1;
+  overflow: auto;
+  margin-top: 10px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}
+
+/* 🔥 TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  background: #f8f9fb;
+  font-weight: 600;
+  color: #333;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+/* 🔥 ROW HOVER */
+tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* 🔥 INFO TEXT */
+.row-info {
+  font-size: 12px;
+  color: #777;
+  margin: 8px 10px;
+}
+
+/* 🔥 PAGINATION */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 12px;
+}
+
+.pagination button {
+  background: #111827;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.pagination button:hover {
+  background: #000;
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 🔥 DROPDOWN */
+.excel-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* 🔥 CONFIRM BUTTON */
+.confirm-btn {
+  margin-top: 12px;
+  align-self: flex-end;
+  background: linear-gradient(135deg, #d4af37, #f9d976);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.confirm-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ✨ ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 🔥 BUTTON */
+.confirm-btn {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #d4af37, #f9d976);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.confirm-btn:hover {
+  transform: scale(1.05);
+}

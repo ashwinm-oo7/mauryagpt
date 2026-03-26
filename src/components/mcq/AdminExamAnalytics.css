@@ -48,12 +48,23 @@
     /* Optional: Add a subtle shadow to enhance the "lift" effect */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
+.AdminExamAnalytics-btn:not(:disabled):hover,
+.AdminExamAnalytics-btn:not(:disabled):focus,
+.admin-action-btn:not(:disabled):hover,
+.admin-action-btn:not(:disabled):focus {
+  background: #164a8a;
+  transform: translateY(-2px);
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 /* Active/Pressed State */
 .AdminExamAnalytics-btn:active,
 .admin-action-btn button:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.AdminExamAnalytics-btn {
+  transition: all 0.2s ease;
 }
 .AdminExamAnalytics-filters select:hover{
   border-color:#4a90e2;
@@ -66,10 +77,15 @@
   box-shadow:0 0 4px rgba(74,144,226,0.3);
 }
 
-.AdminExamAnalytics-btn:disabled {
-  opacity: 0.6;
+.AdminExamAnalytics-btn:disabled,
+.admin-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;        /* 🚫 no pointer */
+  background: #a0aec0;        /* muted color */
+  transform: none !important; /* ❌ no lift */
+  box-shadow: none !important;
+  pointer-events: none;       /* ❌ completely disables click */
 }
-
 .AdminExamAnalytics-tableWrapper {
   background: white;
   border-radius: 10px;

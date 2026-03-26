@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../auth/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./AdminExamAnalytics.css";
 export default function AdminExamAnalytics() {
   const [domains, setDomains] = useState([]);
@@ -15,6 +15,11 @@ export default function AdminExamAnalytics() {
     loadDomains();
   }, []);
 
+  useEffect(() => {
+    if (domain && level) {
+      loadAttempts();
+    }
+  }, [domain, level]);
   const loadDomains = async () => {
     try {
       setLoading(true);
@@ -43,11 +48,11 @@ export default function AdminExamAnalytics() {
     }
   };
 
-  const loadAttempts = async () => {
+  const loadAttempts = async (d, l) => {
     try {
       setLoading(true);
       const res = await api.get(
-        `/api/admin/exams/attempts?domain=${domain}&level=${level}`,
+        `/api/admin/exams/attempts?domain=${domain || d}&level=${level || l}`,
       );
       setAttempts(res.data);
     } catch (err) {
@@ -87,7 +92,7 @@ export default function AdminExamAnalytics() {
         <button
           className="AdminExamAnalytics-btn"
           onClick={loadAttempts}
-          disabled={loading}
+          disabled={loading || !domain || !level}
         >
           {loading ? "Loading..." : "Load Attempts"}
         </button>{" "}
@@ -117,7 +122,14 @@ export default function AdminExamAnalytics() {
                 <td>
                   <button
                     className="admin-action-btn"
-                    onClick={() => navigate(`/admin/exam/${a._id}`)}
+                    onClick={() =>
+                      navigate(`/admin/exam/${a._id}`, {
+                        state: {
+                          domain,
+                          level,
+                        },
+                      })
+                    }
                   >
                     View
                   </button>{" "}

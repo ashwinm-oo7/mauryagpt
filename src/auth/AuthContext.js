@@ -21,7 +21,10 @@ export const AuthProvider = ({ children }) => {
         const ress = await api.post("/api/auth/refresh", {
           token: localStorage.getItem("refreshToken"),
         });
-
+        // ✅ ADD THIS
+        if (ress.data.refreshToken) {
+          localStorage.setItem("refreshToken", ress.data.refreshToken);
+        }
         saveToken(ress.data.accessToken);
         const res = await api.get("/api/auth/me");
         setUser(res.data);

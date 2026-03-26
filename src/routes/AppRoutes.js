@@ -25,8 +25,8 @@ import UserLayout from "../components/user/UserLayout";
 import UserCertificates from "../components/user/UserCertificates";
 import UserBadges from "../components/user/UserBadges";
 import UserLeaderboards from "../components/user/UserLeaderboard";
-import UserDashboards from "../components/user/UserDashboards";
 import PublicProfile from "../components/Profile/PublicProfile";
+import VerifyCertificate from "../components/Profile/VerifyCertificate";
 function AppRoutes() {
   return (
     <Routes>
@@ -34,7 +34,7 @@ function AppRoutes() {
       <Route path="/" element={<Chats />} />
       <Route path="/knowledge" element={<ERPKnowledgeSearch />} />
       <Route path="/SabReport" element={<AIChat />} />
-
+      <Route path="/verify/:certificateId" element={<VerifyCertificate />} />
       {/* Auth routes */}
       <Route element={<AuthRoute />}>
         <Route path="/login" element={<Login />} />
@@ -47,7 +47,6 @@ function AppRoutes() {
         {/* <Route path="/user/levels/:domain" element={<LevelSelector />} /> */}
         <Route path="/user/test/:domain/:level" element={<TestPage />} />
         <Route path="/result" element={<ResultPage />} />
-        <Route path="/:username" element={<PublicProfile />} />
       </Route>
 
       {/* Admin routes */}
@@ -76,7 +75,7 @@ function AppRoutes() {
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/user/*" element={<UserLayout />}>
-          <Route index element={<UserDashboards />} />
+          <Route index element={<PublicProfile />} />
           <Route path="DomainList" element={<DomainList />} />
           <Route path="levels/:domain" element={<LevelSelector />} />
           <Route path="certificates" element={<UserCertificates />} />

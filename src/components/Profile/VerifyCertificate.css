@@ -1,0 +1,22 @@
+.verify-container {
+  display: flex;
+  height: 100vh;
+}
+
+.verify-left {
+  width: 30%;
+  background: #0f172a;
+  color: white;
+  padding: 30px;
+}
+
+.verify-right {
+  width: 70%;
+  background: #f1f5f9;
+}
+
+.verified {
+  margin-top: 20px;
+  color: #22c55e;
+  font-weight: bold;
+}

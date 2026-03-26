@@ -133,7 +133,61 @@
   font-weight: 600;
   margin-bottom: 12px;
   color: #2c3e50;
+  align-items:'center' ;
+  cursor: pointer;
 }
+.delete-level-btn {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-level-btn:hover {
+  background: #d9363e;
+}
+.delete-level-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+.bulk-actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  align-items: center;
+    gap: 15px;
+
+}
+
+.bulk-delete-btn {
+  background: #ff4d4f;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bulk-delete-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+.selected-card {
+  border: 2px solid #1890ff;
+  background-color: #e6f7ff;
+  transition: 0.2s;
+}
+
+
+
+.bulk-actions label {
+  font-size: 14px;
+}
+
+
+
 
 /* ------------------- MCQ Cards ------------------- */
 .mcq-card {
@@ -293,6 +347,7 @@
   gap: 10px;
   width: 100%;
   flex-wrap: nowrap; /* Prevent wrapping for this container */
+  font-size: 10px;
 }
 
 .input-container input {

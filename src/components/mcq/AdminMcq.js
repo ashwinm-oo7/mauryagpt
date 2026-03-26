@@ -7,6 +7,8 @@ import DomainSelector from "./DomainSelector";
 import MCQForm from "./MCQForm";
 import LevelMCQs from "./LevelMCQs";
 import "./AdminMcq.css";
+import ExcelPreview from "./ExcelPreview";
+import UploadProgressModal from "../../utils/UploadProgressModal";
 
 const AdminMcq = () => {
   const { user } = useAuth();
@@ -19,7 +21,10 @@ const AdminMcq = () => {
   const [editingMCQ, setEditingMCQ] = useState(null);
   const [topic, setTopic] = useState("");
   const [count, setCount] = useState(5);
-  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
+  const [status, setStatus] = useState("Preparing upload...");
+  const [resetPreview, setResetPreview] = useState(false);
   const generateAI = async () => {
     try {
       const res = await api.post("/api/mcq/generate-ai", {
@@ -43,6 +48,7 @@ const AdminMcq = () => {
   const fetchDomains = async () => {
     try {
       const res = await api.get("/api/mcq/domains");
+      console.log("mcq/domains", res.data);
       setDomains(res.data);
     } catch {
       toast.error("Failed to load domains");
@@ -126,9 +132,8 @@ const AdminMcq = () => {
     setEditingMCQ(mcq);
     window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top for edit form
   };
-  const handleBulkUpload = async (e) => {
-    const file = e.target.files[0];
 
+  const handleBulkUpload = async (file) => {
     if (!file) {
       toast.error("Please select an Excel file");
       return;
@@ -138,30 +143,48 @@ const AdminMcq = () => {
     formData.append("file", file);
 
     try {
-      setUploading(true);
+      setShowProgress(true);
+      setProgress(0);
+      setStatus("Uploading file...");
 
       const res = await api.post("/api/mcq/bulk-upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      });
-      setUploading(false);
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total,
+          );
+          setProgress(percent);
 
-      toast.success(res.data.message || "Bulk upload successful");
+          if (percent === 100) {
+            setStatus("Processing data...");
+          }
+        },
+      });
+
+      setStatus("Finalizing...");
+
+      setTimeout(() => {
+        setShowProgress(false);
+        setProgress(0);
+      }, 1000);
+
+      toast.success(res.data.message || "Upload successful");
+      setResetPreview((prev) => !prev);
 
       fetchDomainData(selectedDomain);
     } catch (err) {
-      console.error("Upload error:", err);
-
       const message =
         err.response?.data?.message || // backend message
         err.response?.data?.error ||
         err.message || // network error
         "Upload failed";
 
+      setShowProgress(false);
       toast.error(message);
     } finally {
-      e.target.value = null;
+      setShowProgress(false);
     }
   };
   return (
@@ -184,7 +207,7 @@ const AdminMcq = () => {
                 onChange={(e) => setCount(e.target.value ? +e.target.value : 5)}
               />
               <button onClick={generateAI}>Generate MCQs</button>
-              <div className="custom-file-input">
+              {/* <div className="custom-file-input">
                 <button disabled={uploading} htmlFor="file-upload">
                   <input
                     type="file"
@@ -194,7 +217,12 @@ const AdminMcq = () => {
                   Choose a File
                 </button>
                 <div className="file-name" id="file-name"></div>
-              </div>
+              </div> */}
+              <ExcelPreview
+                onConfirm={(file) => handleBulkUpload(file)}
+                resetTrigger={resetPreview}
+                showProgress={showProgress}
+              />{" "}
             </div>
           </div>
         </div>
@@ -236,6 +264,9 @@ const AdminMcq = () => {
           </div>
         )}
       </div>
+      {showProgress && (
+        <UploadProgressModal progress={progress} status={status} />
+      )}
     </div>
   );
 };

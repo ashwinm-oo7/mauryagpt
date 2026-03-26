@@ -42,8 +42,8 @@ export default function UserLayout() {
           </NavLink>
 
           <NavLink to="/user/leaderboard">
-            <span className="UserLayout-sidebar-span">Leaderboard</span>
             <FaChartBar />
+            <span className="UserLayout-sidebar-span">Leaderboard</span>
           </NavLink>
         </nav>
       </aside>
