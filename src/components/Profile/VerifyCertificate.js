@@ -65,16 +65,17 @@ export default function VerifyCertificate() {
 
       <div className="verify-right">
         {isMobile ? (
-          <p>
-            Mobile preview may not work.{" "}
+          <div>
+            <p>📄 Open your certificate:</p>
             <a
               href={`/api/exam/certificate/download/${data.domain}/${data.level}/${certificateId}`}
               target="_blank"
               rel="noopener noreferrer"
+              style={{ color: "blue", fontWeight: "bold" }}
             >
-              Download Certificate
+              View Certificate
             </a>
-          </p>
+          </div>
         ) : pdfUrl ? (
           <iframe
             src={pdfUrl}

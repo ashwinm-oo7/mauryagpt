@@ -120,10 +120,11 @@
 .certificate-card button {
   background: #3b82f6;
   border: none;
-  padding: 10px 14px;
+  padding: 10px 10px;
   color: white;
   border-radius: 6px;
   cursor: pointer;
+  width: 144px;
 }
 
 .certificate-card button:hover {
