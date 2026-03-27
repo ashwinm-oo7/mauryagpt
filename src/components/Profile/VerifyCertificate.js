@@ -68,7 +68,7 @@ export default function VerifyCertificate() {
           <div>
             <p>📄 Open your certificate:</p>
             <a
-              href={`/api/exam/certificate/download/${data.domain}/${data.level}/${certificateId}`}
+              href={`${process.env.REACT_APP_URL}/api/exam/certificate/download/${data.domain}/${data.level}/${certificateId}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "blue", fontWeight: "bold" }}
