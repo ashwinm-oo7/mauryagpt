@@ -1,98 +1,92 @@
+/* ROOT */
 .AdminLayout-container {
   display: flex;
-  height: -webkit-fill-available;
-  min-height:100vh;
-  overflow-x: hidden;
+  min-height: 100vh;
+  background: #f3f4f6;
+}
+
+/* OVERLAY */
+.admin-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  z-index: 999;
 }
 
 /* SIDEBAR */
+.AdminLayout-sidebar {
+  width: 240px;
+  background: #111827;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition:all 0.3s ease;
+}
 
-
-.AdminLayout-container.collapsed .AdminLayout-sidebar {
+/* COLLAPSED */
+.AdminLayout-sidebar.collapsed {
   width: 70px;
 }
 
-.AdminLayout-logo {
-    margin-bottom: 20px;
-    font-size: x-large;
-    font-weight: 900;
-    color: white;
+.AdminLayout-sidebar.collapsed span ,
+.AdminLayout-sidebar.collapsed h2 {
+
+  display: none;
 }
-/* SIDEBAR BASE */
-.AdminLayout-sidebar {
-  width: 220px;
-  background: #111827;
-  color: white;
-  padding: 20px 10px; /* Adjusted padding for scrollbar space */
-  transition: width 0.3s ease;
-  
-  /* Critical for independent scrolling */
-  height: 100vh;
-  position: sticky;
-  top: 0;
+
+/* HEADER */
+.sidebar-header {
   display: flex;
-  flex-direction: column;
-  
-  /* Hide scrollbar by default */
-  overflow-y: hidden; 
+  justify-content: space-between;
+  padding: 18px;
+  font-weight: bold;
 }
 
-/* Show scrollbar only on hover */
-.AdminLayout-sidebar:hover {
-  overflow-y: auto;
+.sidebar-header span {
+  display: none;
+  cursor: pointer;
 }
 
-/* Custom Scrollbar Styling (Webkit) */
-.AdminLayout-sidebar::-webkit-scrollbar {
-  width: 5px;
-}
-
-.AdminLayout-sidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.AdminLayout-sidebar::-webkit-scrollbar-thumb {
-  background: #4b5563; /* Subtle grey */
-  border-radius: 10px;
-}
-
-.AdminLayout-sidebar::-webkit-scrollbar-thumb:hover {
-  background: #6366f1; /* Accent color on hover */
-}
-
-/* Ensure the Nav fills the space */
+/* NAV */
 .AdminLayout-sidebar nav {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
+  padding: 10px;
 }
 
-.AdminLayout-sidebar a {
+.AdminLayout-sidebar nav a {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #d1d5db;
-  padding: 10px;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  color: #cbd5e1;
   text-decoration: none;
-  border-radius: 6px;
+  transition: 0.2s;
 }
 
-.AdminLayout-sidebar a:hover {
+.AdminLayout-sidebar nav a:hover {
   background: #1f2937;
-  color: white;
 }
 
-/* ACTIVE LINK */
-.AdminLayout-sidebar a.active {
+.AdminLayout-sidebar nav a.active {
   background: #6366f1;
   color: white;
 }
 
-/* HIDE TEXT WHEN COLLAPSED */
-.AdminLayout-container.collapsed .AdminLayout-sidebar span {
-  display: none;
+/* FOOTER */
+.sidebar-footer {
+  padding: 10px;
+}
+
+.sidebar-footer button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
 }
 
 /* MAIN */
@@ -100,159 +94,195 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0; /* Prevents flex items from bursting container */
-  height: 100vh;
-  overflow-y: auto; /* The main content gets its own scrollbar */
 }
 
 /* TOPBAR */
 .AdminLayout-topbar {
-  height: 30px;
+  height: 60px;
   background: white;
   display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
   align-items: center;
-  padding: 5px 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  justify-content: flex-end;
-  border-bottom: 1px solid #ccc;
-  margin: 5px;
-  margin-top: 0px;
+  border-bottom: 1px solid #ddd;
 }
 
-.AdminLayout-toggle {
-  font-size: 18px;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
+/* ICON BUTTON */
 
-.AdminLayout-user {
+/* TOPBAR LAYOUT */
+.topbar-left,
+.topbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
-.logout-icon {
+
+/* NOTIFICATIONS */
+.notification-wrapper {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  font-size: 10px;
+  border-radius: 50%;
+  padding: 2px 5px;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 280px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
   cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+.dropdown-item.unread {
+  background: #e0e7ff;
+  font-weight: bold;
+}
+
+.empty {
+  padding: 15px;
+  text-align: center;
 }
 
 /* CONTENT */
 .AdminLayout-content {
   flex: 1;
-  padding: 0px;
-  background: #f3f4f6;
+  padding: 15px;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .AdminLayout-sidebar {
-    position: absolute;
-    z-index: 1000;
-    height: 100%;
-  }
-
-  .AdminLayout-container.collapsed .AdminLayout-sidebar {
-    transform: translateX(-100%);
-  }
-}
-
-:root {
-  --bg-light: #f3f4f6;
-  --bg-dark: #111827;
-  --text-light: #111827;
-  --text-dark: #f3f4f6;
-  --accent: #6366f1;
-}
-
-body, .AdminLayout-container {
-  background: var(--bg-light);
-  color: var(--text-light);
-  transition: all 0.3s;
-}
-
+/* DARK MODE */
 .AdminLayout-container.dark {
-  background: var(--bg-dark);
-  color: var(--text-dark);
-}
-
-.AdminLayout-sidebar.dark, .AdminLayout-container.dark .AdminLayout-sidebar {
-  background: var(--bg-dark);
-}
-
-.AdminLayout-sidebar a.active {
-  background: var(--accent);
-}
-
-
-.AdminLayout-bell {
-  position: relative;
-  font-size: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.AdminLayout-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: #ff3b30;
+  background: #111827;
   color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
 }
 
-
-.AdminLayout-notification {
-  position: relative;
-  margin-right: 20px;
+.AdminLayout-container.dark .AdminLayout-topbar {
+  background: #1f2937;
 }
 
-.AdminLayout-dropdown {
-  position: absolute;
-  right: 0;
-  top: 35px;
-  width: 300px;
-  max-height: 400px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  z-index: 1000;
+/* MOBILE VISIBILITY HELPERS */
+.mobile-only {
+  display: none;
 }
 
-.AdminLayout-dropdown-empty {
-  padding: 10px;
-  text-align: center;
-  color: #555;
+.desktop-only {
+  display: inline-flex;
 }
 
-.AdminLayout-dropdown-item {
-  padding: 10px 15px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s;
+/* MOBILE NAV BAR */
+.mobile-bottom-nav {
+  display: none;
+}
+.sidebar-header h2{
+  color: white;
+}
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+.AdminLayout-topbar{
+display: none;
 }
 
-.AdminLayout-dropdown-item:hover {
-  background: #f3f4f6;
-}
+  /* SHOW MOBILE BTN */
+  .mobile-only {
+    display: inline-flex;
+  }
 
-.AdminLayout-dropdown-item.unread {
-  background: #e0e7ff;
-  font-weight: 600;
-}
+  .desktop-only {
+    display: none;
+  }
 
-.AdminLayout-dropdown-text {
-  flex: 1;
-}
+  /* SIDEBAR → DRAWER */
+  .AdminLayout-sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100%;
+    z-index: 1000;
+  }
 
-.AdminLayout-dropdown-time {
-  font-size: 12px;
-  color: #888;
-  margin-left: 10px;
+  .AdminLayout-sidebar.mobile-open {
+    left: 0;
+  }
+
+  .sidebar-header span {
+    display: block;
+  }
+
+  /* CONTENT PADDING FOR BOTTOM NAV */
+  .AdminLayout-content {
+    padding-bottom: 80px;
+  }
+
+  /* 🔥 BOTTOM NAV */
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background: white;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .mobile-bottom-nav a,
+  .mobile-bottom-nav button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    color: #555;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .mobile-bottom-nav svg {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+
+  /* ACTIVE TAB */
+  .mobile-bottom-nav a.active {
+    color: #6366f1;
+    font-weight: 600;
+  }
+
+  /* LOGOUT COLOR */
+  .mobile-bottom-nav button {
+    color: #ef4444;
+  }
+
+  /* SMOOTH TOUCH */
+  .mobile-bottom-nav a:active,
+  .mobile-bottom-nav button:active {
+    transform: scale(0.95);
+  }
 }

@@ -1,14 +1,17 @@
 import React from "react";
 import Header from "./Header";
 import { Toaster } from "react-hot-toast";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 function AppLayout({ children }) {
+  const location = useLocation();
+  const hideHeader = location.pathname.startsWith("/verify/");
+
   return (
     <div className="App">
       <Toaster position="top-right" />
 
-      <Header />
+      {!hideHeader && <Header />}
       <main style={{ paddingTop: "5px" }}>
         <Outlet />
       </main>

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import api from "../../auth/axiosInstance";
 import { LoadingComponent } from "../../utils/LoadingComponent";
 // import { safeApi } from "../../utils/safeApi";
+import toast from "react-hot-toast";
 
+import "./css/UserCertificates.css";
 export default function UserCertificates() {
   const [certs, setCerts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -62,7 +64,7 @@ export default function UserCertificates() {
   const getShareLink = (certificateId) => {
     const link = `${window.location.origin}/verify/${certificateId}`;
     navigator.clipboard.writeText(link);
-    alert("Link copied!");
+    toast.success("Link copied!" + link);
   };
   const previewCertificate = async (domain, level, certificateId) => {
     setActionLoading(certificateId + "-preview");
@@ -93,43 +95,64 @@ export default function UserCertificates() {
   }
   return (
     <div className="certificate-card-container">
-      {" "}
       <h2>My Certificates</h2>
       {certs.length === 0 ? (
         <p>No certificates found</p>
       ) : (
         certs.map((c) => (
           <div key={c.certificateId} className="certificate-card">
-            <h3>
-              {c.domain} Level {c.level}
-            </h3>
-            <p>Score: {c.percentage}%</p>
-            <p>
-              Issued: {new Date(c.certificateIssuedAt).toLocaleDateString()}
-            </p>
-            <button
-              disabled={actionLoading !== null}
-              onClick={() =>
-                downloadCertificate(c.domain, c.level, c.certificateId)
-              }
-            >
-              {actionLoading === c.certificateId + "-download"
-                ? "Downloading..."
-                : "Download Certificate"}
-            </button>{" "}
-            <button
-              disabled={actionLoading !== null}
-              onClick={() =>
-                previewCertificate(c.domain, c.level, c.certificateId)
-              }
-            >
-              {actionLoading === c.certificateId + "-preview"
-                ? "Opening..."
-                : "Preview Certificate"}
-            </button>
-            <button onClick={() => getShareLink(c.certificateId)}>
-              Get Share Link
-            </button>
+            {/* LEFT: PREVIEW */}
+            <div className="certificate-preview">
+              <iframe
+                src={`${window.location.origin}/verify/${c.certificateId}`}
+                title="preview"
+              />
+            </div>
+
+            {/* RIGHT: INFO */}
+            <div className="certificate-info">
+              <h3>
+                {c.domain} Level {c.level}
+              </h3>
+
+              <p>Score: {c.percentage}%</p>
+              <p>
+                Issued: {new Date(c.certificateIssuedAt).toLocaleDateString()}
+              </p>
+
+              <span className="verified-badge">✔ Verified</span>
+
+              <div className="certificate-actions">
+                <button
+                  className="btn-download"
+                  disabled={actionLoading !== null}
+                  onClick={() =>
+                    downloadCertificate(c.domain, c.level, c.certificateId)
+                  }
+                >
+                  {actionLoading === c.certificateId + "-download"
+                    ? "Downloading..."
+                    : "Download"}
+                </button>
+
+                <button
+                  className="btn-preview"
+                  disabled={actionLoading !== null}
+                  onClick={() =>
+                    previewCertificate(c.domain, c.level, c.certificateId)
+                  }
+                >
+                  Preview
+                </button>
+
+                <button
+                  className="btn-share"
+                  onClick={() => getShareLink(c.certificateId)}
+                >
+                  Share
+                </button>
+              </div>
+            </div>
           </div>
         ))
       )}

@@ -20,6 +20,7 @@ function Header() {
 
     localStorage.removeItem("refreshToken"); // cleanup
     navigate("/login");
+    setMenuOpen(false); // ✅ close menu
   };
   const fetchSessions = async () => {
     try {
@@ -30,66 +31,108 @@ function Header() {
       console.error(err);
     }
   };
-
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [menuOpen]);
   useEffect(() => {
     if (user) fetchSessions();
   }, [user]);
   if (loading) return null;
 
   return (
-    <div className="header">
-      <h1 className="app-title">Maurya AI</h1>
+    <>
+      <div className="header">
+        <h1 className="app-title">Maurya AI</h1>
 
-      {/* Mobile Menu Icon */}
-      <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
-        ☰
-      </div>
-
-      <div className={`nav-right ${menuOpen ? "active" : ""}`}>
-        {user && (
-          <Link className="btn purple" to="/profile">
-            Profile
-          </Link>
+        {/* Mobile Menu Icon */}
+        <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </div>
+        {menuOpen && (
+          <div className="overlay" onClick={() => setMenuOpen(false)} />
         )}
 
-        {user ? (
-          <>
-            <div>
-              <button className="btn light" onClick={handleLogout}>
-                Logout
-              </button>
-            </div>
+        <div className={`nav-right ${menuOpen ? "active" : ""}`}>
+          <div className="mobile-header">
+            <h2>Menu</h2>
+            <span onClick={() => setMenuOpen(false)}>✕</span>
+          </div>
 
-            <Link className="btn dark" to="/user">
-              User Dashboard
+          {user && (
+            <Link
+              onClick={() => setMenuOpen(false)}
+              className="btn purple"
+              to="/profile"
+            >
+              Profile
             </Link>
+          )}
 
-            {user.role === "admin" && (
-              <>
-                {/* <Link className="btn dark" to="/admin/dashboard">
+          {user ? (
+            <>
+              <div className="btn light" onClick={handleLogout}>
+                Logout
+              </div>
+
+              <Link
+                onClick={() => setMenuOpen(false)}
+                className="btn dark"
+                to="/user"
+              >
+                User Dashboard
+              </Link>
+
+              {user.role === "admin" && (
+                <>
+                  {/* <Link className="btn dark" to="/admin/dashboard">
                   Admin
                 </Link> */}
-                <Link className="btn dark" to="/admin">
-                  AdminLayouts
-                </Link>
-              </>
-            )}
-          </>
-        ) : (
-          <Link className="btn blue" to="/login">
-            Login
+                  <Link
+                    onClick={() => setMenuOpen(false)}
+                    className="btn dark"
+                    to="/admin"
+                  >
+                    AdminLayouts
+                  </Link>
+                </>
+              )}
+            </>
+          ) : (
+            <Link
+              onClick={() => setMenuOpen(false)}
+              className="btn blue"
+              to="/login"
+            >
+              Login
+            </Link>
+          )}
+          <div className="divider" />
+
+          <Link
+            onClick={() => setMenuOpen(false)}
+            className="btn green"
+            to="/knowledge"
+          >
+            Knowledge
           </Link>
-        )}
 
-        <Link className="btn green" to="/knowledge">
-          Knowledge
-        </Link>
-
-        <Link className="btn dark" to="/SabReport">
-          SabReport
-        </Link>
+          <Link
+            onClick={() => setMenuOpen(false)}
+            className="btn dark"
+            to="/SabReport"
+          >
+            SabReport
+          </Link>
+        </div>
       </div>
-    </div>
+      {/* {menuOpen && (
+        <div className="overlay" onClick={() => setMenuOpen(false)} />
+      )} */}
+    </>
   );
 }
 

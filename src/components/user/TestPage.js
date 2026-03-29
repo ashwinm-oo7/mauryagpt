@@ -304,7 +304,14 @@ const TestPage = () => {
         onJump={handleJump}
         questions={questions}
         flagged={flagged}
-      /> */}
+      /> */}{" "}
+      <NavigationButtons
+        currentStep={currentStep}
+        totalSteps={questions.length}
+        onPrev={handlePrev}
+        onNext={handleNext}
+        onSubmit={handleSubmit}
+      />
       <div className="exam-layout">
         <div className="exam-main">
           <QuestionCard
@@ -333,13 +340,13 @@ const TestPage = () => {
           />
         </div>
       </div>
-      <NavigationButtons
+      {/* <NavigationButtons
         currentStep={currentStep}
         totalSteps={questions.length}
         onPrev={handlePrev}
         onNext={handleNext}
         onSubmit={handleSubmit}
-      />
+      /> */}
     </div>
   );
 };
