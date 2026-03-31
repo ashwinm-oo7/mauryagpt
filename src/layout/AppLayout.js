@@ -12,7 +12,7 @@ function AppLayout({ children }) {
       <Toaster position="top-right" />
 
       {!hideHeader && <Header />}
-      <main style={{ paddingTop: "5px" }}>
+      <main style={{ paddingTop: "0.5px" }}>
         <Outlet />
       </main>
       <div className="page-container">{children}</div>

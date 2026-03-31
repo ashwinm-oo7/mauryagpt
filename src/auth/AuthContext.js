@@ -50,11 +50,12 @@ export const AuthProvider = ({ children }) => {
         const res = await api.post("/api/auth/refresh", {
           token: localStorage.getItem("refreshToken"),
         });
-
+        console.log("initauth", res);
         saveToken(res.data.accessToken);
-
         await fetchUser(true);
-      } catch {
+      } catch (e) {
+        localStorage.removeItem("refreshToken");
+        authStore.setAccessToken(null);
         setUser(null);
         setLoading(false);
       }

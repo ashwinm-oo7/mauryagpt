@@ -90,6 +90,7 @@ api.interceptors.response.use(
           const res = await api.post("/api/auth/refresh", {
             token: localStorage.getItem("refreshToken"),
           });
+          console.log("RESS", res);
           authStore.setAccessToken(res.data.accessToken);
           isRefreshing = false;
           onRefreshed();
@@ -98,6 +99,8 @@ api.interceptors.response.use(
         } catch (refreshError) {
           isRefreshing = false;
           refreshSubscribers = [];
+          localStorage.removeItem("refreshToken");
+          authStore.setAccessToken(null);
 
           window.location.href = "/login";
           return Promise.reject(refreshError);

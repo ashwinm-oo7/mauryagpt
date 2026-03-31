@@ -1,58 +1,76 @@
+/* ===== ROOT ===== */
 .public-profile-container {
   display: flex;
   justify-content: center;
-  /* padding: 5px; */
+  padding: 0px;
   background: #f6f8fb;
-  min-height: 75vh;
+  min-height: 100vh;
 }
 
+/* ===== CARD ===== */
 .public-profile-card {
-  width: 900px;
+  width: 100%;
+  max-width: 900px; /* ✅ center + limit width */
   background: white;
-  padding: 10px;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
 }
 
+/* ===== HEADER ===== */
 .public-profile-card h1 {
   margin: 5px;
+  font-size: 28px;
   color: #2c3e50;
 }
 
 .public-profile-email {
   color: #888;
-  margin: 10px;
+  font-size: 14px;
+  margin: 5px;
 }
 
+/* ===== STATS ===== */
 .public-profile-stats {
   display: flex;
-  gap: 40px;
-  margin: 20px;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 5px;
 }
 
 .stat {
+  flex: 1;
   text-align: center;
+  background: #f9fafb;
+  padding: 5px;
+  border-radius: 12px;
 }
 
 .stat-value {
   font-size: 24px;
   font-weight: bold;
-  display: block;
+  color: #111827;
 }
 
 .stat-label {
   font-size: 13px;
   color: #777;
-}
-
-.public-profile-section {
   margin: 5px;
 }
 
-.public-profile-section h3 {
-  margin: 10px;
+/* ===== SECTIONS ===== */
+.public-profile-section {
+  margin: 7px;
 }
 
+.public-profile-section h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #374151;
+}
+
+/* ===== DOMAIN CHIPS ===== */
 .PublicProfile-domain-list {
   display: flex;
   flex-wrap: wrap;
@@ -61,20 +79,118 @@
 
 .PublicProfile-domain-chip {
   background: #eef3ff;
-  padding: 6px 12px;
+  color: #4f46e5;
+  padding: 6px 14px;
   border-radius: 20px;
   font-size: 13px;
+  font-weight: 500;
 }
 
+/* ===== CERTIFICATES ===== */
 .certificate-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
+  font-size: 14px;
 }
 
+.certificate-item strong {
+  color: #111827;
+}
+
+/* ===== STATES ===== */
 .public-profile-loading,
 .public-profile-error {
   text-align: center;
-  padding: 80px;
+  padding: 80px 20px;
+  font-size: 16px;
+}
+
+/* ========================================= */
+/* 📱 MOBILE (<= 768px) */
+/* ========================================= */
+@media (max-width: 768px) {
+
+  .public-profile-container {
+    padding: 1px;
+  }
+
+  .public-profile-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .public-profile-card h1 {
+    font-size: 22px;
+  }
+
+  /* 🔥 STACK STATS */
+  .public-profile-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .stat {
+    padding: 5px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  /* 🔥 CERTIFICATE STACK */
+  .certificate-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  /* 🔥 DOMAIN CHIPS */
+  .PublicProfile-domain-chip {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}
+
+/* ========================================= */
+/* 📱 SMALL MOBILE (<= 480px) */
+/* ========================================= */
+@media (max-width: 480px) {
+
+  .public-profile-card {
+    padding: 5px;
+  }
+
+  .public-profile-card h1 {
+    font-size: 18px;
+  }
+.public-profile-section h3{
+  font-size: 15px;
+}
+  .public-profile-email {
+    font-size: 12px;
+  }
+
+  .stat-value {
+    font-size: 18px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .certificate-item {
+    font-size: 10px;
+  }
+}
+
+/* ========================================= */
+/* 💻 LARGE SCREENS */
+/* ========================================= */
+@media (min-width: 1200px) {
+  .public-profile-card {
+    max-width: 1000px;
+  }
 }

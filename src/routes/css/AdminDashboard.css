@@ -179,6 +179,12 @@ padding:10px;
 .admin-tabs{
 flex-wrap:wrap;
 }
+  .AdminDashboardChart-section {
+    background: white;
+    padding: 5px;
+    border-radius: 12px;
+    margin: 5px;
+}
 
 }
 .admin-title{

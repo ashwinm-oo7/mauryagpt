@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import api from "../../auth/axiosInstance";
 import "./VerifyCertificate.css";
 
@@ -8,9 +8,11 @@ export default function VerifyCertificate() {
   const [data, setData] = useState(null);
   const [pdfUrl, setPdfUrl] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const isThumbnail = queryParams.get("thumbnail") === "true";
   // Simple mobile detection
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
     const loadCertificate = async () => {
@@ -38,47 +40,86 @@ export default function VerifyCertificate() {
 
     loadCertificate();
   }, [certificateId]);
+  useEffect(() => {
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener("contextmenu", handleContextMenu);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
+  // useEffect(() => {
+  //   const handleBlur = () => {
+  //     document.body.style.filter = "blur(8px)";
+  //   };
+  //   const handleFocus = () => {
+  //     document.body.style.filter = "none";
+  //   };
+
+  //   window.addEventListener("blur", handleBlur);
+  //   window.addEventListener("focus", handleFocus);
+
+  //   return () => {
+  //     window.removeEventListener("blur", handleBlur);
+  //     window.removeEventListener("focus", handleFocus);
+  //   };
+  // }, []);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key)) ||
+        (e.ctrlKey && e.key === "U")
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   if (loading) return <h2>Loading Certificate...</h2>;
   if (!data?.valid) return <h2>❌ Invalid Certificate</h2>;
 
   return (
-    <div className="verify-container">
-      <div className="verify-left">
-        <h2>Your Platform 🚀</h2>
-        <p>Skill Certification System</p>
-        <hr />
-        <p>
-          <b>User:</b> {data.userfullname}
-        </p>
-        <p>
-          <b>Domain:</b> {data.domain}
-        </p>
-        <p>
-          <b>Level:</b> {data.level}
-        </p>
-        <p>
-          <b>Score:</b> {data.score}%
-        </p>
-        <p className="verified">✅ Verified Certificate</p>
-      </div>
-
-      <div className="verify-right">
-        {isMobile ? (
-          <div>
-            <p>📄 Open your certificate:</p>
-            <a
-              href={`${process.env.REACT_APP_URL}/api/exam/certificate/download/${data.domain}/${data.level}/${certificateId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "blue", fontWeight: "bold" }}
-            >
-              View Certificate
-            </a>
+    <div className={isThumbnail ? "thumbnail-container" : "verify-container"}>
+      {!isThumbnail && (
+        <div className="verify-left">
+          <div className="brand">
+            <h2>MauryaAI 🚀</h2>
+            <p className="tagline">Skill Certification System</p>
           </div>
-        ) : pdfUrl ? (
+          <div className="user-info">
+            <p>
+              <span>User:</span> {data.userfullname}
+            </p>
+            <p>
+              <span>Domain:</span> {data.domain}
+            </p>
+            <p>
+              <span>Level:</span> {data.level}
+            </p>
+            <p>
+              <span>Score:</span> {data.score}%
+            </p>
+          </div>
+          <div className="watermark">
+            {data.userfullname} • Verified • {new Date().toLocaleDateString()}
+          </div>{" "}
+          <a href="/" className="home-btn">
+            🏠 Back to Home
+          </a>
+        </div>
+      )}
+      <div className={isThumbnail ? "thumbnail-view" : "verify-right"}>
+        {pdfUrl ? (
           <iframe
-            src={pdfUrl}
+            src={
+              isThumbnail
+                ? `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&zoom=20`
+                : `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&zoom=60`
+            }
             title="Certificate Preview"
             width="100%"
             height="100%"

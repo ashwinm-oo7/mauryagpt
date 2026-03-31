@@ -95,6 +95,9 @@ export default function UserLayout() {
         <NavLink to="/user">
           <FaHome />
         </NavLink>
+        <NavLink to="/user/DomainList">
+          <FaTelegramPlane />
+        </NavLink>
         <NavLink to="/user/certificates">
           <FaCertificate />
         </NavLink>

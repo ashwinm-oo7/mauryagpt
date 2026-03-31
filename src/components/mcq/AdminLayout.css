@@ -21,7 +21,11 @@
   color: white;
   display: flex;
   flex-direction: column;
-  transition:all 0.3s ease;
+  /* position: fixed;    */
+  /* top: 0; */
+  left: 0;
+  height: 100vh;     
+  /* z-index: 1000; */
 }
 
 /* COLLAPSED */
@@ -91,14 +95,16 @@
 
 /* MAIN */
 .AdminLayout-main {
+  /* margin-left: 240px;    */
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100vh;        /* ✅ FIX HEIGHT */
 }
 
 /* TOPBAR */
 .AdminLayout-topbar {
-  height: 60px;
+  height: 50px;
   background: white;
   display: flex;
   justify-content: space-between;
@@ -171,6 +177,7 @@
 .AdminLayout-content {
   flex: 1;
   padding: 15px;
+  overflow-y: auto;
 }
 
 /* DARK MODE */
@@ -190,6 +197,8 @@
 
 .desktop-only {
   display: inline-flex;
+  padding: 5px;
+  font-size: 20px;
 }
 
 /* MOBILE NAV BAR */
@@ -204,7 +213,26 @@
 .AdminLayout-topbar{
 display: none;
 }
+  .AdminLayout-main {
+    margin-left: 0;   /* ✅ RESET for mobile */
+  }
 
+.AdminLayout-content{
+  padding: 5px;
+}
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background: white;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+  }
   /* SHOW MOBILE BTN */
   .mobile-only {
     display: inline-flex;

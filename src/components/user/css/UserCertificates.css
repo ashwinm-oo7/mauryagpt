@@ -23,8 +23,8 @@
 }
 /* PREVIEW */
 .certificate-preview {
-  width: 400px;
-  height: 200px;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid #ddd;
@@ -34,7 +34,7 @@
 .certificate-preview iframe {
   width: 100%;
   height: 100%;
-  pointer-events: none; /* prevent scroll inside */
+  pointer-events: fill; /* prevent scroll inside */
 }
 
 .certificate-card:hover {
@@ -146,11 +146,15 @@ button:disabled {
   }
 
   .certificate-actions {
-    flex-direction: column;
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
   }
 
   .certificate-card button {
     width: 100%;
+    min-width: 60px;
+    font-size: 8px;
   }
 }
 .certificate-thumbnail {

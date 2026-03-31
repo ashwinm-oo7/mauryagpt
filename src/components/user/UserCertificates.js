@@ -5,6 +5,7 @@ import { LoadingComponent } from "../../utils/LoadingComponent";
 import toast from "react-hot-toast";
 
 import "./css/UserCertificates.css";
+import { FaClipboard, FaDownload, FaShare } from "react-icons/fa";
 export default function UserCertificates() {
   const [certs, setCerts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -104,7 +105,8 @@ export default function UserCertificates() {
             {/* LEFT: PREVIEW */}
             <div className="certificate-preview">
               <iframe
-                src={`${window.location.origin}/verify/${c.certificateId}`}
+                src={`${window.location.origin}/verify/${c.certificateId}?thumbnail=true`}
+                // src={`${window.location.origin}api/exam/certificate/download/${c.domain}/${c.level}/${c.certificateId}`}
                 title="preview"
               />
             </div>
@@ -130,6 +132,8 @@ export default function UserCertificates() {
                     downloadCertificate(c.domain, c.level, c.certificateId)
                   }
                 >
+                  <FaDownload />
+                  {"  "}
                   {actionLoading === c.certificateId + "-download"
                     ? "Downloading..."
                     : "Download"}
@@ -142,6 +146,8 @@ export default function UserCertificates() {
                     previewCertificate(c.domain, c.level, c.certificateId)
                   }
                 >
+                  <FaClipboard />
+                  {"  "}
                   Preview
                 </button>
 
@@ -149,6 +155,8 @@ export default function UserCertificates() {
                   className="btn-share"
                   onClick={() => getShareLink(c.certificateId)}
                 >
+                  <FaShare />
+                  {"  "}
                   Share
                 </button>
               </div>

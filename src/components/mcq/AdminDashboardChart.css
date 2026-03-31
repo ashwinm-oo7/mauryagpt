@@ -1,48 +1,64 @@
+/* ===== ROOT ===== */
 .AdminDashboardChart-container {
   padding: 20px;
   background: #f3f4f6;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
+/* ===== TITLE ===== */
 .AdminDashboardChart-title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 20px;
 }
 
+/* ===== CARDS ===== */
 .AdminDashboardChart-cards {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
 }
 
 .AdminDashboardChart-card {
-  flex: 1;
   background: white;
-  padding: 20px;
+  padding: 18px;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+
+.AdminDashboardChart-card:hover {
+  transform: translateY(-3px);
 }
 
 .AdminDashboardChart-card h3 {
+  font-size: 13px;
   color: #6b7280;
-  font-size: 14px;
 }
 
 .AdminDashboardChart-card p {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
+/* ===== SECTION ===== */
 .AdminDashboardChart-section {
   background: white;
   padding: 20px;
   border-radius: 12px;
 }
 
+.section-title {
+  margin-bottom: 10px;
+}
+
+/* ===== DOMAIN LIST ===== */
 .AdminDashboardChart-domainList {
-  margin-top: 15px;
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .AdminDashboardChart-domainItem {
@@ -50,20 +66,109 @@
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
+  font-size: 14px;
 }
 
+/* ===== CHARTS ===== */
 .AdminDashboardChart-charts {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
-  margin-top: 30px;
-  flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .AdminDashboardChart-chartCard {
-  flex: 1;
-  min-width: 300px;
-  background: white;
-  padding: 20px;
+  background: #fff;
+  padding: 15px;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.AdminDashboardChart-chartCard h4 {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* ===== LOADING ===== */
+.AdminDashboardChart-loading {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ddd;
+  border-top: 4px solid #6366f1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== EMPTY ===== */
+.AdminDashboardChart-empty {
+  text-align: center;
+  padding: 50px;
+  color: #777;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+  .AdminDashboardChart-container {
+    padding: 5px;
+  }
+  .AdminDashboardChart-domainItem{
+    font-size: 10px;
+  }
+  .section-title {
+    margin-bottom: 0px;
+    font-size: 12px;
+}
+.AdminDashboardChart-card{
+  padding: 5px;
+  width: -webkit-fill-available;
+}
+.AdminDashboardChart-cards {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px;
+      }
+      .AdminDashboardChart-card p {
+        margin: 5px;
+      }
+  .AdminDashboardChart-title {
+    font-size: 20px;
+  }
+
+  .AdminDashboardChart-card p {
+    font-size: 22px;
+  }
+
+  .AdminDashboardChart-domainList {
+    max-height: 150px;
+  }
+.AdminDashboardChart-section {
+padding: 5px;
+}
+  .AdminDashboardChart-chartCard {
+    padding: 6px;
+  }
+
+  .AdminDashboardChart-chartCard h4 {
+    font-size: 13px;
+  }
+    .AdminDashboardChart-charts {
+    grid-template-columns: 1fr;
+  }
+
 }

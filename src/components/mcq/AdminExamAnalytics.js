@@ -112,32 +112,33 @@ export default function AdminExamAnalytics() {
           <tbody>
             {attempts.map((a) => (
               <tr key={a._id}>
-                <td>{a.user?.name}</td>
-
-                <td>{a.user?.email}</td>
-
-                <td>{a.score}</td>
-
-                <td>{new Date(a.createdAt).toLocaleString()}</td>
-
-                <td>
+                <td data-label="User">
+                  <span>{a.user?.name}</span>
+                </td>
+                <td data-label="Email">
+                  <span>{a.user?.email}</span>
+                </td>
+                <td data-label="Score">
+                  <span>{a.score}</span>
+                </td>
+                <td data-label="Date">
+                  <span>{new Date(a.createdAt).toLocaleString()}</span>
+                </td>
+                <td data-label="Action">
                   <button
-                    className="admin-action-btn"
+                    className="AdminExamAnalytics-viewBtn"
                     onClick={() =>
                       navigate(`/admin/exam/${a._id}`, {
-                        state: {
-                          domain,
-                          level,
-                        },
+                        state: { domain, level },
                       })
                     }
                   >
                     View
-                  </button>{" "}
+                  </button>
                 </td>
               </tr>
             ))}
-          </tbody>{" "}
+          </tbody>
         </table>
 
         {attempts.length === 0 && !loading && (

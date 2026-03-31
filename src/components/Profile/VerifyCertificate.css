@@ -1,22 +1,162 @@
 .verify-container {
   display: flex;
   height: 100vh;
+  font-family: "Segoe UI", sans-serif;
 }
 
+/* LEFT PANEL */
 .verify-left {
-  width: 30%;
-  background: #0f172a;
+  width: 20%;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
-  padding: 30px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.verify-right {
-  width: 70%;
-  background: #f1f5f9;
+.brand h2 {
+  margin: 0;
+  font-size: 22px;
+  color:white;
+}
+.watermark {
+  position: absolute;
+  font-size: 30px;
+  opacity: 0.08;
+  transform: rotate(-25deg);
+  pointer-events: none;
+}
+.tagline {
+  font-size: 13px;
+  color: #94a3b8;
 }
 
-.verified {
+.user-info {
+  margin-top: 30px;
+}
+
+.user-info p {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.user-info span {
+  font-weight: bold;
+  color: #38bdf8;
+}
+
+.status {
   margin-top: 20px;
   color: #22c55e;
   font-weight: bold;
+}
+
+.home-btn {
+  display: block;
+  margin-top: 30px;
+  text-align: center;
+  padding: 10px;
+  background: #38bdf8;
+  color: black;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* RIGHT PANEL */
+.verify-right {
+  width: 80%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-frame {
+  width: 95%;
+  height: 95%;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* OPTIONAL WATERMARK */
+.verify-right::after {
+  content: "Verified by MauryaAI";
+  position: absolute;
+  font-size: 40px;
+  opacity: 0.05;
+  transform: rotate(-30deg);
+}
+
+/* NORMAL VIEW */
+.verify-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* THUMBNAIL MODE */
+.thumbnail-container {
+  width: 100vw;
+  height: 100vh;
+  background: black;
+}
+
+/* FULLSCREEN CERT */
+.thumbnail-view {
+  width: 390px;
+  height: 180px;
+}
+
+.thumbnail-view .pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* OPTIONAL: make it look premium */
+.thumbnail-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+
+/* ================= MOBILE ONLY CERTIFICATE ================= */
+@media (max-width: 768px) {
+  .verify-container {
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ❌ Hide LEFT PANEL completely */
+  .verify-left {
+    display: none !important;
+  }
+
+  /* ✅ Certificate takes full screen */
+  .verify-right {
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    background: black; /* optional premium look */
+  }
+
+  /* ✅ Fit certificate properly */
+  .pdf-frame {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+        transform-origin: center;
+
+  }
+
+  /* ❌ Remove watermark overlay (optional cleaner look) */
+  .verify-right::after {
+    display: none;
+  }
 }
