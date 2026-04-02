@@ -226,23 +226,20 @@ export default function AdminLayout() {
       <div className="mobile-bottom-nav">
         <NavLink to="/admin" end>
           <FaTachometerAlt />
-          <span>Home</span>
         </NavLink>
 
         <NavLink to="/admin/analytics">
           <FaChartBar />
-          <span>Attempts</span>
         </NavLink>
 
         <NavLink to="/admin/mcq">
           <FaQuestionCircle />
-          <span>MCQ</span>
         </NavLink>
 
-        <button onClick={logout}>
+        {/* <button onClick={logout}>
           <FaSignOutAlt />
           <span>Logout</span>
-        </button>
+        </button> */}
       </div>
     </div>
   );

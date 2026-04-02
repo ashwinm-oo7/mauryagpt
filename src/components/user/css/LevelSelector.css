@@ -61,3 +61,16 @@
 .level-list li button:active {
   transform: scale(0.96);
 }
+
+@media (max-width: 768px) {
+.level-list li button {
+    width: 100%;
+    padding: 10px 6px;
+    font-size: 12px;
+    border-radius: 30px;
+    font-weight: 500;
+    cursor: pointer;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 6px 16px rgba(198, 191, 191, 0.08);
+}
+}

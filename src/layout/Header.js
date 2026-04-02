@@ -74,10 +74,6 @@ function Header() {
 
           {user ? (
             <>
-              <div className="btn light" onClick={handleLogout}>
-                Logout
-              </div>
-
               <Link
                 onClick={() => setMenuOpen(false)}
                 className="btn dark"
@@ -127,6 +123,11 @@ function Header() {
           >
             SabReport
           </Link>
+          {user && (
+            <div className="btn light" onClick={handleLogout}>
+              Logout
+            </div>
+          )}
         </div>
       </div>
       {/* {menuOpen && (

@@ -73,7 +73,7 @@
 }
 
 /* COLLAPSE TEXT */
-.UserLayout-container.collapsed .UserLayout-sidebar-span {
+.UserLayout-container.collapsed .a-sidebar-span {
   display: none;
 }
 .UserLayout-container.collapsed .UserLayout-logo {
