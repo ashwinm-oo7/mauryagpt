@@ -122,7 +122,7 @@ const Register = () => {
       <h2>Register</h2>
       {step === 1 ? (
         <form onSubmit={handleRegister}>
-          <div className="form-group">
+          <div className="login-form-group">
             <label>Email:</label>
             <input
               type="text"
@@ -133,7 +133,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="login-form-group">
             <label>Password:</label>
             <div className="password-wrapper">
               <input
@@ -174,7 +174,8 @@ const Register = () => {
         </form>
       ) : (
         <form onSubmit={handleOtpVerify}>
-          <div className="form-group">
+          <div className="login-form-group">
+            <label> {email}</label>
             <label>Enter OTP sent to your email:</label>
             <input
               type="text"

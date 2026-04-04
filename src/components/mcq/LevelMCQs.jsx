@@ -127,7 +127,10 @@ const LevelMCQs = ({ level, onDelete, onEdit, domain, refresh }) => {
           Level {level.number} — Timer: {level.timeLimit} min
         </span>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div
+          className="levelmcq-length"
+          style={{ display: "flex", alignItems: "center", gap: "10px" }}
+        >
           <span onClick={() => setOpen(!open)} style={{ cursor: "pointer" }}>
             {questions.length} / {questions.length} {open ? "▲" : "▼"}
           </span>
@@ -216,7 +219,9 @@ const LevelMCQs = ({ level, onDelete, onEdit, domain, refresh }) => {
                           <p className="question">
                             {q.step}) {q.question}
                           </p>
-                          <p>(Min:{q.timeLimit})</p>
+                          <p className="levelmcq-timelimit">
+                            (Min:{q.timeLimit})
+                          </p>
                           <ul className="options">
                             {q.options.map((opt, i) => (
                               <li key={i}>

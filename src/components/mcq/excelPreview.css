@@ -221,3 +221,14 @@ tbody tr:hover {
 .confirm-btn:hover {
   transform: scale(1.05);
 }
+
+@media (max-width: 768px) {
+
+.excel-upload-box {
+    padding: 5px;
+    background: #cbcbcb;
+    width: -webkit-fill-available;
+    height: 13px;
+    font-size: 9px;
+}
+}

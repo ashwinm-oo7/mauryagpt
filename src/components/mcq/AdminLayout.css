@@ -213,26 +213,17 @@
 .AdminLayout-topbar{
 display: none;
 }
+.AdminLayout-container {
+margin-bottom: a0px;
+}
   .AdminLayout-main {
     margin-left: 0;   /* ✅ RESET for mobile */
   }
 
 .AdminLayout-content{
-  padding: 5px;
+  padding: 0px;
 }
-  .mobile-bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 65px;
-    background: white;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1000;
-  }
+
   /* SHOW MOBILE BTN */
   .mobile-only {
     display: inline-flex;
@@ -261,7 +252,8 @@ display: none;
 
   /* CONTENT PADDING FOR BOTTOM NAV */
   .AdminLayout-content {
-    padding-bottom: 80px;
+    padding-bottom: 0px;
+    margin-bottom: 45px;
   }
 
   /* 🔥 BOTTOM NAV */
@@ -270,8 +262,8 @@ display: none;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 65px;
-    background: white;
+    height: 35px;
+    background: #ffffffe8;
     border-top: 1px solid #ddd;
     display: flex;
     justify-content: space-around;

@@ -19,6 +19,7 @@ align-items:flex-start;
 
 .exam-main{
 flex:1;
+width: -webkit-fill-available;
 }
 
 .exam-sidebar{
@@ -26,11 +27,26 @@ position:sticky;
 top:20px;
 }
 @media(max-width:900px){
-
+.palette {
+  width: -webkit-fill-available !important;
+  padding: 5px;
+}
+.palette h4{
+  margin: 10px;
+}
 .exam-layout{
 flex-direction:column;
 }
-
+.palette-grid {
+    display: grid !important;
+    grid-template-columns: repeat(9, 1fr) !important;
+    gap: 5px !important;
+}
+.palette-btn {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 9px;
+}
 .exam-sidebar{
 position:static;
 width:100%;

@@ -92,7 +92,7 @@ export default function UserLayout() {
         </div>
       </div>
       <div className="mobile-bottom-nav">
-        <NavLink to="/user">
+        <NavLink to="/user" end>
           <FaHome />
         </NavLink>
         <NavLink to="/user/DomainList">

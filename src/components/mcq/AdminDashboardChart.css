@@ -148,10 +148,16 @@
       }
   .AdminDashboardChart-title {
     font-size: 20px;
+    margin: 5px;
   }
+.AdminDashboardChart-card h3 {
+    font-size: 10px;
+    color: #6b7280;
+    margin: 1px;
+}
 
   .AdminDashboardChart-card p {
-    font-size: 22px;
+    font-size: 12px;
   }
 
   .AdminDashboardChart-domainList {
@@ -166,6 +172,7 @@ padding: 5px;
 
   .AdminDashboardChart-chartCard h4 {
     font-size: 13px;
+    margin: 5px;
   }
     .AdminDashboardChart-charts {
     grid-template-columns: 1fr;

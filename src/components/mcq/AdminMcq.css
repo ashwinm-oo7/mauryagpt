@@ -453,9 +453,12 @@
 
   /* Page padding */
   .admin-mcq-page {
-    padding: 10px;
+    padding: 5px 5px;
   }
-
+.options {
+    padding-left: 1px !important;
+    margin: 6px;
+}
   .adminmcq-container {
     width: 100%;
     padding: 0;
@@ -463,14 +466,14 @@
 
   /* Title */
   .page-title {
-    font-size: 18px;
+    font-size: 15px;
     text-align: center;
   }
 
   /* -------- TOP CONTAINER -------- */
   .top-right-container {
-    padding: 10px;
-    gap: 12px;
+    padding: 5px;
+    gap: 5px;
   }
 
   /* Stack inputs vertically */
@@ -481,12 +484,12 @@
 
   .input-container input,
   .input-container button {
-    width: 100%;
-    font-size: 14px;
+    width: -webkit-fill-available;
+    font-size: 10px;
   }
 
   .input-container button {
-    padding: 10px;
+    padding: 5px;
   }
 
   /* -------- DOMAIN SELECTOR -------- */
@@ -497,41 +500,73 @@
   .domain-selector input,
   .domain-selector select {
     width: -webkit-fill-available;
-    font-size: 14px;
+    font-size: 10px;
   }
-
+.create-card-h2 {
+    font-size: 15px !important;
+}
   /* -------- FORM -------- */
   .form-row {
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
   }
-
+.form-group label{
+  font-size: 12px;
+}
   .form-group {
     width: 100%;
+    margin-bottom: 5px;
   }
 
   .form-group input,
   .form-group textarea,
   .form-group select {
     width: -webkit-fill-available;
-    font-size: 14px;
+    font-size: 10px;
   }
 
   .submit-btn {
     width: 100%;
-    padding: 12px;
+    padding: 7px;
+    border-radius:30px
   }
-
+.level-header {
+font-size: 14px;
+}
+.levelmcq-length{
+  justify-content: space-between;
+}
+.delete-level-btn{
+  font-size: 8px;
+  padding: 5px 5px;
+}
+.mcq-search {
+font-size: 8px;
+}
+.bulk-actions label {
+    font-size: 10px;
+}
   /* -------- LEVEL CARD -------- */
   .level-card {
-    padding: 12px;
+    padding: 5px;
+    width: -webkit-fill-available;
   }
-
+.levelmcq-timelimit{
+  margin: 5px;
+  font-size: 9px;
+  color: rgb(228, 68, 68);
+}
   .level-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
   }
+  .explanation {
+    font-size: 11px !important;
+    color: #555 !important;
+    margin: 5px !important; 
+    padding: 0px !important;
+}
 
   /* -------- BULK ACTIONS -------- */
   .bulk-actions {
@@ -541,31 +576,39 @@
   }
 
   .bulk-delete-btn {
-    width: 100%;
+    width: -webkit-fill-available;
+    margin: 0px 50px;
   }
+.selection-info{
+  margin: 2px;
+}
 
   /* -------- MCQ CARD -------- */
   .mcq-card {
-    padding: 12px;
+    padding: 5px;
   }
 
   .mcq-card .question {
-    font-size: 15px;
+    font-size: 12px;
+    margin: 5px 0px 5px 5px;
   }
 
   .mcq-card .options li {
-    font-size: 14px;
+    font-size: 10px;
   }
 
   /* Buttons stack */
   .mcq-actions {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   .edit-btn,
   .delete-btn {
-    width: 100%;
-    padding: 10px;
+    width: 100px;
+    padding: 6px;
+    font-size: 8px;
+    display: block;
   }
 
   /* -------- SEARCH -------- */
@@ -575,7 +618,10 @@
 
   /* -------- RADIO OPTIONS -------- */
   .radio-options {
-    flex-direction: column;
-    gap: 8px;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
   }
 }
