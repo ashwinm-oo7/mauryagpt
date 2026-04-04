@@ -44,6 +44,11 @@ const Register = () => {
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/api/auth/send-otp`,
         { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
       );
       console.log("send-otp", res);
       if (res.status === 200 || res.statusText === "ok") {
