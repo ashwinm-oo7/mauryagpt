@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../css/background-remover-result.png";
 const Register = () => {
   const [step, setStep] = useState(1); // Step 1 = form, Step 2 = OTP
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState(""); // New field
@@ -43,22 +43,34 @@ const Register = () => {
       setLoading(true);
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/api/auth/send-otp`,
-        { email },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+        { identifier },
       );
       console.log("send-otp", res);
       if (res.status === 200 || res.statusText === "ok") {
-        setMsg("OTP sent to your email.");
+        setMsg(res.data?.msg || "OTP sent to your identifier.");
         setStep(2); // Move to OTP entry step
         setResendTimer(60); // Start 60-second countdown
       }
     } catch (err) {
-      setErrorMsg(err.response?.data?.msg || "Error sending OTP.");
-      console.log(err.response?.data?.msg || "Error Sending OTPs");
+      console.log("❌ FULL ERROR:", err);
+      if (err.response) {
+        const status = err.response.status;
+        const message = err.response.data?.msg;
+
+        if (status === 400) {
+          setErrorMsg(message || "Invalid request.");
+        } else if (status === 429) {
+          setErrorMsg(message || "Please wait before requesting OTP again.");
+        } else if (status === 500) {
+          setErrorMsg(message || "Failed to send OTP. Try again later.");
+        } else {
+          setErrorMsg(message || "Something went wrong.");
+        }
+      } else if (err.request) {
+        setErrorMsg("Server not responding. Please try again.");
+      } else {
+        setErrorMsg("Unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
@@ -91,7 +103,7 @@ const Register = () => {
       setLoading(true);
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/api/auth/verify-otp`,
-        { email, password, otp },
+        { identifier, password, otp },
       );
       console.log("verigyOtp", res);
       if (res.status === 200 || res.statusText === "ok") {
@@ -128,13 +140,13 @@ const Register = () => {
       {step === 1 ? (
         <form onSubmit={handleRegister}>
           <div className="login-form-group">
-            <label>Email:</label>
+            <label>Identifier:</label>
             <input
               type="text"
               placeholder="you@example.com"
-              value={email}
+              value={identifier}
               required
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setIdentifier(e.target.value)}
             />
           </div>
 
@@ -180,8 +192,8 @@ const Register = () => {
       ) : (
         <form onSubmit={handleOtpVerify}>
           <div className="login-form-group">
-            <label> {email}</label>
-            <label>Enter OTP sent to your email:</label>
+            <label> {identifier}</label>
+            <label>Enter OTP sent to your identifier:</label>
             <input
               type="text"
               placeholder="Enter OTP"
