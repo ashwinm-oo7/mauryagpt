@@ -143,7 +143,7 @@ const Register = () => {
             <label>Identifier:</label>
             <input
               type="text"
-              placeholder="you@example.com"
+              placeholder="Enter Your Email or TelegramID"
               value={identifier}
               required
               onChange={(e) => setIdentifier(e.target.value)}

@@ -88,7 +88,7 @@ const Login = () => {
           <label>Email:</label>
           <input
             type="email"
-            placeholder="you@example.com"
+            placeholder="Enter Your Email or TelegramID"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
@@ -100,7 +100,7 @@ const Login = () => {
           <div className="password-wrapper">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="********"
+              placeholder="Enter Your Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"

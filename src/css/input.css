@@ -63,31 +63,6 @@
     background-color: #e0a800;
   }
 
-  @media (max-width: 600px) {
-    .input-area {
-        flex-direction: row;
-        padding: 0.1rem;
-      }
-    
-    .input-area input {
-      font-size: 0.9rem;
-      padding: 8px;
-    }
-    .input-area input {
-        font-size: 1rem;
-      }
-    
-    .input-area button {
-      padding: 0.8rem 1.2rem;
-      font-size: 0.9rem;
-    }
-    .input-area button,
-    .stop-button {
-      padding: 0.8rem 1rem;
-      font-size: 0.9rem;
-    }
-  
-  }
 
   .input-wrapper {
     width: 100%;
@@ -285,4 +260,28 @@
     }
     
   }
+    @media (max-width: 600px) {
+    .input-area {
+        flex-direction: row;
+        padding: 0.1rem;
+      }
+    
+    .input-area input {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+    .input-area input {
+        font-size: 1rem;
+      }
+    
+    .input-area button {
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+    }
+    .input-area button,
+    .stop-button {
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+    }
   
+  }
