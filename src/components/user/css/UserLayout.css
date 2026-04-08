@@ -73,12 +73,15 @@
 }
 
 /* COLLAPSE TEXT */
-.UserLayout-container.collapsed .a-sidebar-span {
-  display: none;
-}
+
 .UserLayout-container.collapsed .UserLayout-logo {
   display: none;
 }
+.UserLayout-container.collapsed span ,
+.UserLayout-container.collapsed h2 {
+  display: none;
+}
+
 
 /* FOOTER */
 .sidebar-footer {

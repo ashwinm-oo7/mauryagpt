@@ -188,6 +188,12 @@ const Register = () => {
           <button type="submit" disabled={loading}>
             {loading ? "Sending OTP..." : "Register"}
           </button>
+          <button>
+            Want to use Telegram?
+            <Link to="https://t.me/MauryaTechBot" target="_blank">
+              Click here and press START
+            </Link>
+          </button>
         </form>
       ) : (
         <form onSubmit={handleOtpVerify}>

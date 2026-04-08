@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext"; // Import the useAuth hook
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../css/background-remover-result.png";
+import axios from "axios";
 
 const Login = () => {
   const { login } = useAuth(); // use saveToken now instead of setToken
@@ -17,9 +18,13 @@ const Login = () => {
   const [loading, setLoading] = useState(false); // To handle loading state during API call
   const navigate = useNavigate();
 
-  const validateEmail = (email) => {
-    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return re.test(email);
+  const validateIdentifier = (value) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+    // Telegram username: @username OR numeric chat ID
+    const telegramRegex = /^(@[a-zA-Z0-9_]{5,}|[0-9]{6,})$/;
+
+    return emailRegex.test(value) || telegramRegex.test(value);
   };
   const validatePassword = (password) => {
     const re =
@@ -39,8 +44,8 @@ const Login = () => {
       return;
     }
 
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email.");
+    if (!validateIdentifier(email)) {
+      setError("Enter valid Email or Telegram ID (@username or chat ID)");
       setLoading(false);
       return;
     }
@@ -61,7 +66,37 @@ const Login = () => {
       setLoading(false); // Reset loading after API call
     }
   };
+  const handleTelegramLogin = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_URL}/api/auth/telegram-login-token`,
+    );
 
+    const { token, botLink } = res.data;
+
+    // open Telegram bot
+    window.open(botLink, "_blank");
+
+    // poll for verification
+    const interval = setInterval(async () => {
+      try {
+        const verify = await axios.post(
+          `${process.env.REACT_APP_URL}/api/auth/telegram-login-verify`,
+          { token },
+        );
+
+        if (verify.data.accessToken) {
+          clearInterval(interval);
+
+          // save token
+          localStorage.setItem("token", verify.data.accessToken);
+
+          window.location.href = "/";
+        }
+      } catch (err) {
+        // still waiting
+      }
+    }, 2000);
+  };
   return (
     <div className="login-container">
       <h2>
@@ -87,8 +122,8 @@ const Login = () => {
         <div className="login-form-group">
           <label>Email:</label>
           <input
-            type="email"
-            placeholder="Enter Your Email or TelegramID"
+            type="text"
+            placeholder="Enter Email or Telegram ID (@username)"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
@@ -129,7 +164,7 @@ const Login = () => {
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
-
+        <button onClick={handleTelegramLogin}>Login with Telegram 🚀</button>
         {error && <div className="error">{error}</div>}
       </form>
 
