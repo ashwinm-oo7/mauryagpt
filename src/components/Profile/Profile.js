@@ -11,7 +11,6 @@ import {
   FaHeart,
   FaPlus,
   FaTrash,
-  FaUser,
 } from "react-icons/fa";
 import api from "../../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
@@ -392,13 +391,12 @@ const Profile = () => {
     <div className="profile-page">
       <div className="profile-card">
         <h2>My Profile</h2>
-        <p className="">
-          <FaUser />
+        <p className="profile-LogoutAll">
           <LogoutAll />
         </p>
-        <button onClick={() => window.open(`/${profile.name}`, "_blank")}>
+        {/* <button onClick={() => window.open(`/${profile.name}`, "_blank")}>
           View Public Profile
-        </button>
+        </button> */}
         {/* PERSONAL INFO */}
         <div className="profile-field">
           <label>Name</label>
@@ -571,7 +569,10 @@ const Profile = () => {
         {/* BUTTONS */}
         <div className="profile-buttons">
           {!editMode ? (
-            <button className="edit-btn" onClick={() => setEditMode(true)}>
+            <button
+              className="login-edit-btn"
+              onClick={() => setEditMode(true)}
+            >
               <FaUserEdit /> Edit Profile
             </button>
           ) : (

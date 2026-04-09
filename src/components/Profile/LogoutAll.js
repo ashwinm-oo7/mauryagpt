@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../auth/axiosInstance";
+import { FaUser } from "react-icons/fa";
+import "./LogoutAll.css";
 
 const LogoutAll = () => {
   const navigate = useNavigate();
@@ -27,13 +29,21 @@ const LogoutAll = () => {
   };
 
   return (
-    <div style={{ marginTop: "20px" }}>
+    <div className="logoutall-wrapper">
       <button
-        className="btn danger"
+        className="logoutall-btn"
         onClick={handleLogoutAll}
         disabled={loading}
       >
-        {loading ? "Logging out..." : "Logout from All Devices"}
+        <span className="logoutall-icon">
+          <FaUser />
+        </span>
+
+        <span className="logoutall-text">
+          {loading ? "Logging out..." : "Logout from All Devices"}
+        </span>
+
+        <span className="logoutall-glow" />
       </button>
     </div>
   );

@@ -33,7 +33,7 @@
   
   /* Input fields */
   .login-container input {
-    width: 100%;
+    width: -webkit-fill-available;
     padding: 10px;
     border-radius: 8px;
     border: none;
@@ -44,20 +44,125 @@
   }
   
   /* Button */
-  .login-container button {
-    width: 105%;
-    padding: 12px;
-    margin-top: 1rem;
-    background-color: #4e54c8;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.login-container button {
+  width: -webkit-fill-available;
+  padding: 10px;
+  margin-top: 12px;
+
+  border: none;
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  /* 🌈 Gradient background */
+  background: linear-gradient(
+    270deg,
+    #4e54c8,
+    #8f94fb,
+    #ff6a00,
+    #ee0979,
+    #4e54c8
+  );
+  background-size: 400% 400%;
+
+  /* ✨ Animation */
+  animation: gradientMove 6s ease infinite;
+
+  /* 💎 Shadow */
+  box-shadow: 0 8px 20px rgba(78, 84, 200, 0.3);
+
+  transition: all 0.3s ease;
+}
+
+/* 🌈 Gradient animation */
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
   }
-  
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ✨ Shine effect */
+.login-container button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+/* 🚀 Shine on hover */
+.login-container button:hover::before {
+  animation: shine 1s forwards;
+}
+.login-container button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+}
+
+/* shine animation */
+.login-container button:hover::after {
+  animation: mirrorShine 0.8s forwards;
+}
+
+@keyframes mirrorShine {
+  100% {
+    left: 150%;
+  }
+}
+@keyframes shine {
+  100% {
+    left: 130%;
+  }
+}
+
+/* 🔥 Hover effect */
+.login-container button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    0 12px 35px rgba(0, 0, 0, 0.35);
+}
+
+.login-container button:active {
+  transform: scale(0.96);
+}  
   .login-container button:hover {
     background-color: #5d64e2;
   }
@@ -75,7 +180,7 @@
   }
   
   .password-wrapper input {
-    width: 100%;
+    width: -webkit-fill-available;
     /* padding: 10px 40px 10px 10px;  */
     border-radius: 8px;
     border: none;
@@ -88,7 +193,7 @@
   .toggle-password {
     position: absolute;
     top: 50%;
-    right: 1px;
+    right: 10px;
     transform: translateY(-50%);
     color: #84848e;
     cursor: pointer;
@@ -109,3 +214,40 @@
     transition: border 0.1s ease, box-shadow 0.1s ease;
   }
   
+@media(max-width:600px){
+  .login-container {
+    max-width: 350px;
+    margin: 5px 30px;
+padding: 15px;
+        min-height: 81vh;
+}
+.login-container h2 {
+    text-align: center;
+    margin: 0px 0px 5px;
+    font-weight:800;
+}
+
+.login-container button {
+    width: -webkit-fill-available;
+    padding: 7px;
+    margin-top: 5px;
+    font-size: 11px;
+}
+.login-container input {
+    width: -webkit-fill-available;
+    padding: 7px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+.login-container .login-form-group {
+    margin-bottom: 5px;
+}
+
+.toggle-password {
+    right: 10px;
+    font-size: 14px;
+}
+
+
+
+}

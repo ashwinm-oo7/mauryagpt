@@ -241,7 +241,7 @@ select:focus{
   margin-top:35px;
 }
 
-.edit-btn,
+.login-edit-btn,
 .save-btn,
 .password-btn{
   border:none;
@@ -254,10 +254,7 @@ select:focus{
   font-size:14px;
 }
 
-.edit-btn{
-  background:#2563eb;
-  color:white;
-}
+
 
 .save-btn{
   background:#16a34a;
@@ -523,13 +520,21 @@ textarea{
 .resend-btn:hover {
   background: #3a0ca3;
 }
-@media(max-width:600px){
+.login-edit-btn {
+    background-color: #f39c12;
+    color: #fff;
+}
 
+@media(max-width:600px){
+.profile-card h2 {
+margin: 5px;
+}
   .profile-card{
-    padding:5px;
+    padding:10px;
   }
 .profile-page {
     padding: 1px 1px;
+    margin: 5px 10px;
 }
 .section-header h3{
   font-size: 14px;
@@ -546,8 +551,8 @@ textarea{
     gap:10px;
     margin: 5px;
   }
-  .edit-btn, .password-btn {
-    padding: 5px 5px;
+  .login-edit-btn, .password-btn {
+    padding: 8px 5px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
@@ -572,5 +577,6 @@ textarea{
   .modal-box button {
   padding: 5px 0px;
   }
+
 
 }
