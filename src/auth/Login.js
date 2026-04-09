@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../css/Login.css"; // Make sure the path is correct
 // import axios from "axios";a
 import { Link, useNavigate } from "react-router-dom";
@@ -6,9 +6,12 @@ import { useAuth } from "../auth/AuthContext"; // Import the useAuth hook
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../css/background-remover-result.png";
 import axios from "axios";
+import { io } from "socket.io-client";
+import { authStore } from "./authStore";
 
 const Login = () => {
-  const { login } = useAuth(); // use saveToken now instead of setToken
+  const socketRef = useRef(null);
+  const { login, fetchUser } = useAuth(); // use saveToken now instead of setToken
   // const { setToken } = useAuth();
   const [showPassword, setShowPassword] = useState(false); // 👈 visibility toggle
 
@@ -17,7 +20,16 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false); // To handle loading state during API call
   const navigate = useNavigate();
+  useEffect(() => {
+    socketRef.current = io(process.env.REACT_APP_URL, {
+      transports: ["websocket"], // 🔥 important
+      reconnection: true,
+    });
 
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, []);
   const validateIdentifier = (value) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -67,36 +79,43 @@ const Login = () => {
     }
   };
   const handleTelegramLogin = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_URL}/api/auth/telegram-login-token`,
-    );
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_URL}/api/auth/telegram-login-token`,
+      );
 
-    const { token, botLink } = res.data;
+      const { token, botLink } = res.data;
+      const socket = socketRef.current;
 
-    // open Telegram bot
-    window.open(botLink, "_blank");
+      // ✅ STEP 1: LISTEN FIRST
+      socket.once("telegram_verified", async () => {
+        console.log("🔥 EVENT RECEIVED IN FRONTEND");
 
-    // poll for verification
-    const interval = setInterval(async () => {
-      try {
         const verify = await axios.post(
           `${process.env.REACT_APP_URL}/api/auth/telegram-login-verify`,
           { token },
         );
 
-        if (verify.data.accessToken) {
-          clearInterval(interval);
+        authStore.setAccessToken(verify.data.accessToken);
+        localStorage.setItem("refreshToken", verify.data.refreshToken || "");
+        localStorage.setItem("accessToken", verify.data.accessToken);
+        await fetchUser();
 
-          // save token
-          localStorage.setItem("token", verify.data.accessToken);
+        // ✅ THEN navigate
+        navigate("/");
+      });
 
-          window.location.href = "/";
-        }
-      } catch (err) {
-        // still waiting
-      }
-    }, 2000);
+      // ✅ STEP 2: JOIN ROOM
+      socket.emit("join_room", token);
+      console.log("📤 Joined room from frontend:", token);
+
+      // ✅ STEP 3: OPEN TELEGRAM
+      window.open(botLink, "_blank");
+    } catch (err) {
+      console.error(err);
+    }
   };
+
   return (
     <div className="login-container">
       <h2>
@@ -164,9 +183,9 @@ const Login = () => {
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
-        <button onClick={handleTelegramLogin}>Login with Telegram 🚀</button>
         {error && <div className="error">{error}</div>}
       </form>
+      <button onClick={handleTelegramLogin}>Login with Telegram 🚀</button>
 
       <div>
         <p>

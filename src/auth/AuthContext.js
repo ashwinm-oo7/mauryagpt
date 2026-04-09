@@ -10,6 +10,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
   // Fetch user info from /me
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      authStore.setAccessToken(token);
+    }
+  }, []);
   const fetchUser = async (initial = false) => {
     if (initial) setLoading(true);
 
@@ -46,17 +52,28 @@ export const AuthProvider = ({ children }) => {
   };
   useEffect(() => {
     const initAuth = async () => {
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (!refreshToken) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const res = await api.post("/api/auth/refresh", {
-          token: localStorage.getItem("refreshToken"),
+          token: refreshToken,
         });
         console.log("initauth", res);
+        authStore.setAccessToken(res.data.accessToken);
+
         saveToken(res.data.accessToken);
         await fetchUser(true);
       } catch (e) {
         localStorage.removeItem("refreshToken");
         authStore.setAccessToken(null);
         setUser(null);
+        setLoading(false);
+      } finally {
         setLoading(false);
       }
     };
