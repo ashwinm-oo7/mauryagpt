@@ -137,7 +137,7 @@ const Login = () => {
         </a>
       </h2>
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <form className="login-form" onSubmit={handleLogin}>
         <div className="login-form-group">
           <label>Email:</label>
           <input

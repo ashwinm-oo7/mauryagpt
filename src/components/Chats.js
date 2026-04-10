@@ -28,7 +28,7 @@ const Chats = () => {
   const [topic, setTopic] = useState(""); // Or any selected topic
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State for sidebar visibility
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
 
   const messageEndRef = useRef(null);
   const typingTimeoutRef = useRef(null);
@@ -335,7 +335,9 @@ const Chats = () => {
           {isSidebarOpen ? <FaTimes /> : <FaBars />}
         </button>
         {isSidebarOpen && (
-          <div className="chat-list-container">
+          <div
+            className={`chat-list-container ${isSidebarOpen ? "active" : ""}`}
+          >
             <ChatListTopic
               // chatList={chatList && chatList}
               handleChatSwitch={handleChatSwitch}

@@ -217,8 +217,8 @@
 @media(max-width:600px){
   .login-container {
     max-width: 350px;
-    margin: 5px 30px;
-padding: 15px;
+    margin: 15px 30px;
+padding: 30px;
         min-height: 81vh;
 }
 .login-container h2 {
@@ -229,18 +229,18 @@ padding: 15px;
 
 .login-container button {
     width: -webkit-fill-available;
-    padding: 7px;
-    margin-top: 5px;
+    padding: 15px;
+    margin: 10px;
     font-size: 11px;
 }
 .login-container input {
     width: -webkit-fill-available;
-    padding: 7px;
+    padding: 15px;
     border-radius: 15px;
     font-size: 12px;
 }
 .login-container .login-form-group {
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .toggle-password {
