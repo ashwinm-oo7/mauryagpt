@@ -111,7 +111,7 @@ const Profile = () => {
 
     if (!/^\d{6}$/.test(paste)) return;
 
-    const otpDigits = paste.split("");
+    const otpDigits = paste?.split("");
 
     setOtpArray(otpDigits);
 
@@ -246,9 +246,15 @@ const Profile = () => {
     if (index !== null) {
       setWorkForm({
         ...profile.workExperiences[index],
-        startDate: profile.workExperiences[index].startDate.split("T")[0],
+        startDate: profile.workExperiences[index].startDate
+          ? new Date(profile.workExperiences[index].startDate)
+              .toISOString()
+              .split("T")[0]
+          : "",
         endDate: profile.workExperiences[index].endDate
-          ? profile.workExperiences[index].endDate.split("T")[0]
+          ? new Date(profile.workExperiences[index].endDate)
+              .toISOString()
+              .split("T")[0]
           : "",
       });
       setEditingWorkIndex(index);
@@ -391,9 +397,9 @@ const Profile = () => {
     <div className="profile-page">
       <div className="profile-card">
         <h2>My Profile</h2>
-        <p className="profile-LogoutAll">
+        <div className="profile-LogoutAll">
           <LogoutAll />
-        </p>
+        </div>
         {/* <button onClick={() => window.open(`/${profile.name}`, "_blank")}>
           View Public Profile
         </button> */}

@@ -564,8 +564,8 @@ margin: 5px;
 
   .modal-box{
     width:70%;
-        padding: 15px;
-        gap: 5px;
+    padding: 25px;
+    gap: 10px;
   }
   .modal-header h3 {
   margin: 3px;
@@ -575,7 +575,7 @@ margin: 5px;
     font-size: 9px;
   }
   .modal-box button {
-  padding: 5px 0px;
+  padding: 10px 10px;
   }
 
 
