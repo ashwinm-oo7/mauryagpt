@@ -27,6 +27,7 @@ import UserBadges from "../components/user/UserBadges";
 import UserLeaderboards from "../components/user/UserLeaderboard";
 import PublicProfile from "../components/Profile/PublicProfile";
 import VerifyCertificate from "../components/Profile/VerifyCertificate";
+import AdminUserList from "../components/mcq/AdminUserList";
 function AppRoutes() {
   return (
     <Routes>
@@ -71,6 +72,7 @@ function AppRoutes() {
           <Route path="analytics" element={<AdminExamAnalytics />} />
           <Route path="mcq" element={<AdminMcq />} />
           <Route path="exam/:examId" element={<AdminAttemptViewer />} />
+          <Route path="level/users" element={<AdminUserList />} />
         </Route>
       </Route>
       <Route element={<ProtectedRoute />}>

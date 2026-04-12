@@ -34,7 +34,7 @@
 }
 
 .AdminLayout-sidebar.collapsed span ,
-.AdminLayout-sidebar.collapsed h2 {
+.AdminLayout-sidebar.collapsed strong {
 
   display: none;
 }
@@ -207,6 +207,9 @@
 }
 .sidebar-header h2{
   color: white;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
 }
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {

@@ -27,6 +27,7 @@ const Profile = () => {
     education: [],
     workExperiences: [],
     hobbies: [],
+    nameLocked: false,
   });
 
   const [editMode, setEditMode] = useState(false);
@@ -73,7 +74,8 @@ const Profile = () => {
   // Hobby Input
   const [newHobby, setNewHobby] = useState("");
   const fetchedRef = useRef(false);
-
+  const [showNameVerifyModal, setShowNameVerifyModal] = useState(false);
+  const [confirmNameInput, setConfirmNameInput] = useState("");
   const handleOtpChange = (e, index) => {
     const value = e.target.value.replace(/\D/g, "");
 
@@ -136,7 +138,6 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const res = await api.get("/api/profile/me");
-        console.log("/api/profile", res);
         setProfile({
           name: res.data.name || "",
           phone: res.data.phone || "",
@@ -144,7 +145,9 @@ const Profile = () => {
           education: res.data.education || [],
           workExperiences: res.data.workExperiences || [],
           hobbies: res.data.hobbies || [],
+          nameLocked: res.data?.nameLocked || false,
         });
+        console.log("/api/profile", res);
       } catch (err) {
         console.error("Profile fetch failed", err);
         navigate("/");
@@ -332,7 +335,7 @@ const Profile = () => {
     try {
       console.log("Profile Data:", profile); // Log the profile data before sending the request
 
-      await api.put(`/api/profile`, profile);
+      await api.put(`/api/profile/update`, profile);
       console.log("/api/profile/update", api);
       setEditMode(false);
       alert("Profile saved successfully! 🎉");
@@ -410,8 +413,27 @@ const Profile = () => {
             name="name"
             value={profile.name}
             onChange={handleChange}
-            disabled={!editMode}
+            disabled={!editMode || profile.nameLocked}
           />
+
+          <div className="verify-name-box">
+            <input
+              type="checkbox"
+              checked={profile.nameLocked || false}
+              onChange={() => {
+                if (!profile.nameLocked) {
+                  setShowNameVerifyModal(true); // open modal
+                }
+              }}
+              disabled={!editMode || profile.nameLocked}
+            />
+
+            <span>
+              {profile.nameLocked
+                ? "Verified"
+                : "Lock this name for certificate (cannot be changed later)"}
+            </span>
+          </div>
         </div>
         <div className="profile-field">
           <label>Email</label>
@@ -812,6 +834,56 @@ const Profile = () => {
                 )}
               </>
             )}
+          </div>
+        </div>
+      )}
+      {showNameVerifyModal && (
+        <div className="verify-modal-overlay">
+          <div className="verify-modal-box">
+            <h3>🔒 Confirm Name Lock</h3>
+
+            <p>This name will be permanently used in your certificate.</p>
+
+            <div className="verify-name-preview">{profile.name}</div>
+
+            <p className="verify-instruction">
+              Type your name exactly to confirm:
+            </p>
+
+            <input
+              type="text"
+              value={confirmNameInput}
+              onChange={(e) => setConfirmNameInput(e.target.value)}
+              placeholder="Type exact name"
+            />
+
+            <div className="verify-actions">
+              <button
+                className="profile-cancel-btn"
+                onClick={() => {
+                  setShowNameVerifyModal(false);
+                  setConfirmNameInput("");
+                }}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="profile-confirm-btn"
+                disabled={confirmNameInput !== profile.name}
+                onClick={() => {
+                  setProfile((prev) => ({
+                    ...prev,
+                    nameLocked: true,
+                  }));
+
+                  setShowNameVerifyModal(false);
+                  setConfirmNameInput("");
+                }}
+              >
+                Confirm & Lock
+              </button>
+            </div>
           </div>
         </div>
       )}

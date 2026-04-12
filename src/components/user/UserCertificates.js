@@ -17,17 +17,16 @@ export default function UserCertificates() {
 
     try {
       const res = await api.get("/api/exam/exam/my-certificates");
-
-      if (!res.data.success) {
-        throw new Error(res.data.message || "Failed to load certificates");
+      console.log("api/exam/my-certificate", res);
+      if (res.data.success) {
+        setCerts(res.data.data || []);
+        return;
       }
-
-      setCerts(res.data.data || []);
     } catch (err) {
       console.error("Certificate load error:", err);
 
       setError(
-        err?.response?.data?.message ||
+        err?.response?.data?.msg ||
           err.message ||
           "Failed to load certificates",
       );
@@ -92,7 +91,11 @@ export default function UserCertificates() {
   if (loading) return <LoadingComponent />;
 
   if (error) {
-    return <p style={{ color: "red" }}>{error}</p>;
+    return (
+      <p className="message error-message" style={{ color: "red" }}>
+        {error}
+      </p>
+    );
   }
   return (
     <div className="certificate-card-container">

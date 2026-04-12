@@ -1,0 +1,54 @@
+.admin-users-container {
+  padding: 20px;
+}
+.admin-users-btn.warning {
+  background: #faad14;
+  color: white;
+}
+.admin-users-btn.purple {
+  background: #722ed1;
+  color: white;
+}
+.admin-users-btn.red {
+  background: red;
+  color: white;
+}
+.admin-users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.admin-users-table th,
+.admin-users-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.admin-users-table th {
+  background: #f5f6ff;
+}
+
+.admin-users-table tr:hover {
+  background: #fafaff;
+}
+
+.admin-users-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  width: -webkit-fill-available;
+}
+
+.admin-users-btn.danger {
+  background: #ff4d4f;
+  color: white;
+}
+
+.admin-users-btn.success {
+  background: #52c41a;
+  color: white;
+}

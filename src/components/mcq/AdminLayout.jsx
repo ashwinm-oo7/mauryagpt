@@ -10,6 +10,7 @@ import {
   FaSun,
   FaBell,
   FaUserShield,
+  FaListAlt,
 } from "react-icons/fa";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -104,8 +105,7 @@ export default function AdminLayout() {
             <div className="sidebar-header">
               <h2>
                 <FaUserShield />
-                {"  "}
-                Admin
+                <strong>Admin</strong>
               </h2>
               {isMobile && <span onClick={() => setMobileOpen(false)}>✕</span>}
             </div>
@@ -135,6 +135,13 @@ export default function AdminLayout() {
               >
                 <FaQuestionCircle />
                 <span>MCQ</span>
+              </NavLink>
+              <NavLink
+                to="/admin/level/users"
+                onClick={() => isMobile && setMobileOpen(false)}
+              >
+                <FaListAlt />
+                <span>User List</span>
               </NavLink>
             </nav>
 
