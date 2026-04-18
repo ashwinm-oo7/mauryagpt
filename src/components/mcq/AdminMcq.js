@@ -25,6 +25,32 @@ const AdminMcq = () => {
   const [showProgress, setShowProgress] = useState(false);
   const [status, setStatus] = useState("Preparing upload...");
   const [resetPreview, setResetPreview] = useState(false);
+  const [levelFilter, setLevelFilter] = useState("");
+
+  const handleExport = async () => {
+    try {
+      const params = new URLSearchParams();
+
+      if (selectedDomain) params.append("domain", selectedDomain);
+      if (levelFilter) params.append("level", levelFilter);
+
+      const res = await api.get(`/api/mcq/export?${params.toString()}`, {
+        responseType: "blob",
+      });
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.setAttribute("download", "mcqs.xlsx");
+      document.body.appendChild(link);
+      link.click();
+
+      toast.success("Export started");
+    } catch (err) {
+      toast.error("Export failed");
+    }
+  };
   const generateAI = async () => {
     try {
       const res = await api.post("/api/mcq/generate-ai", {
@@ -194,6 +220,28 @@ const AdminMcq = () => {
         {/* Top Right Container with both AI Generator and File Upload */}
         <div className="top-right-container">
           <h1 className="page-title">Admin MCQ Dashboard</h1>
+          <div className="export-section">
+            <select
+              value={selectedDomain}
+              onChange={(e) => setSelectedDomain(e.target.value)}
+            >
+              <option value="">All Domains</option>
+              {domains.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="number"
+              placeholder="Level (optional)"
+              value={levelFilter || ""}
+              onChange={(e) => setLevelFilter(e.target.value)}
+            />
+
+            <button onClick={handleExport}>📥 Export Excel</button>
+          </div>
           <div className="ai-generator">
             <div className="input-container">
               <input

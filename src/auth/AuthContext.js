@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.get("/api/auth/me");
       setUser(res.data);
+      console.log("user la", res);
     } catch (err) {
       try {
         const ress = await api.post("/api/auth/refresh", {

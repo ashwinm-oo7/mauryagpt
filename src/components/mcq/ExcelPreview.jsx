@@ -48,7 +48,7 @@ export default function ExcelPreview({
         {file && <p className="file-name">📁 {file.name}</p>}
         <label className="excel-upload-box">
           <input type="file" accept=".xlsx, .xls" onChange={handleFile} />
-          <span>Click to upload Excel file</span>
+          <span>Click to upload Excel file. / Import</span>
         </label>
       </div>
 

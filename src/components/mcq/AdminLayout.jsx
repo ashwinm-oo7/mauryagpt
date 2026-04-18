@@ -143,6 +143,13 @@ export default function AdminLayout() {
                 <FaListAlt />
                 <span>User List</span>
               </NavLink>
+              <NavLink
+                to="/admin/mail/AdminInbox"
+                onClick={() => isMobile && setMobileOpen(false)}
+              >
+                <FaListAlt />
+                <span>AdminInbox</span>
+              </NavLink>
             </nav>
 
             {/* FOOTER */}

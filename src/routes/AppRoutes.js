@@ -28,6 +28,8 @@ import UserLeaderboards from "../components/user/UserLeaderboard";
 import PublicProfile from "../components/Profile/PublicProfile";
 import VerifyCertificate from "../components/Profile/VerifyCertificate";
 import AdminUserList from "../components/mcq/AdminUserList";
+import AdminUserActivity from "../components/mcq/AdminUserActivity";
+import AdminInbox from "../components/mcq/AdminInbox";
 function AppRoutes() {
   return (
     <Routes>
@@ -73,6 +75,11 @@ function AppRoutes() {
           <Route path="mcq" element={<AdminMcq />} />
           <Route path="exam/:examId" element={<AdminAttemptViewer />} />
           <Route path="level/users" element={<AdminUserList />} />
+          <Route
+            path="level/AdminUserActivity/:userId"
+            element={<AdminUserActivity />}
+          />
+          <Route path="mail/AdminInbox" element={<AdminInbox />} />
         </Route>
       </Route>
       <Route element={<ProtectedRoute />}>

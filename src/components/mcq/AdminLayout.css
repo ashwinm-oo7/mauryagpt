@@ -100,6 +100,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;        /* ✅ FIX HEIGHT */
+    min-width: 0;   /* 🔥 VERY IMPORTANT FIX */
+
 }
 
 /* TOPBAR */
@@ -178,6 +180,8 @@
   flex: 1;
   padding: 15px;
   overflow-y: auto;
+    overflow-x: hidden;
+
 }
 
 /* DARK MODE */

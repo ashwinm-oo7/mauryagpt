@@ -1,0 +1,192 @@
+/* Container */
+.timeline-container {
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Title */
+.timeline-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Timeline wrapper */
+.timeline {
+  position: relative;
+  margin-left: 20px;
+  padding-left: 20px;
+  border-left: 2px solid #e5e7ff;
+}
+
+/* Each item */
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+/* Dot */
+.timeline-dot {
+  position: absolute;
+  left: -30px;
+  top: 10px;
+
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+
+  background: #4e54c8;
+  box-shadow: 0 0 0 4px rgba(78, 84, 200, 0.15);
+}
+
+/* Content */
+.timeline-content {
+  background: linear-gradient(135deg, #ffffff, #f5f6ff);
+  border-radius: 12px;
+  padding: 12px 15px;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+
+  transition: 0.3s;
+}
+
+.timeline-content:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* Action */
+.timeline-action {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Time */
+.timeline-time {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Metadata */
+.timeline-meta {
+  font-size: 13px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* =========================
+   🎨 COLOR TYPES
+========================= */
+
+.timeline-item.login .timeline-dot {
+  background: #52c41a;
+}
+
+.timeline-item.exam .timeline-dot {
+  background: #1890ff;
+}
+
+.timeline-item.name .timeline-dot {
+  background: #faad14;
+}
+
+.timeline-item.admin .timeline-dot {
+  background: #ff4d4f;
+}
+/* FILTER BAR */
+.timeline-filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.timeline-filter button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.timeline-filter button.active {
+  background: #4e54c8;
+  color: white;
+}
+
+/* GROUP TITLE */
+.timeline-group {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 🚨 ALERT STYLE */
+.timeline-item.alert .timeline-content {
+  border-left: 4px solid #ff4d4f;
+  background: #fff5f5;
+}
+
+/* Smooth scroll */
+.timeline-container {
+  scrollbar-width: thin;
+}
+/* Search */
+.timeline-search {
+  width: -webkit-fill-available;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Export button */
+.export-btn {
+  margin-bottom: 12px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #13c2c2;
+  color: white;
+  cursor: pointer;
+}
+/* =========================
+   📱 MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .timeline-container {
+    padding: 12px;
+  }
+
+  .timeline {
+    margin-left: 10px;
+    padding-left: 15px;
+  }
+
+  .timeline-dot {
+    left: -22px;
+  }
+
+  .timeline-content {
+    padding: 10px;
+  }
+
+  .timeline-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .timeline-time {
+    font-size: 11px;
+  }
+}
