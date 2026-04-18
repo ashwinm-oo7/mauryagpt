@@ -2,20 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import api from "../../auth/axiosInstance";
 import toast from "react-hot-toast";
 import "./AdminUserList.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaChartBar } from "react-icons/fa";
 
 export default function AdminUserList() {
   const scrollRef = useRef();
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const [actionLoading, setActionLoading] = useState(null);
+  // const [actionLoading, setActionLoading] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [resetData, setResetData] = useState({
-    userId: null,
-    domain: "",
-    level: "",
-  });
+  // const [resetData, setResetData] = useState({
+  //   userId: null,
+  //   domain: "",
+  //   level: "",
+  // });
   useEffect(() => {
     const el = scrollRef.current;
     let isDown = false;
