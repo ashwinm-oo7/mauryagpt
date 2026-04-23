@@ -63,6 +63,10 @@ export default function UserLayout() {
           <NavLink to="/user/badges" onClick={() => setMobileOpen(false)}>
             <FaAward /> <span className="UserLayout-sidebar-span">Badges</span>
           </NavLink>
+          <NavLink to="/user/analytics" onClick={() => setMobileOpen(false)}>
+            <FaChartBar />
+            <span>Exam Attempts</span>
+          </NavLink>
 
           <NavLink to="/user/leaderboard" onClick={() => setMobileOpen(false)}>
             <FaChartBar />

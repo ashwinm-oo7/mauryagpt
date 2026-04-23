@@ -2,17 +2,24 @@ import React, { useEffect, useState } from "react";
 import api from "../../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import "./AdminExamAnalytics.css";
+import { useAuth } from "../../auth/AuthContext";
 export default function AdminExamAnalytics() {
   const [domains, setDomains] = useState([]);
   const [levels, setLevels] = useState([]);
   const [attempts, setAttempts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
+
+  const BASE_URL = isAdmin ? "/api/admin/exams" : "/api/user/exams";
+  const examPath = isAdmin ? "/admin/exam" : "/user/exam";
 
   const [domain, setDomain] = useState("");
   const [level, setLevel] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     loadDomains();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -25,8 +32,7 @@ export default function AdminExamAnalytics() {
     try {
       setLoading(true);
 
-      const res = await api.get("/api/admin/exams/domains");
-
+      const res = await api.get(`${BASE_URL}/domains`);
       setDomains(res.data);
     } catch (err) {
       console.error(err);
@@ -39,7 +45,7 @@ export default function AdminExamAnalytics() {
     try {
       setLoading(true);
 
-      const res = await api.get(`/api/admin/exams/levels/${d}`);
+      const res = await api.get(`${BASE_URL}/levels/${d}`);
 
       setLevels(res.data);
     } catch (err) {
@@ -53,7 +59,7 @@ export default function AdminExamAnalytics() {
     try {
       setLoading(true);
       const res = await api.get(
-        `/api/admin/exams/attempts?domain=${domain || d}&level=${level || l}`,
+        `${BASE_URL}/attempts?domain=${domain || d}&level=${level || l}`,
       );
       setAttempts(res.data);
     } catch (err) {
@@ -128,7 +134,7 @@ export default function AdminExamAnalytics() {
                   <button
                     className="AdminExamAnalytics-viewBtn"
                     onClick={() =>
-                      navigate(`/admin/exam/${a._id}`, {
+                      navigate(`${examPath}/${a._id}`, {
                         state: { domain, level },
                       })
                     }

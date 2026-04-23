@@ -71,8 +71,8 @@ function AppRoutes() {
           <Route index element={<AdminDashboardChart />} />
 
           {/* OTHER ADMIN PAGES */}
-          <Route path="analytics" element={<AdminExamAnalytics />} />
           <Route path="mcq" element={<AdminMcq />} />
+          <Route path="analytics" element={<AdminExamAnalytics />} />
           <Route path="exam/:examId" element={<AdminAttemptViewer />} />
           <Route path="level/users" element={<AdminUserList />} />
           <Route
@@ -84,6 +84,9 @@ function AppRoutes() {
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/user/*" element={<UserLayout />}>
+          <Route path="analytics" element={<AdminExamAnalytics />} />
+          <Route path="exam/:examId" element={<AdminAttemptViewer />} />
+
           <Route index element={<PublicProfile />} />
           <Route path="DomainList" element={<DomainList />} />
           <Route path="levels/:domain" element={<LevelSelector />} />
