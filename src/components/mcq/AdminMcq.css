@@ -17,7 +17,7 @@
   color: white;
   padding: 7px 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -476,6 +476,14 @@
 
 /* ================= MOBILE RESPONSIVE ================= */
 @media (max-width: 768px) {
+.export-section select, .export-section input {
+    padding: 5px 5px;
+    border-radius: 10px;
+    width: 125px;
+}
+.export-section button {
+    padding: 5px 8px;
+}
 
   /* Page padding */
   .admin-mcq-page {

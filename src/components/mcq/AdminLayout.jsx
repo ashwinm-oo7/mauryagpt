@@ -249,6 +249,18 @@ export default function AdminLayout() {
         <NavLink to="/admin/mcq">
           <FaQuestionCircle />
         </NavLink>
+        <NavLink
+          to="/admin/level/users"
+          onClick={() => isMobile && setMobileOpen(false)}
+        >
+          <FaListAlt />
+        </NavLink>
+        <NavLink
+          to="/admin/mail/AdminInbox"
+          onClick={() => isMobile && setMobileOpen(false)}
+        >
+          <FaListAlt />
+        </NavLink>
 
         {/* <button onClick={logout}>
           <FaSignOutAlt />
